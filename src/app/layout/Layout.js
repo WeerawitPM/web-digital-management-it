@@ -2,27 +2,13 @@
 import React from "react";
 import Image from "next/image";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Badge, Button } from "@nextui-org/react";
-import {
-    AddPlus,
-    CameraCCTV,
-    Chat,
-    CheckList,
-    DomainName,
-    Edit,
-    Email,
-    FingerPrinter,
-    FolderDownload,
-    NetworkWifi,
-    NotificationIcon,
-    Printer,
-    QRCodeScanner,
-    RollBack,
-    Server,
-    Stack,
-    TimeHistory
-  } from "../components/icon";
+import { NotificationIcon } from "../components/Icons";
+import CustomDropdownMenu from "../components/CustomDropdownMenu";
+import { menuRequest } from "../components/MenuRequest";
+import { menuRegister } from "../components/MenuRegister";
+import { menuPlan } from "../components/MenuPlan";
 
-export default function App() {
+export default function Layout() {
     return (
         <Navbar isBordered maxWidth="xl" className="bg-vcs-blue">
             <NavbarBrand>
@@ -43,21 +29,9 @@ export default function App() {
                         หน้าแรก
                     </Link>
                 </NavbarItem>
-                <NavbarItem>
-                    <Link href="#" className="text-white">
-                        แบบฟอร์มร้องขอ
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link href="#" className="text-white">
-                        แบบฟอร์มลงทะเบียน
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link href="#" className="text-white">
-                        แผนการทำงาน
-                    </Link>
-                </NavbarItem>
+                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} />
+                <CustomDropdownMenu title="แบบฟอร์มลงทะเบียน" menus={menuRegister} />
+                <CustomDropdownMenu title="แผนการทำงาน" menus={menuPlan} />
                 <NavbarItem>
                     <Link href="#" className="text-white">
                         รายงาน
@@ -66,7 +40,7 @@ export default function App() {
             </NavbarContent>
 
             <NavbarContent as="div" justify="end">
-                <NavbarItem>
+                {/* <NavbarItem>
                     <Badge
                         color="danger"
                         content={5}
@@ -74,10 +48,10 @@ export default function App() {
                         shape="circle"
                     >
                         <Button isIconOnly variant="light">
-                            <NotificationIcon className="fill-current" size={30} color="white"/>
+                            <NotificationIcon className="fill-current" size={30} color="white" />
                         </Button>
                     </Badge>
-                </NavbarItem>
+                </NavbarItem> */}
                 <Dropdown placement="bottom-end">
                     <DropdownTrigger>
                         <Avatar

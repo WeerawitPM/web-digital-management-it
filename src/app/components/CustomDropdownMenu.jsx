@@ -18,7 +18,7 @@ const CustomDropdownMenu = ({ title, menus }) => {
             isExternal
             showAnchorIcon
             anchorIcon={<ChevronDown fill="currentColor" size={16} />}
-            color="foreground"
+            className="text-white"
           >
             {title}
           </Link>
@@ -38,7 +38,7 @@ const CustomDropdownMenu = ({ title, menus }) => {
               description={i.description}
               startContent={i.startContent}
             >
-              <Link href={route(i.href)}>
+              <Link href={i.href}>
                 {x + 1}.{i.title}
               </Link>
             </DropdownItem>

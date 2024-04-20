@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 // import 'bootstrap/dist/css/bootstrap.css'
-import Guest from "./layout/Layout";
 import { Providers } from "./providers";
+import Layout from "./layout/Layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Providers>
           <div className="min-h-full">
-            <Guest />
+            <Layout />
             {children}
           </div>
         </Providers>
