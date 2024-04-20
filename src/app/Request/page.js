@@ -78,20 +78,10 @@ const columns = [
 export default function Home() {
     return (
         <>
-            {/* <nav className="navbar navbar-expand-lg bg-light shadow-sm">
-                <div className="container-fluid max-w-7xl">
-                    <h2 className="navbar-brand my-auto">1.QF-ITC-001 ใบร้องขออุปกรณ์สารสนเทศ</h2>
-                    <ul className="navbar-nav justify-content-end">
-                        <li className="nav-item">
-                            <button type="button" className="btn btn-primary">+ เพิ่มรายการร้องขอ</button>
-                        </li>
-                    </ul>
-                </div>
-            </nav> */}
             <header className="bg-white shadow">
                 <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between flex-wrap">
-                        <div className="justify-start">
+                        <div className="justify-start my-auto">
                             <span className="font-semibold text-md text-gray-800 leading-tight">
                                 1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
                             </span>

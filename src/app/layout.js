@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 // import 'bootstrap/dist/css/bootstrap.css'
-import Guest from "./layout/GuestLayout";
+import Guest from "./layout/Layout";
 import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
