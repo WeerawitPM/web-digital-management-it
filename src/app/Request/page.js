@@ -1,7 +1,9 @@
 'use client'
 
 import React from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Divider } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button } from "@nextui-org/react";
+import { AddIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 
 const rows = [
     {
@@ -75,9 +77,9 @@ const columns = [
 
 export default function Home() {
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
-            <nav className="navbar navbar-expand-lg bg-light w-100 shadow-sm">
-                <div className="container-fluid mx-5">
+        <>
+            {/* <nav className="navbar navbar-expand-lg bg-light shadow-sm">
+                <div className="container-fluid max-w-7xl">
                     <h2 className="navbar-brand my-auto">1.QF-ITC-001 ใบร้องขออุปกรณ์สารสนเทศ</h2>
                     <ul className="navbar-nav justify-content-end">
                         <li className="nav-item">
@@ -85,46 +87,68 @@ export default function Home() {
                         </li>
                     </ul>
                 </div>
-            </nav>
-            <div className="w-75 mt-5">
-                <Table aria-label="Example table with dynamic content">
-                    <TableHeader columns={columns}>
-                        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-                    </TableHeader>
-                    <TableBody items={rows} emptyContent={"No rows to display."}>
-                        {rows.map((item, index) => (
-                            <TableRow key={item.key}>
-                                <TableCell>
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell>
-                                    {item.doc_no}
-                                </TableCell>
-                                <TableCell>
-                                    {item.request_date}
-                                </TableCell>
-                                <TableCell>
-                                    {item.request_by}
-                                </TableCell>
-                                <TableCell>
-                                    {item.title}
-                                </TableCell>
-                                <TableCell>
-                                    {item.description}
-                                </TableCell>
-                                <TableCell className={
-                                    item.status === "Approved" ? "text-success" :
-                                        item.status === "Wait Approve" ? "text-warning" :
-                                            item.status === "Reject" ? "text-danger" :
-                                                item.status === "Draft" ? "text-info" : ""
-                                }>
-                                    {item.status}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
-        </div>
+            </nav> */}
+            <header className="bg-white shadow">
+                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between flex-wrap">
+                        <div className="justify-start">
+                            <span className="font-semibold text-md text-gray-800 leading-tight">
+                                1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
+                            </span>
+                        </div>
+                        <div className="justify-end">
+                            <Link href="/">
+                                <Button color="primary" startContent={<AddIcon />}>
+                                    เพิ่มรายการร้องขอ
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main>
+                <div className="py-12">
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+                        <Table aria-label="Example table with dynamic content">
+                            <TableHeader columns={columns}>
+                                {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+                            </TableHeader>
+                            <TableBody items={rows} emptyContent={"No rows to display."}>
+                                {rows.map((item, index) => (
+                                    <TableRow key={item.key}>
+                                        <TableCell>
+                                            {index + 1}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.doc_no}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.request_date}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.request_by}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.title}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.description}
+                                        </TableCell>
+                                        <TableCell className={
+                                            item.status === "Approved" ? "text-success" :
+                                                item.status === "Wait Approve" ? "text-warning" :
+                                                    item.status === "Reject" ? "text-danger" :
+                                                        item.status === "Draft" ? "text-info" : ""
+                                        }>
+                                            {item.status}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </div>
+            </main>
+        </>
     )
 }

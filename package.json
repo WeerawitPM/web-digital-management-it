@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
     "@nextui-org/react": "^2.3.5",
     "@nextui-org/table": "^2.0.32",
     "bootstrap": "^5.3.3",

@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap/dist/css/bootstrap.css'
 import Guest from "./layout/GuestLayout";
 import { Providers } from "./providers";
 
@@ -16,8 +16,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Guest />
-          {children}
+          <div className="min-h-full">
+            <Guest />
+            {children}
+          </div>
         </Providers>
       </body>
     </html>
