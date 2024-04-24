@@ -35,3 +35,11 @@ body {
 .bg-vcs-blue {
   background-color: #0A2C55;
 }
+
+.text-vcs-red {
+  color: #C00000;
+}
+
+.text-vcs-white {
+  color: #D9D9D9;
+}

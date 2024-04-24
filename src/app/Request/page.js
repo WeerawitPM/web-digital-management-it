@@ -87,7 +87,7 @@ export default function Home() {
                             </span>
                         </div>
                         <div className="justify-end">
-                            <Link href="/">
+                            <Link href="/request/add">
                                 <Button color="primary" startContent={<AddIcon />}>
                                     เพิ่มรายการร้องขอ
                                 </Button>

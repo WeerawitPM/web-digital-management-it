@@ -16,10 +16,11 @@ export default function Layout() {
                     <Image
                         src="https://vcsgroupthai.com/wp-content/uploads/2023/09/Screenshot-2023-07-14-164438-depositphotos-bgremover.png"
                         alt="Vercel Logo"
-                        width={42}
-                        height={25}
+                        width={62}
+                        height={45}
                         priority
                     />
+                    <p className="font-bold text-vcs-white text-xl"><span className="text-vcs-red ms-2">IT</span> Center</p>
                 </Link>
             </NavbarBrand>
 
@@ -29,14 +30,14 @@ export default function Layout() {
                         หน้าแรก
                     </Link>
                 </NavbarItem>
-                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} />
-                <CustomDropdownMenu title="แบบฟอร์มลงทะเบียน" menus={menuRegister} />
-                <CustomDropdownMenu title="แผนการทำงาน" menus={menuPlan} />
                 <NavbarItem>
                     <Link href="#" className="text-white">
-                        รายงาน
+                        แจ้งซ่อม
                     </Link>
                 </NavbarItem>
+                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} />
+                {/* <CustomDropdownMenu title="แบบฟอร์มลงทะเบียน" menus={menuRegister} />
+                <CustomDropdownMenu title="แผนการทำงาน" menus={menuPlan} /> */}
             </NavbarContent>
 
             <NavbarContent as="div" justify="end">
