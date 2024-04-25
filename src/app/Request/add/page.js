@@ -1,35 +1,36 @@
 'use client'
 
 import React from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Chip, Divider, Textarea, Button } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Chip, Divider, Textarea } from "@nextui-org/react";
+import { Button } from '@chakra-ui/react'
 import { DeleteIcon } from "../../components/DeleteIcon";
-import { AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import ModalAddRequestItem from "./ModalAddRequestItem";
 
 const rows = [
     {
         key: "1",
         asset: "QF4030001",
         description: "Adipisicing adipisicing incididunt voluptate...",
-        qty: "Approved",
+        qty: "1",
     },
     {
         key: "2",
         asset: "QF4030001",
         description: "Adipisicing adipisicing incididunt voluptate...",
-        qty: "Approved",
+        qty: "1",
     },
     {
         key: "3",
         asset: "QF4030001",
         description: "Adipisicing adipisicing incididunt voluptate...",
-        qty: "Approved",
+        qty: "1",
     },
     {
         key: "4",
         asset: "QF4030001",
         description: "Adipisicing adipisicing incididunt voluptate...",
-        qty: "Approved",
+        qty: "1",
     },
 ];
 
@@ -57,6 +58,7 @@ const columns = [
 ];
 
 export default function Home() {
+
     return (
         <>
             <header className="bg-white shadow">
@@ -138,11 +140,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <Link href="/">
-                            <Button color="primary" startContent={<AddIcon />}>
-                                เพิ่มรายการร้องขอ
-                            </Button>
-                        </Link>
+                        <ModalAddRequestItem />
                     </div>
                     <Table aria-label="Example table with dynamic content">
                         <TableHeader columns={columns}>
@@ -176,7 +174,7 @@ export default function Home() {
                     </Table>
                     <div className="flex justify-center">
                         <Link href="/">
-                            <Button color="success" startContent={<AddIcon />} className="text-white">
+                            <Button colorScheme="green" className="text-white">
                                 ยืนยันการร้องขอ
                             </Button>
                         </Link>

@@ -1,9 +1,13 @@
 'use client'
 
 import React from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User } from "@nextui-org/react";
+import { Button } from '@chakra-ui/react'
 import { AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import Approved from "./images/Approved.png";
+import Reject from "./images/Reject.png";
+import Image from "next/image";
 
 const rows = [
     {
@@ -12,7 +16,9 @@ const rows = [
         request_date: "20/04/2544",
         request_by: "User",
         title: "Title",
-        description: "Adipisicing adipisicing incididunt voluptate...",
+        manager1: "Approved",
+        manager2: "Approved",
+        manager3: "Approved",
         status: "Approved",
     },
     {
@@ -21,8 +27,10 @@ const rows = [
         request_date: "20/04/2544",
         request_by: "User",
         title: "Title",
-        description: "Adipisicing adipisicing incididunt voluptate...",
-        status: "Wait Approve",
+        manager1: "Approved",
+        manager2: "Approved",
+        manager3: "Approved",
+        status: "Approved",
     },
     {
         key: "3",
@@ -30,8 +38,10 @@ const rows = [
         request_date: "20/04/2544",
         request_by: "User",
         title: "Title",
-        description: "Adipisicing adipisicing incididunt voluptate...",
-        status: "Reject",
+        manager1: "Approved",
+        manager2: "Approved",
+        manager3: "",
+        status: "Wait Approve",
     },
     {
         key: "4",
@@ -39,8 +49,10 @@ const rows = [
         request_date: "20/04/2544",
         request_by: "User",
         title: "Title",
-        description: "Adipisicing adipisicing incididunt voluptate...",
-        status: "Draff",
+        manager1: "Approved",
+        manager2: "Approved",
+        manager3: "Reject",
+        status: "Reject",
     },
 ];
 
@@ -66,8 +78,16 @@ const columns = [
         label: "TITLE",
     },
     {
-        key: "description",
-        label: "DESCRIPTION",
+        key: "manager1",
+        label: "Manager1",
+    },
+    {
+        key: "manager2",
+        label: "Manager2",
+    },
+    {
+        key: "manager3",
+        label: "Manager3",
     },
     {
         key: "status",
@@ -76,6 +96,7 @@ const columns = [
 ];
 
 export default function Home() {
+
     return (
         <>
             <header className="bg-white shadow">
@@ -88,7 +109,7 @@ export default function Home() {
                         </div>
                         <div className="justify-end">
                             <Link href="/request/add">
-                                <Button color="primary" startContent={<AddIcon />}>
+                                <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
                                     เพิ่มรายการร้องขอ
                                 </Button>
                             </Link>
@@ -110,7 +131,7 @@ export default function Home() {
                                             {index + 1}
                                         </TableCell>
                                         <TableCell>
-                                            {item.doc_no}
+                                            <Link href="" className="text-blue-500">{item.doc_no}</Link>
                                         </TableCell>
                                         <TableCell>
                                             {item.request_date}
@@ -122,13 +143,21 @@ export default function Home() {
                                             {item.title}
                                         </TableCell>
                                         <TableCell>
-                                            {item.description}
+                                            {item.manager1 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
+                                                item.manager1 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.manager2 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
+                                                item.manager2 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.manager3 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
+                                                item.manager3 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
                                         </TableCell>
                                         <TableCell className={
                                             item.status === "Approved" ? "text-success" :
                                                 item.status === "Wait Approve" ? "text-warning" :
-                                                    item.status === "Reject" ? "text-danger" :
-                                                        item.status === "Draft" ? "text-info" : ""
+                                                    item.status === "Reject" ? "text-danger" : ""
                                         }>
                                             {item.status}
                                         </TableCell>
