@@ -10,20 +10,27 @@ export const equipmentSlice = createSlice({
       const obj = action.payload;
       const newItem = {
         id: state.data.length + 1,
-        name: obj.asset.name,
         asset: obj.asset,
+        detail: obj.detail,
         qty: obj.qty,
       };
-      let index = state.data.findIndex((el) => el.name == obj.asset.name);
+      let index = state.data.findIndex((el) => el.asset == obj.asset);
       if (index < 0) {
         state.data.push(newItem);
       }
     },
     deleteEquipment: (state, action) => {
-      console.dir(action.payload);
-      const index = state.data.findIndex((item) => item.id === action.payload.id);
+      const obj = action.payload;
+      const index = state.data.findIndex((item) => item.id === obj.id);
       if (index !== -1) {
         state.data.splice(index, 1);
+        
+        state.data = state.data.map((item, idx) => {
+          return {
+            ...item,
+            id: idx + 1 // สร้าง index ใหม่ให้กับไอเท็ม
+          };
+        });
       }
     },
     deleteAll: (state) => {
