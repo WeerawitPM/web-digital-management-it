@@ -3,7 +3,7 @@
 import { NextUIProvider } from '@nextui-org/react'
 import { ChakraProvider } from '@chakra-ui/react'
 
-export function Providers({ children }) {
+export function UIProviders({ children }) {
   return (
     <NextUIProvider>
       <ChakraProvider>

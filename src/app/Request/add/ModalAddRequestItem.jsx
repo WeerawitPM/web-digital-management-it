@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"; //ง่ายต่อการดึงข้อมูลจากฟอร์ม
 import { AddIcon } from "@chakra-ui/icons";
 import {
     Modal,
@@ -22,6 +22,7 @@ import {
     Select,
 } from '@chakra-ui/react'
 import { selectAsset } from "./SelectAsset";
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function ModalAddRequestItem() {
     const { isOpen, onOpen, onClose } = useDisclosure();

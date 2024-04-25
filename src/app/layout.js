@@ -1,8 +1,10 @@
+
 import { Inter } from "next/font/google";
 import "./globals.css";
 // import 'bootstrap/dist/css/bootstrap.css'
-import { Providers } from "./providers";
+import { UIProviders } from "./UIproviders";
 import Layout from "./layout/Layout";
+import ReduxProvider from "@/lib/reduxProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,12 +17,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          <div className="min-h-full">
-            <Layout />
-            {children}
-          </div>
-        </Providers>
+        <ReduxProvider>
+          <UIProviders>
+            <div className="min-h-full">
+              <Layout />
+              {children}
+            </div>
+          </UIProviders>
+        </ReduxProvider>
       </body>
     </html>
   );
