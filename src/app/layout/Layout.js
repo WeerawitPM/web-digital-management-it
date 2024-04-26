@@ -1,16 +1,35 @@
 "use client"
 import React from "react";
 import Image from "next/image";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Badge, Button } from "@nextui-org/react";
-import { NotificationIcon } from "../components/Icons";
+import {
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
+    NavbarItem,
+    Link,
+    DropdownItem,
+    DropdownTrigger,
+    Dropdown,
+    DropdownMenu,
+    Avatar,
+    Badge,
+    Button,
+    NavbarMenuToggle,
+    NavbarMenu,
+    NavbarMenuItem
+} from "@nextui-org/react";
+// import { NotificationIcon } from "../components/Icons";
 import CustomDropdownMenu from "../components/CustomDropdownMenu";
 import { menuRequest } from "../components/MenuRequest";
-import { menuRegister } from "../components/MenuRegister";
-import { menuPlan } from "../components/MenuPlan";
 
 export default function Layout() {
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     return (
-        <Navbar isBordered maxWidth="xl" className="bg-vcs-blue">
+        <Navbar isBordered maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen}>
+            <NavbarMenuToggle
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                className="sm:hidden text-white"
+            />
             <NavbarBrand>
                 <Link>
                     <Image
@@ -26,7 +45,7 @@ export default function Layout() {
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarItem>
-                    <Link href="#" className="text-white">
+                    <Link href="/" className="text-white">
                         หน้าแรก
                     </Link>
                 </NavbarItem>
@@ -35,7 +54,7 @@ export default function Layout() {
                         แจ้งซ่อม
                     </Link>
                 </NavbarItem>
-                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} />
+                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md"/>
                 {/* <CustomDropdownMenu title="แบบฟอร์มลงทะเบียน" menus={menuRegister} />
                 <CustomDropdownMenu title="แผนการทำงาน" menus={menuPlan} /> */}
             </NavbarContent>
@@ -82,6 +101,29 @@ export default function Layout() {
                     </DropdownMenu>
                 </Dropdown>
             </NavbarContent>
+            <NavbarMenu>
+                <NavbarMenuItem>
+                    <Link
+                        color="foreground"
+                        className="w-full"
+                        href="/"
+                        size="lg"
+                    >
+                        หน้าแรก
+                    </Link>
+                </NavbarMenuItem>
+                <NavbarMenuItem>
+                    <Link
+                        color="foreground"
+                        className="w-full"
+                        href="#"
+                        size="lg"
+                    >
+                        แจ้งซ่อม
+                    </Link>
+                </NavbarMenuItem>
+                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-foreground" size="lg"/>
+            </NavbarMenu>
         </Navbar>
     );
 }

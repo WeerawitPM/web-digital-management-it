@@ -1,38 +1,34 @@
 'use client'
 
-import React from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Chip, Divider, Textarea } from "@nextui-org/react";
-import { Button } from '@chakra-ui/react'
-import { DeleteIcon } from "../../components/DeleteIcon";
-import Link from "next/link";
+import React, { useState } from "react";
+import {
+    Table,
+    TableHeader,
+    TableColumn,
+    TableBody,
+    TableRow,
+    TableCell,
+    Tooltip,
+    Chip,
+    Divider,
+    Textarea
+} from "@nextui-org/react";
+import {
+    Button,
+    AlertDialog,
+    AlertDialogOverlay,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogCloseButton,
+    useDisclosure,
+    useToast
+} from "@chakra-ui/react"
 import ModalAddRequestItem from "./ModalAddRequestItem";
-
-const rows = [
-    {
-        key: "1",
-        asset: "QF4030001",
-        description: "Adipisicing adipisicing incididunt voluptate...",
-        qty: "1",
-    },
-    {
-        key: "2",
-        asset: "QF4030001",
-        description: "Adipisicing adipisicing incididunt voluptate...",
-        qty: "1",
-    },
-    {
-        key: "3",
-        asset: "QF4030001",
-        description: "Adipisicing adipisicing incididunt voluptate...",
-        qty: "1",
-    },
-    {
-        key: "4",
-        asset: "QF4030001",
-        description: "Adipisicing adipisicing incididunt voluptate...",
-        qty: "1",
-    },
-];
+import { useSelector, useDispatch } from 'react-redux'
+import ModalViewItem from "./ModalViewItem";
+import DeleteRequestItem from "./DeleteRequestItem";
 
 const columns = [
     {
@@ -53,11 +49,32 @@ const columns = [
     },
     {
         key: "id",
-        label: "#",
+        label: "Action",
     },
 ];
 
 export default function Home() {
+    const equipmentListData = useSelector((state) => state.equipment.data);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = React.useRef();
+    const [purpose, setPurpose] = useState("");
+    const toast = useToast()
+
+    const handleSave = () => {
+        if (purpose === "" || equipmentListData === null) {
+            return (
+                toast({
+                    title: 'Error',
+                    description: "Please fill in complete information.",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            )
+        } else {
+            onOpen();
+        }
+    }
 
     return (
         <>
@@ -135,7 +152,9 @@ export default function Home() {
                             <Textarea
                                 required
                                 placeholder="Please write in detail."
-                                size="md"
+                                size="lg"
+                                variant="bordered"
+                                onChange={(event) => setPurpose(event.target.value)}
                             />
                         </div>
                     </div>
@@ -144,40 +163,66 @@ export default function Home() {
                     </div>
                     <Table aria-label="Example table with dynamic content">
                         <TableHeader columns={columns}>
-                            {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+                            {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                         </TableHeader>
-                        <TableBody items={rows} emptyContent={"No rows to display."}>
-                            {rows.map((item, index) => (
-                                <TableRow key={item.key}>
-                                    <TableCell>
-                                        {index + 1}
+                        <TableBody items={equipmentListData} emptyContent={"No rows to display."}>
+                            {equipmentListData.map((item) => (
+                                <TableRow key={item.id}>
+                                    <TableCell className="text-base">
+                                        {item.id}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="text-base">
                                         {item.asset}
                                     </TableCell>
-                                    <TableCell>
-                                        {item.description}
+                                    <TableCell className="text-base">
+                                        {item.detail.length > 40 ?
+                                            `${item.detail.substring(0, 40)}...` : item.detail
+                                        }
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="text-base">
                                         {item.qty}
                                     </TableCell>
                                     <TableCell>
-                                        <Tooltip color="danger" content="Delete user">
-                                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                                                <DeleteIcon />
-                                            </span>
-                                        </Tooltip>
+                                        <div className="relative flex items-center gap-2">
+                                            <ModalViewItem id={item.id} />
+                                            <Tooltip color="danger" content="Delete asset">
+                                                <DeleteRequestItem id={item.id} />
+                                            </Tooltip>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                     <div className="flex justify-center">
-                        <Link href="/">
-                            <Button colorScheme="green" className="text-white">
-                                ยืนยันการร้องขอ
-                            </Button>
-                        </Link>
+                        <Button colorScheme="green" className="text-white" onClick={() => handleSave()}>
+                            ยืนยันการร้องขอ
+                        </Button>
+                        <AlertDialog
+                            motionPreset='slideInBottom'
+                            leastDestructiveRef={cancelRef}
+                            onClose={onClose}
+                            isOpen={isOpen}
+                            isCentered
+                        >
+                            <AlertDialogOverlay />
+
+                            <AlertDialogContent>
+                                <AlertDialogHeader>Are you sure delete the item?</AlertDialogHeader>
+                                <AlertDialogCloseButton />
+                                <AlertDialogBody>
+                                    This operation cannot be reversed.
+                                </AlertDialogBody>
+                                <AlertDialogFooter>
+                                    <Button ref={cancelRef} onClick={onClose} colorScheme='red'>
+                                        No
+                                    </Button>
+                                    <Button colorScheme='green' ml={3}>
+                                        Yes
+                                    </Button>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </div>
                 </div>
             </main>

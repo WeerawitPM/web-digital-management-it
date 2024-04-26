@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Dropdown,
   NavbarItem,
@@ -8,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { ChevronDown } from "./Icons";
 
-const CustomDropdownMenu = ({ title, menus }) => {
+const CustomDropdownMenu = ({ title, menus, className, size }) => {
   return (
     <Dropdown>
       <NavbarItem>
@@ -18,34 +19,27 @@ const CustomDropdownMenu = ({ title, menus }) => {
             isExternal
             showAnchorIcon
             anchorIcon={<ChevronDown fill="currentColor" size={16} />}
-            className="text-white"
+            className={className}
+            size={size}
           >
             {title}
           </Link>
         </DropdownTrigger>
       </NavbarItem>
       <DropdownMenu
-        aria-label="ACME features"
+        aria-label="Menu"
         className="w-[340px]"
         itemClasses={{
           base: "gap-4",
         }}
       >
-        {menus.length > 0 ? (
-          menus.map((i, x) => (
-            <DropdownItem
-              key={x}
-              description={i.description}
-              startContent={i.startContent}
-            >
-              <Link href={i.href}>
-                {x + 1}.{i.title}
-              </Link>
-            </DropdownItem>
-          ))
-        ) : (
-          <></>
-        )}
+        {menus.map((item, index) => (
+          <DropdownItem key={index} description={item.description} startContent={item.startContent}>
+            <Link href={item.href}>
+              {index + 1}.{item.title}
+            </Link>
+          </DropdownItem>
+        ))}
       </DropdownMenu>
     </Dropdown>
   );

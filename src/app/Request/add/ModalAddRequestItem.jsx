@@ -20,12 +20,15 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     Select,
+    Textarea,
 } from '@chakra-ui/react'
 import { selectAsset } from "./SelectAsset";
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { addEquipment } from "@/lib/equipmentSlice";
 
 export default function ModalAddRequestItem() {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const dispatch = useDispatch();
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
@@ -33,7 +36,15 @@ export default function ModalAddRequestItem() {
     const { register, handleSubmit } = useForm();
 
     const doSubmit = (data) => {
-        alert(data.asset);
+        dispatch(
+            addEquipment({
+                // problem: problemObj,
+                asset: data.asset,
+                detail: data.detail,
+                qty: data.qty,
+            })
+        );
+        onClose();
     };
 
     return (
@@ -68,16 +79,21 @@ export default function ModalAddRequestItem() {
 
                             <FormControl mt={4}>
                                 <FormLabel>Device Specification/Software version </FormLabel>
-                                <Input
+                                <Textarea
                                     required
-                                    placeholder='Device Specification/Software version '
-                                    {...register("device", { required: true })}
+                                    placeholder='Device Specification/Software version'
+                                    {...register("detail", { required: true })}
                                 />
                             </FormControl>
                             <FormControl mt={4}>
                                 <FormLabel>Quantity</FormLabel>
-                                <NumberInput defaultValue={1} min={1} isRequired>
-                                    <NumberInputField />
+                                <NumberInput
+                                    defaultValue={1}
+                                    min={1}
+                                    isRequired
+                                >
+                                    <NumberInputField
+                                        {...register("qty")} />
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />
                                         <NumberDecrementStepper />

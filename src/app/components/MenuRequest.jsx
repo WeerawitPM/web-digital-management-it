@@ -23,7 +23,7 @@ export const menuRequest = [
             <Chat className="text-secondary" fill="currentColor" size={30} />
         ),
         title: "QF-ITC-0002",
-        href: "request.equipment",
+        href: "/request",
     },
     {
         description: "แบบคำร้องขอเพิ่มระบบและแก้ไขปรับปรุงระบบ",
@@ -31,7 +31,7 @@ export const menuRequest = [
             <AddPlus className="text-success" fill="currentColor" size={30} />
         ),
         title: "QF-ITC-0003",
-        href: "request.equipment",
+        href: "/request",
     },
     {
         description: "แบบคำร้องขอใช้งานอีเมล",
@@ -39,7 +39,7 @@ export const menuRequest = [
             <Email className="text-warning" fill="currentColor" size={30} />
         ),
         title: "QF-ITC-0005",
-        href: "request.equipment",
+        href: "/request",
     },
     {
         description: "แบบคำร้องขอใช้งานระบบ Domain",
@@ -47,7 +47,7 @@ export const menuRequest = [
             <DomainName className="text-secondary" fill="currentColor" size={30} />
         ),
         title: "QF-ITC-0006",
-        href: "request.equipment",
+        href: "/request",
     },
     {
         description: "แบบคำร้องขอยกเลิกโดเมน อีเมล",
@@ -55,7 +55,7 @@ export const menuRequest = [
             <DomainName className="text-danger" fill="currentColor" size={30} />
         ),
         title: "QF-ITC-0007",
-        href: "request.equipment",
+        href: "/request",
     },
     {
         description: "ใบขอยืมใช้อุปกรณ์สารสนเทศของส่วนกลาง",
@@ -63,7 +63,7 @@ export const menuRequest = [
             <Server className="text-success" fill="currentColor" size={30} />
         ),
         title: "QF-ITC-0009",
-        href: "request.equipment",
+        href: "/request",
     },
     {
         description: "ใบขอเบิกอุปกรณ์ไอที",
@@ -75,6 +75,6 @@ export const menuRequest = [
             />
         ),
         title: "QF-ITC-0010",
-        href: "request.equipment",
+        href: "/request",
     },
 ];
