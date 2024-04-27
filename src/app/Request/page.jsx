@@ -5,8 +5,8 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User }
 import { Button } from '@chakra-ui/react'
 import { AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import Approved from "./images/Approved.png";
-import Reject from "./images/Reject.png";
+import Approved from "@/images/Approved.png";
+import Reject from "@/images/Reject.png";
 import Image from "next/image";
 import { rows } from "./fakeData";
 
