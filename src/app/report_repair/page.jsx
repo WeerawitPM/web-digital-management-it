@@ -20,6 +20,10 @@ const columns = [
         label: "DOC NO.",
     },
     {
+        key: "device",
+        label: "DEVICE",
+    },
+    {
         key: "request_date",
         label: "REQUEST DATE",
     },
@@ -28,20 +32,16 @@ const columns = [
         label: "REQUEST BY",
     },
     {
-        key: "title",
-        label: "TITLE",
+        key: "recive_date",
+        label: "RECIVE DATE",
     },
     {
-        key: "manager1",
-        label: "Manager1",
+        key: "recive_by",
+        label: "RECIVE BY",
     },
     {
-        key: "manager2",
-        label: "Manager2",
-    },
-    {
-        key: "manager3",
-        label: "Manager3",
+        key: "return_date",
+        label: "RETURN DATE",
     },
     {
         key: "status",
@@ -58,13 +58,13 @@ export default function Home() {
                     <div className="flex justify-between flex-wrap">
                         <div className="justify-start my-auto">
                             <span className="font-semibold text-md text-gray-800 leading-tight">
-                                1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
+                                แจ้งซ่อม
                             </span>
                         </div>
                         <div className="justify-end">
                             <Link href="/request/add">
                                 <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
-                                    เพิ่มรายการร้องขอ
+                                    เพิ่มรายการแจ้งซ่อม
                                 </Button>
                             </Link>
                         </div>
@@ -88,38 +88,35 @@ export default function Home() {
                                             <Link href={{ pathname: '/request/doc', query: { doc_no: item.doc_no } }} className="text-blue-500">{item.doc_no}</Link>
                                         </TableCell>
                                         <TableCell>
-                                            {item.request_date}
+                                            {item.device}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.recive_date}
                                         </TableCell>
                                         <TableCell>
                                             {item.request_by}
                                         </TableCell>
                                         <TableCell>
-                                            {item.title}
+                                            {item.recive_date}
                                         </TableCell>
                                         <TableCell>
-                                            {item.manager1 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
-                                                item.manager1 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
+                                            {item.recive_by}
                                         </TableCell>
                                         <TableCell>
-                                            {item.manager2 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
-                                                item.manager2 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.manager3 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
-                                                item.manager3 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
+                                            {item.return_date}
                                         </TableCell>
                                         <TableCell>
                                             {
-                                                item.status === "Approved" ?
+                                                item.status === "Success" ?
                                                     <Chip color="success" size="xs" variant="flat">
                                                         {item.status}
                                                     </Chip> :
-                                                    item.status === "Wait Approve" ?
+                                                    item.status === "Waiting" ?
                                                         <Chip color="warning" size="xs" variant="flat">
                                                             {item.status}
                                                         </Chip> :
-                                                        item.status === "Reject" ?
-                                                            <Chip color="danger" size="xs" variant="flat">
+                                                        item.status === "Repairing" ?
+                                                            <Chip color="primary" size="xs" variant="flat">
                                                                 {item.status}
                                                             </Chip> : ""
                                             }

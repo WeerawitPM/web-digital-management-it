@@ -73,7 +73,7 @@ export default function Layout() {
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link href="#" className="text-white">
+                    <Link href="/report_repair" className="text-white">
                         แจ้งซ่อม
                     </Link>
                 </NavbarItem>
