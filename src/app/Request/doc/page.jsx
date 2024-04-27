@@ -50,20 +50,11 @@ export default function Home() {
 
     useEffect(() => {
         for (let index = 0; index < rows.length; index++) {
-            if (rows[index].emp_id == 3001) {
-                const request = rows[index].request;
+            if (rows[index].doc_no == doc_no) {
                 setEmpID(rows[index].emp_id);
                 setName(rows[index].name);
-
-                for (const key in request) {
-                    if (key === doc_no) {
-                        // อัปเดต requestData ด้วยข้อมูล request ที่เกี่ยวข้อง
-                        setRequestData(request[key].data);
-                        setPurpose(request[key].purpose)
-                        break;
-                    }
-                }
-                break;
+                setRequestData(rows[index].data);
+                setPurpose(rows[index].purpose)
             }
         }
     }, [doc_no]);

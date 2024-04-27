@@ -10,7 +10,7 @@ import {
     AlertDialogCloseButton,
     useDisclosure
 } from "@chakra-ui/react"
-import { Button as NextButton } from "@nextui-org/react"
+import { Button as NextButton, Tooltip } from "@nextui-org/react"
 import { DeleteIcon } from "../../components/DeleteIcon";
 import { deleteEquipment } from "@/lib/equipmentSlice";
 import { useDispatch } from 'react-redux'
@@ -31,9 +31,11 @@ export default function DeleteRequestItem({ id }) {
 
     return (
         <>
-            <NextButton isIconOnly color="danger" variant="light" onClick={onOpen} className=" w-10">
-                <DeleteIcon className="text-lg" />
-            </NextButton>
+            <Tooltip color="danger" content="Delete asset">
+                <NextButton isIconOnly color="danger" variant="light" onClick={onOpen} className=" w-10">
+                    <DeleteIcon className="text-lg" />
+                </NextButton>
+            </Tooltip>
             <AlertDialog
                 motionPreset='slideInBottom'
                 leastDestructiveRef={cancelRef}

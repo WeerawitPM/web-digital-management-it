@@ -30,6 +30,29 @@ export default function Layout() {
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 className="sm:hidden text-white"
             />
+            <NavbarMenu>
+                <NavbarMenuItem>
+                    <Link
+                        color="foreground"
+                        className="w-full"
+                        href="/"
+                        size="lg"
+                    >
+                        หน้าแรก
+                    </Link>
+                </NavbarMenuItem>
+                <NavbarMenuItem>
+                    <Link
+                        color="foreground"
+                        className="w-full"
+                        href="#"
+                        size="lg"
+                    >
+                        แจ้งซ่อม
+                    </Link>
+                </NavbarMenuItem>
+                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-foreground" size="lg" />
+            </NavbarMenu>
             <NavbarBrand>
                 <Link>
                     <Image
@@ -43,7 +66,7 @@ export default function Layout() {
                 </Link>
             </NavbarBrand>
 
-            <NavbarContent className="hidden sm:flex gap-4" justify="center">
+            <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
                 <NavbarItem>
                     <Link href="/" className="text-white">
                         หน้าแรก
@@ -54,24 +77,10 @@ export default function Layout() {
                         แจ้งซ่อม
                     </Link>
                 </NavbarItem>
-                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md"/>
-                {/* <CustomDropdownMenu title="แบบฟอร์มลงทะเบียน" menus={menuRegister} />
-                <CustomDropdownMenu title="แผนการทำงาน" menus={menuPlan} /> */}
+                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" />
             </NavbarContent>
 
             <NavbarContent as="div" justify="end">
-                {/* <NavbarItem>
-                    <Badge
-                        color="danger"
-                        content={5}
-                        // isInvisible={isInvisible}
-                        shape="circle"
-                    >
-                        <Button isIconOnly variant="light">
-                            <NotificationIcon className="fill-current" size={30} color="white" />
-                        </Button>
-                    </Badge>
-                </NavbarItem> */}
                 <Dropdown placement="bottom-end">
                     <DropdownTrigger>
                         <Avatar
@@ -101,29 +110,6 @@ export default function Layout() {
                     </DropdownMenu>
                 </Dropdown>
             </NavbarContent>
-            <NavbarMenu>
-                <NavbarMenuItem>
-                    <Link
-                        color="foreground"
-                        className="w-full"
-                        href="/"
-                        size="lg"
-                    >
-                        หน้าแรก
-                    </Link>
-                </NavbarMenuItem>
-                <NavbarMenuItem>
-                    <Link
-                        color="foreground"
-                        className="w-full"
-                        href="#"
-                        size="lg"
-                    >
-                        แจ้งซ่อม
-                    </Link>
-                </NavbarMenuItem>
-                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-foreground" size="lg"/>
-            </NavbarMenu>
         </Navbar>
     );
 }

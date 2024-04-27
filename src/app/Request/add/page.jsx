@@ -56,7 +56,6 @@ const columns = [
 
 export default function Home() {
     const equipmentListData = useSelector((state) => state.equipment.data);
-    console.log(equipmentListData);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef();
     const [purpose, setPurpose] = useState("");
@@ -173,32 +172,34 @@ export default function Home() {
                         <TableHeader columns={columns}>
                             {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                         </TableHeader>
-                        <TableBody items={equipmentListData} emptyContent={"No rows to display."}>
-                            {equipmentListData.map((item) => (
-                                <TableRow key={item.id}>
-                                    <TableCell className="text-base">
-                                        {item.id}
-                                    </TableCell>
-                                    <TableCell className="text-base">
-                                        {item.asset}
-                                    </TableCell>
-                                    <TableCell className="text-base">
-                                        {item.detail.length > 40 ?
-                                            `${item.detail.substring(0, 40)}...` : item.detail
-                                        }
-                                    </TableCell>
-                                    <TableCell className="text-base">
-                                        {item.qty}
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="relative flex items-center gap-2">
-                                            <ModalViewItem id={item.id} />
-                                            <DeleteRequestItem id={item.id} />
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
+                        {equipmentListData.length === 0 ? "" :
+                            <TableBody items={equipmentListData} emptyContent={"No rows to display."}>
+                                {equipmentListData.map((item) => (
+                                    <TableRow key={item.id}>
+                                        <TableCell className="text-base">
+                                            {item.id}
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.asset}
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.detail.length > 40 ?
+                                                `${item.detail.substring(0, 40)}...` : item.detail
+                                            }
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.qty}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="relative flex items-center gap-2">
+                                                <ModalViewItem id={item.id} />
+                                                <DeleteRequestItem id={item.id} />
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        }
                     </Table>
                     <div className="flex justify-center">
                         <Button colorScheme="green" className="text-white" onClick={() => handleSave()}>

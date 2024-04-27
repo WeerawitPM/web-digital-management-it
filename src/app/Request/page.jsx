@@ -8,53 +8,7 @@ import Link from "next/link";
 import Approved from "./images/Approved.png";
 import Reject from "./images/Reject.png";
 import Image from "next/image";
-
-const rows = [
-    {
-        key: "1",
-        doc_no: "QF4030001",
-        request_date: "20/04/2544",
-        request_by: "User",
-        title: "Title",
-        manager1: "Approved",
-        manager2: "Approved",
-        manager3: "Approved",
-        status: "Approved",
-    },
-    {
-        key: "2",
-        doc_no: "QF4030001",
-        request_date: "20/04/2544",
-        request_by: "User",
-        title: "Title",
-        manager1: "Approved",
-        manager2: "Approved",
-        manager3: "Approved",
-        status: "Approved",
-    },
-    {
-        key: "3",
-        doc_no: "QF4030001",
-        request_date: "20/04/2544",
-        request_by: "User",
-        title: "Title",
-        manager1: "Approved",
-        manager2: "Approved",
-        manager3: "",
-        status: "Wait Approve",
-    },
-    {
-        key: "4",
-        doc_no: "QF4030001",
-        request_date: "20/04/2544",
-        request_by: "User",
-        title: "Title",
-        manager1: "Approved",
-        manager2: "Approved",
-        manager3: "Reject",
-        status: "Reject",
-    },
-];
+import { rows } from "./fakeData";
 
 const columns = [
     {

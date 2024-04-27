@@ -39,9 +39,9 @@ export default function ModalViewItem({ id }) {
 
     return (
         <>
-            <Tooltip content="View">
+            <Tooltip content="View" color="primary">
                 <NextButton isIconOnly variant="light" onClick={onOpen} className=" w-10">
-                    <EyeIcon className="text-lg" />
+                    <EyeIcon className="text-lg text-blue-500" />
                 </NextButton>
             </Tooltip>
             <Modal
