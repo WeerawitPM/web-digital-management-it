@@ -172,7 +172,7 @@ export default function Home() {
                         <TableHeader columns={columns}>
                             {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                         </TableHeader>
-                        {equipmentListData.length === 0 ? "" :
+                        {equipmentListData.length === 0 ? <TableBody emptyContent={"No rows to display."}></TableBody> :
                             <TableBody items={equipmentListData} emptyContent={"No rows to display."}>
                                 {equipmentListData.map((item) => (
                                     <TableRow key={item.id}>

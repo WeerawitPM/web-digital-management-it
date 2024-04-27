@@ -8,7 +8,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import data_management from "@/images/data-management.png"
 import stamp from "@/images/stamp.png"
 
-export default function Home() {
+export default function AnonymousPage() {
   return (
     <main>
       <div className="py-12">
