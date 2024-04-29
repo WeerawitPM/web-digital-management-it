@@ -29,7 +29,7 @@ export default function UserPage() {
                         <div className="flex flex-col gap-4">
                             <h1 className="font-bold">สถานะการแจ้งซ่อม</h1>
                             <div className="flex flex-row flex-wrap justify-center items-center gap-5 mb-5">
-                                <div class="p-5 bg-white rounded shadow-md border">
+                                <div class="p-5 bg-white rounded shadow-md">
                                     <div className="flex flex-col">
                                         <div class="flex items-center space-x-4">
                                             <div class="flex items-center justify-center w-12 h-12 rounded-full">
@@ -49,7 +49,7 @@ export default function UserPage() {
                                         <Button radius="full" color="primary" variant="flat" className="font-medium ms-40">Detail</Button>
                                     </div>
                                 </div>
-                                <div class="p-5 bg-white rounded shadow-md border">
+                                <div class="p-5 bg-white rounded shadow-md">
                                     <div className="flex flex-col">
                                         <div class="flex items-center space-x-4">
                                             <div class="flex items-center justify-center w-12 h-12 rounded-full">
@@ -69,7 +69,7 @@ export default function UserPage() {
                                         <Button radius="full" color="warning" variant="flat" className="font-medium ms-40">Detail</Button>
                                     </div>
                                 </div>
-                                <div class="p-5 bg-white rounded shadow-md border">
+                                <div class="p-5 bg-white rounded shadow-md">
                                     <div className="flex flex-col">
                                         <div class="flex items-center space-x-4">
                                             <div class="flex items-center justify-center w-12 h-12 rounded-full">
@@ -96,7 +96,7 @@ export default function UserPage() {
                         <div className="flex flex-col gap-4">
                             <h1 className="font-bold">สถานะคำร้องขอ</h1>
                             <div className="flex flex-row flex-wrap justify-center items-center gap-5">
-                                <div class="p-5 bg-white rounded shadow-md border">
+                                <div class="p-5 bg-white rounded shadow-md">
                                     <div className="flex flex-col">
                                         <div class="flex items-center space-x-4">
                                             <div class="flex items-center justify-center w-12 h-12 rounded-full">
@@ -116,7 +116,7 @@ export default function UserPage() {
                                         <Button radius="full" color="primary" variant="flat" className="font-medium ms-40">Detail</Button>
                                     </div>
                                 </div>
-                                <div class="p-5 bg-white rounded shadow-md border">
+                                <div class="p-5 bg-white rounded shadow-md">
                                     <div className="flex flex-col">
                                         <div class="flex items-center space-x-4">
                                             <div class="flex items-center justify-center w-12 h-12 rounded-full">
@@ -136,7 +136,7 @@ export default function UserPage() {
                                         <Button radius="full" color="danger" variant="flat" className="font-medium ms-40">Detail</Button>
                                     </div>
                                 </div>
-                                <div class="p-5 bg-white rounded shadow-md border">
+                                <div class="p-5 bg-white rounded shadow-md">
                                     <div className="flex flex-col">
                                         <div class="flex items-center space-x-4">
                                             <div class="flex items-center justify-center w-12 h-12 rounded-full">

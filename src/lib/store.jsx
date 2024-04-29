@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import equipmentReducer from './equipmentSlice';
+import repairReducer from './repairSlice';
 
 const rootReducer = combineReducers({
   equipment: equipmentReducer,
+  repair: repairReducer
 });
 
 const saveToLocalStorage = (store) => (next) => (action) => {

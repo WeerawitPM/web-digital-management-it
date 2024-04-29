@@ -62,7 +62,7 @@ export default function Home() {
                             </span>
                         </div>
                         <div className="justify-end">
-                            <Link href="/request/add">
+                            <Link href="/report_repair/add">
                                 <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
                                     เพิ่มรายการแจ้งซ่อม
                                 </Button>

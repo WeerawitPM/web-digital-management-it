@@ -6,6 +6,6 @@ import UserPage from "./UserPage";
 
 export default function Home() {
   return (
-    <UserPage />
+    <AnonymousPage />
   );
 }
