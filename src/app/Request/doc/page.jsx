@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import {
     Table,
     TableHeader,
@@ -41,6 +41,14 @@ const columns = [
 ];
 
 export default function Home() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <MainContent />
+        </Suspense>
+    );
+}
+
+function MainContent() {
     const searchParams = useSearchParams();
     const doc_no = searchParams.get('doc_no');
     const [requestData, setRequestData] = useState([]);

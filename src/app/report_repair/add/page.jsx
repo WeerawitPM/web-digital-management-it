@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React from "react";
 import {
     Table,
     TableHeader,
@@ -8,10 +8,7 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Tooltip,
     Chip,
-    Divider,
-    Textarea
 } from "@nextui-org/react";
 import {
     Button,
@@ -25,9 +22,9 @@ import {
     useDisclosure,
     useToast
 } from "@chakra-ui/react"
-import ModalAddRequestItem from "./ModalAddRequestItem";
+import ModalAddRepairItem from "./ModalAddRepairItem";
 import ModalViewItem from "./ModalViewItem";
-import DeleteRequestItem from "./DeleteRequestItem";
+import DeleteRepairItem from "./DeleteRepairItem";
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteAll } from "@/lib/repairSlice";
 
@@ -41,8 +38,8 @@ const columns = [
         label: "Asset",
     },
     {
-        key: "description",
-        label: "DESCRIPTION",
+        key: "problem",
+        label: "PROBLEM",
     },
     {
         key: "id",
@@ -54,12 +51,11 @@ export default function Home() {
     const repairListData = useSelector((state) => state.repair.data);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef();
-    const [purpose, setPurpose] = useState("");
     const toast = useToast()
     const dispatch = useDispatch();
 
     const handleSave = () => {
-        if (purpose === "" || repairListData.length === 0) {
+        if (repairListData.length === 0) {
             return (
                 toast({
                     title: 'Error',
@@ -86,7 +82,7 @@ export default function Home() {
                     <div className="flex justify-between flex-wrap">
                         <div className="justify-start">
                             <span className="font-semibold text-md text-gray-800 leading-tight">
-                                แบบฟอร์มใบร้องขออุปกรณ์สารสนเทศ
+                                แบบฟอร์มแจ้งซ่อม
                             </span>
                         </div>
                     </div>
@@ -150,19 +146,9 @@ export default function Home() {
                                 </div>
                             </section>
                         </div>
-                        <div className="pt-4">
-                            <h2 className="text-lg font-medium text-gray-900">Purpose Of Usage</h2>
-                            <Textarea
-                                required
-                                placeholder="Please write in detail."
-                                size="lg"
-                                variant="bordered"
-                                onChange={(event) => setPurpose(event.target.value)}
-                            />
-                        </div>
                     </div>
                     <div className="flex justify-center">
-                        <ModalAddRequestItem />
+                        <ModalAddRepairItem />
                     </div>
                     <Table aria-label="Example table with dynamic content">
                         <TableHeader columns={columns}>
@@ -186,7 +172,7 @@ export default function Home() {
                                         <TableCell>
                                             <div className="relative flex items-center gap-2">
                                                 <ModalViewItem id={item.id} />
-                                                <DeleteRequestItem id={item.id} />
+                                                <DeleteRepairItem id={item.id} />
                                             </div>
                                         </TableCell>
                                     </TableRow>

@@ -72,7 +72,7 @@ export default function ModalAddRequestItem() {
                                     {...register("asset", { required: true })}
                                 >
                                     {selectAsset.map((asset) => (
-                                        <option value={asset.value}>{asset.label}</option>
+                                        <option key={asset.value} value={asset.value}>{asset.label}</option>
                                     ))}
                                 </Select>
                             </FormControl>

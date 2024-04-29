@@ -18,7 +18,7 @@ export default function AnonymousPage() {
               <div className="flex flex-1">
                 <div class="flex flex-col gap-4">
                   <h1 className="text-5xl text-center font-bold">Welcome to <span className="text-vcs-red">IT</span> Center</h1>
-                  <h1 className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text Lorem Ipsum has been the industry's standard dummy text</h1>
+                  <h1 className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text Lorem Ipsum has been the industrys standard dummy text</h1>
                   <div className="flex flex-row mx-auto gap-2">
                     <Button radius="full" className="bg-vcs-blue text-white" size="lg">
                       เริ่มต้นใช้งาน
@@ -51,7 +51,7 @@ export default function AnonymousPage() {
               <div className="flex flex-1 md:order-last">
                 <div class="flex flex-col gap-4">
                   <h1 className="text-5xl text-center font-bold">IT Center คืออะไร?</h1>
-                  <h1 className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</h1>
+                  <h1 className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text</h1>
                 </div>
               </div>
             </div>
@@ -68,7 +68,7 @@ export default function AnonymousPage() {
                     priority
                   />
                   <div className="font-bold text-center">IT Help Desk</div>
-                  <div className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</div>
+                  <div className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text</div>
                 </div>
                 <div className="flex flex-col items-center">
                   <Image
@@ -79,7 +79,7 @@ export default function AnonymousPage() {
                     priority
                   />
                   <div className="font-bold text-center">IT Document Approve</div>
-                  <div className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</div>
+                  <div className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text</div>
                 </div>
               </div>
             </div>

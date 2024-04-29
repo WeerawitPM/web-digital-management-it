@@ -11,14 +11,8 @@ import {
     ModalCloseButton,
     FormControl,
     FormLabel,
-    Input,
     Button,
     useDisclosure,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
     Select,
     Textarea,
 } from '@chakra-ui/react'
@@ -26,7 +20,7 @@ import { selectAsset } from "./SelectAsset";
 import { useDispatch } from 'react-redux'
 import { addRepair } from "@/lib/repairSlice";
 
-export default function ModalAddRequestItem() {
+export default function ModalAddRepairItem() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
 
@@ -38,7 +32,6 @@ export default function ModalAddRequestItem() {
     const doSubmit = (data) => {
         dispatch(
             addRepair({
-                // problem: problemObj,
                 asset: data.asset,
                 detail: data.detail,
             })
@@ -71,7 +64,7 @@ export default function ModalAddRequestItem() {
                                     {...register("asset", { required: true })}
                                 >
                                     {selectAsset.map((asset) => (
-                                        <option value={asset.value}>{asset.label}</option>
+                                        <option key={asset.value} value={asset.value}>{asset.label}</option>
                                     ))}
                                 </Select>
                             </FormControl>

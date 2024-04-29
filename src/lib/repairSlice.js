@@ -13,8 +13,8 @@ export const repairSlice = createSlice({
         asset: obj.asset,
         detail: obj.detail,
       };
-      let index = state.data.findIndex((el) => el.asset == obj.asset);
-      if (index < 0) {
+      let index = state.data.length;
+      if (index == 0) {
         state.data.push(newItem);
       }
     },

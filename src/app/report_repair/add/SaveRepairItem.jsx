@@ -10,32 +10,14 @@ import {
     AlertDialogCloseButton,
     useDisclosure
 } from "@chakra-ui/react"
-import { Button as NextButton, Tooltip } from "@nextui-org/react"
-import { DeleteIcon } from "../../components/DeleteIcon";
-import { deleteRepair } from "@/lib/repairSlice";
-import { useDispatch } from 'react-redux'
 
-export default function DeleteRequestItem({ id }) {
+export default function SaveRepairItem() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
-    const dispatch = useDispatch();
-
-    const deleteItem = () => {
-        dispatch(
-            deleteRepair({
-                id: id
-            })
-        );
-        onClose()
-    };
 
     return (
         <>
-            <Tooltip color="danger" content="Delete asset">
-                <NextButton isIconOnly color="danger" variant="light" onClick={onOpen} className=" w-10">
-                    <DeleteIcon className="text-lg" />
-                </NextButton>
-            </Tooltip>
+            <Button colorScheme="green" className="text-white" onClick={onOpen}>ยืนยันการร้องขอ</Button>
             <AlertDialog
                 motionPreset='slideInBottom'
                 leastDestructiveRef={cancelRef}
@@ -46,16 +28,17 @@ export default function DeleteRequestItem({ id }) {
                 <AlertDialogOverlay />
 
                 <AlertDialogContent>
-                    <AlertDialogHeader>Are you sure delete the item?</AlertDialogHeader>
+                    <AlertDialogHeader>Discard Changes?</AlertDialogHeader>
                     <AlertDialogCloseButton />
                     <AlertDialogBody>
-                        This operation cannot be reversed.
+                        Are you sure you want to discard all of your notes? 44 words will be
+                        deleted.
                     </AlertDialogBody>
                     <AlertDialogFooter>
-                        <Button ref={cancelRef} onClick={onClose} colorScheme='red'>
+                        <Button ref={cancelRef} onClick={onClose}>
                             No
                         </Button>
-                        <Button colorScheme='green' ml={3} onClick={() => deleteItem()}>
+                        <Button colorScheme='red' ml={3}>
                             Yes
                         </Button>
                     </AlertDialogFooter>

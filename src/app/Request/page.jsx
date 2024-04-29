@@ -97,16 +97,16 @@ export default function Home() {
                                             {item.title}
                                         </TableCell>
                                         <TableCell>
-                                            {item.manager1 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
-                                                item.manager1 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
+                                            {item.manager1 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image"/> :
+                                                item.manager1 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image"/> : ""}
                                         </TableCell>
                                         <TableCell>
-                                            {item.manager2 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
-                                                item.manager2 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
+                                            {item.manager2 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image"/> :
+                                                item.manager2 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image"/> : ""}
                                         </TableCell>
                                         <TableCell>
-                                            {item.manager3 === "Approved" ? <Image width={25} height={25} src={Approved} /> :
-                                                item.manager3 === "Reject" ? <Image width={25} height={25} src={Reject} /> : ""}
+                                            {item.manager3 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image"/> :
+                                                item.manager3 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image"/> : ""}
                                         </TableCell>
                                         <TableCell>
                                             {
