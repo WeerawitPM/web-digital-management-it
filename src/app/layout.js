@@ -5,6 +5,8 @@ import "./globals.css";
 import { UIProviders } from "./UIproviders";
 import Layout from "./layout/Layout";
 import ReduxProvider from "@/lib/reduxProvider";
+import CustomSessionProvider from "./CustomSessionProvider";
+import AnonymousNavbar from "./layout/AnonymousNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,17 +17,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ReduxProvider>
-          <UIProviders>
-            <div className="min-h-full">
-              <Layout />
-              {children}
-            </div>
-          </UIProviders>
-        </ReduxProvider>
-      </body>
-    </html>
+    <CustomSessionProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <ReduxProvider>
+            <UIProviders>
+              <div className="min-h-full">
+                <AnonymousNavbar />
+                {children}
+              </div>
+            </UIProviders>
+          </ReduxProvider>
+        </body>
+      </html>
+    </CustomSessionProvider>
   );
 }
