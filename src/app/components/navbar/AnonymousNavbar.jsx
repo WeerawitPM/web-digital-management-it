@@ -8,10 +8,9 @@ import {
     Link,
     Button,
 } from "@nextui-org/react";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { signIn } from "next-auth/react"
 
 export default function AnonymousNavbar() {
-    const { data: session } = useSession();
     return (
         <Navbar isBordered maxWidth="xl" className="bg-vcs-blue">
             <NavbarBrand>
@@ -28,14 +27,9 @@ export default function AnonymousNavbar() {
             </NavbarBrand>
 
             <NavbarContent as="div" justify="end">
-                {session ? (
-                    <Button auto size="small" className="text-white" onClick={() => signOut()}>
-                        Logout
-                    </Button>
-                ) :
-                    <Button auto size="small" className="text-white" onClick={() => signIn()}>
-                        Login
-                    </Button>}
+                <Button auto size="small" className="text-white" onClick={() => signIn()}>
+                    Login
+                </Button>
             </NavbarContent>
         </Navbar>
     );

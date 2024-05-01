@@ -2,10 +2,20 @@
 
 import React from "react";
 import AnonymousPage from "./AnonymousPage";
-import UserPage from "./UserPage";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <AnonymousPage />
-  );
+  const { data: session, status } = useSession();
+
+  if (status === "authenticated" && session?.user) {
+    return (
+      redirect("/dashboard")
+    );
+  } else {
+    return (
+      <AnonymousPage />
+    );
+  }
 }

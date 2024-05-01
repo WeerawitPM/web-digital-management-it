@@ -19,10 +19,11 @@ import {
     NavbarMenuItem
 } from "@nextui-org/react";
 // import { NotificationIcon } from "../components/Icons";
-import CustomDropdownMenu from "../components/CustomDropdownMenu";
-import { menuRequest } from "../components/MenuRequest";
+import CustomDropdownMenu from "../CustomDropdownMenu";
+import { menuRequest } from "../MenuRequest";
+import { signOut } from "next-auth/react";
 
-export default function Layout() {
+export default function UserNavbar() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     return (
         <Navbar isBordered maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen}>
@@ -35,7 +36,7 @@ export default function Layout() {
                     <Link
                         color="foreground"
                         className="w-full"
-                        href="/"
+                        href="/dashboard"
                         size="lg"
                     >
                         หน้าแรก
@@ -68,7 +69,7 @@ export default function Layout() {
 
             <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
                 <NavbarItem>
-                    <Link href="/" className="text-white">
+                    <Link href="/dashboard" className="text-white">
                         หน้าแรก
                     </Link>
                 </NavbarItem>
@@ -99,7 +100,7 @@ export default function Layout() {
                             <p className="font-semibold">zoey@example.com</p>
                         </DropdownItem>
                         <DropdownItem key="settings">Profile</DropdownItem>
-                        <DropdownItem key="logout" color="danger" className="text-danger">
+                        <DropdownItem key="logout" color="danger" className="text-danger" onClick={() => signOut({ callbackUrl: '/' })}>
                             Log Out
                         </DropdownItem>
                     </DropdownMenu>

@@ -3,10 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 // import 'bootstrap/dist/css/bootstrap.css'
 import { UIProviders } from "./UIproviders";
-import Layout from "./layout/Layout";
 import ReduxProvider from "@/lib/reduxProvider";
 import CustomSessionProvider from "./CustomSessionProvider";
-import AnonymousNavbar from "./layout/AnonymousNavbar";
+import Navbar from "./components/navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +22,7 @@ export default function RootLayout({ children }) {
           <ReduxProvider>
             <UIProviders>
               <div className="min-h-full">
-                <AnonymousNavbar />
+                <Navbar />
                 {children}
               </div>
             </UIProviders>

@@ -20,13 +20,20 @@ const handler = NextAuth({
                 })
                 prisma.$disconnect();
                 if (user && user.password === credentials.password) {
-                    return {user}
+                    return { user }
                 } else {
                     return null
                 }
             }
         })
     ],
+    session: {
+        strategy: "jwt",
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+    // pages: {
+    //     signIn: "/login",
+    // },
 })
 
 export { handler as GET, handler as POST }

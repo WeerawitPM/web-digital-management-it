@@ -9,6 +9,7 @@ import Approved from "@/images/Approved.png";
 import Reject from "@/images/Reject.png";
 import Image from "next/image";
 import { rows } from "./fakeData";
+import UserNavbar from "../components/navbar/UserNavbar";
 
 const columns = [
     {

@@ -7,10 +7,11 @@ import play from "@/images/play.png"
 import { Player } from '@lottiefiles/react-lottie-player';
 import data_management from "@/images/data-management.png"
 import stamp from "@/images/stamp.png"
+import AnonymousNavbar from "./components/navbar/AnonymousNavbar";
 
 export default function AnonymousPage() {
   return (
-    <main>
+    <>
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
           <div className="flex flex-col">
@@ -217,6 +218,6 @@ export default function AnonymousPage() {
           <p className="text-center text-gray-600">Copyright © 2024 IT Center. All rights reserved.</p>
         </div>
       </footer>
-    </main>
+    </>
   );
 }
