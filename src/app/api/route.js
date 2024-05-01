@@ -1,17 +1,14 @@
-// get the client
-const mysql = require('mysql2');
+import db_connect from './db_connect';
 
 export async function GET() {
-    // create the connection to database
-    const connection = mysql.createConnection({
-        host: process.env.DATABASE_HOST,
-        user: process.env.DATABASE_USER,
-        database: process.env.DATABASE_NAME,
+    return new Promise((resolve, reject) => {
+        db_connect.query('SELECT * FROM admin', (err, rows) => {
+            if (err) {
+                console.log('Error in the query');
+                reject(err); // Reject the promise with the error
+                return;
+            }
+            resolve(Response.json(rows)); // Resolve the promise with the response
+        });
     });
-
-    if (connection) {
-        return Response.json({ message: 'Connected to the MySQL server.' });
-    } else {
-        return Response.json({ message: 'Error connecting to the MySQL server.' });
-    }
 };
