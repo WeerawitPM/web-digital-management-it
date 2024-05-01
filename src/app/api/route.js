@@ -1,14 +1,8 @@
-import db_connect from './db_connect';
+import { PrismaClient } from '@prisma/client';
 
 export async function GET() {
-    return new Promise((resolve, reject) => {
-        db_connect.query('SELECT * FROM admin', (err, rows) => {
-            if (err) {
-                console.log('Error in the query');
-                reject(err); // Reject the promise with the error
-                return;
-            }
-            resolve(Response.json(rows)); // Resolve the promise with the response
-        });
-    });
+    const prisma = new PrismaClient();
+    const data = await prisma.user.findMany();
+    prisma.$disconnect();
+    return Response.json(data);
 };
