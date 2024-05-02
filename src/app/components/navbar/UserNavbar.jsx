@@ -26,6 +26,7 @@ import { useSession, signOut } from "next-auth/react";
 export default function UserNavbar() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = useSession();
+    console.log(session);
 
     return (
         <Navbar isBordered maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen}>

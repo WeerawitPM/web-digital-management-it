@@ -26,7 +26,8 @@ export const authOptions = ({
                         id: user.id,
                         name: user.username,
                         email: user.email,
-                        image: user.image
+                        image: user.image,
+                        role: user.role
                     }
                 } else {
                     return null
@@ -42,12 +43,14 @@ export const authOptions = ({
         jwt: async ({ token, user }) => {
             if (user) {
                 token.id = user.id
+                token.role = user.role
             }
             return token
         },
         session: async ({ session, token }) => {
             if (session.user) {
                 session.user.id = token.id
+                session.user.role = token.role
             }
             return session
         }
