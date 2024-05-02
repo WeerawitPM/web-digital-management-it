@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form"; //ง่ายต่อการดึงข้อมูลจากฟอร์ม
 import { AddIcon } from "@chakra-ui/icons";
 import {
@@ -22,7 +22,6 @@ import {
     Select,
     Textarea,
 } from '@chakra-ui/react'
-import { selectAsset } from "./SelectAsset";
 import { useDispatch } from 'react-redux'
 import { addEquipment } from "@/lib/equipmentSlice";
 
@@ -32,6 +31,27 @@ export default function ModalAddRequestItem() {
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
+
+    const [assetData, setAssetData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+
+    useEffect(() => {
+        // เรียกใช้งาน API เพื่อดึงข้อมูล
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('/api/asset'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const data = await response.json();
+            setAssetData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
+            console.log(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     const { register, handleSubmit } = useForm();
 
@@ -71,8 +91,8 @@ export default function ModalAddRequestItem() {
                                     isRequired
                                     {...register("asset", { required: true })}
                                 >
-                                    {selectAsset.map((asset) => (
-                                        <option key={asset.value} value={asset.value}>{asset.label}</option>
+                                    {assetData.map((asset) => (
+                                        <option key={asset.name} value={asset.name}>{asset.name}</option>
                                     ))}
                                 </Select>
                             </FormControl>
