@@ -1,8 +1,11 @@
-import NextAuth from "next-auth"
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from '@prisma/client';
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-const handler = NextAuth({
+const prisma = new PrismaClient();
+
+export const authOptions = ({
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -11,7 +14,6 @@ const handler = NextAuth({
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                const prisma = new PrismaClient();
                 //check username and password
                 const user = await prisma.user.findFirst({
                     where: {
@@ -27,6 +29,7 @@ const handler = NextAuth({
             }
         })
     ],
+    adapter: PrismaAdapter(prisma),
     session: {
         strategy: "jwt",
     },
@@ -35,5 +38,5 @@ const handler = NextAuth({
     //     signIn: "/login",
     // },
 })
-
-export { handler as GET, handler as POST }
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

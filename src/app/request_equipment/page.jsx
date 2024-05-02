@@ -62,7 +62,7 @@ export default function Home() {
                             </span>
                         </div>
                         <div className="justify-end">
-                            <Link href="/request/add">
+                            <Link href="/request_equipment/add">
                                 <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
                                     เพิ่มรายการร้องขอ
                                 </Button>
@@ -85,7 +85,7 @@ export default function Home() {
                                             {index + 1}
                                         </TableCell>
                                         <TableCell>
-                                            <Link href={{ pathname: '/request/doc', query: { doc_no: item.doc_no } }} className="text-blue-500">{item.doc_no}</Link>
+                                            <Link href={{ pathname: '/request_equipment/doc', query: { doc_no: item.doc_no } }} className="text-blue-500">{item.doc_no}</Link>
                                         </TableCell>
                                         <TableCell>
                                             {item.request_date}
