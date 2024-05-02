@@ -15,14 +15,19 @@ export const authOptions = ({
             },
             async authorize(credentials) {
                 //check username and password
-                const user = await prisma.user.findFirst({
+                const user = await prisma.user.findUnique({
                     where: {
-                        name: credentials.username
+                        username: credentials.username
                     }
                 })
                 prisma.$disconnect();
                 if (user && user.password === credentials.password) {
-                    return { user }
+                    return {
+                        id: user.id,
+                        name: user.username,
+                        email: user.email,
+                        image: user.image
+                    }
                 } else {
                     return null
                 }
@@ -32,6 +37,20 @@ export const authOptions = ({
     adapter: PrismaAdapter(prisma),
     session: {
         strategy: "jwt",
+    },
+    callbacks: {
+        jwt: async ({ token, user }) => {
+            if (user) {
+                token.id = user.id
+            }
+            return token
+        },
+        session: async ({ session, token }) => {
+            if (session.user) {
+                session.user.id = token.id
+            }
+            return session
+        }
     },
     secret: process.env.NEXTAUTH_SECRET,
     // pages: {

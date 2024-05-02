@@ -90,15 +90,8 @@ model Equipment {
 }
 
 model Asset {
-  id          Int         @id @default(autoincrement())
-  name       String
-  assetTypeId Int
-  assetType   AssetType?  @relation(fields: [assetTypeId], references: [id])
-  Equipment   Equipment[]
-}
-
-model AssetType {
-  id    Int     @id @default(autoincrement())
-  name  String
-  Asset Asset[]
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  assetType String
+  Equipment Equipment[]
 }

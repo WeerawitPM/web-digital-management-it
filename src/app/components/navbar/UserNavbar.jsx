@@ -21,10 +21,12 @@ import {
 // import { NotificationIcon } from "../components/Icons";
 import CustomDropdownMenu from "../CustomDropdownMenu";
 import { menuRequest } from "../MenuRequest";
-import { signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function UserNavbar() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const { data: session } = useSession();
+
     return (
         <Navbar isBordered maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen}>
             <NavbarMenuToggle
@@ -97,7 +99,7 @@ export default function UserNavbar() {
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
                         <DropdownItem key="profile" className="h-14 gap-2">
                             <p className="font-semibold">Signed in as</p>
-                            <p className="font-semibold">zoey@example.com</p>
+                            <p className="font-semibold">{session.user.email}</p>
                         </DropdownItem>
                         <DropdownItem key="settings">Profile</DropdownItem>
                         <DropdownItem key="logout" color="danger" className="text-danger" onClick={() => signOut({ callbackUrl: '/' })}>
