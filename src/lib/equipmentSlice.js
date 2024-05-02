@@ -10,11 +10,12 @@ export const equipmentSlice = createSlice({
       const obj = action.payload;
       const newItem = {
         id: state.data.length + 1,
-        asset: obj.asset,
+        assetId: obj.assetId,
+        name: obj.name,
         detail: obj.detail,
         qty: obj.qty,
       };
-      let index = state.data.findIndex((el) => el.asset == obj.asset);
+      let index = state.data.findIndex((el) => el.name == obj.name);
       if (index < 0) {
         state.data.push(newItem);
       }

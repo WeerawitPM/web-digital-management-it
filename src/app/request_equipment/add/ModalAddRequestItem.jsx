@@ -59,9 +59,10 @@ export default function ModalAddRequestItem() {
         dispatch(
             addEquipment({
                 // problem: problemObj,
-                asset: data.asset,
+                assetId: (assetData.find((asset) => asset.name === data.name)).id,
+                name: data.name,
                 detail: data.detail,
-                qty: data.qty,
+                qty: parseInt(data.qty),
             })
         );
         onClose();
@@ -89,9 +90,9 @@ export default function ModalAddRequestItem() {
                                 <Select
                                     placeholder='Select option'
                                     isRequired
-                                    {...register("asset", { required: true })}
+                                    {...register("name", { required: true })}
                                 >
-                                    {assetData.map((asset) => (
+                                    {assetData && assetData.map((asset) => (
                                         <option key={asset.name} value={asset.name}>{asset.name}</option>
                                     ))}
                                 </Select>

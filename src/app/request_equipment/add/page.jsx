@@ -100,9 +100,60 @@ export default function Home() {
     }
 
     const handleConfirmSave = () => {
-        dispatch(deleteAll());
+        // สร้างข้อมูลที่จะส่งไปยัง API
+        const requestData = {
+            purpose: purpose,
+            requestById: userData.id,
+            equipment: equipmentListData.map(item => ({
+                assetId: item.assetId,
+                detail: item.detail,
+                qty: item.qty
+            }))
+        };
+
+        fetch('/api/request_equipment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                if (data.status === "success") {
+                    dispatch(deleteAll());
+                    toast({
+                        title: 'Success',
+                        description: "Request has been saved.",
+                        status: 'success',
+                        duration: 9000,
+                        isClosable: true,
+                    })
+                } else {
+                    toast({
+                        title: 'Error',
+                        description: "Failed to save request.",
+                        status: 'error',
+                        duration: 9000,
+                        isClosable: true,
+                    })
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                toast({
+                    title: 'Error',
+                    description: "Failed to save request.",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            });
+
         onClose();
     }
+
 
     return (
         <>
@@ -201,7 +252,7 @@ export default function Home() {
                                                 {item.id}
                                             </TableCell>
                                             <TableCell className="text-base">
-                                                {item.asset}
+                                                {item.name}
                                             </TableCell>
                                             <TableCell className="text-base">
                                                 {item.detail.length > 40 ?
@@ -236,7 +287,7 @@ export default function Home() {
                                 <AlertDialogOverlay />
 
                                 <AlertDialogContent>
-                                    <AlertDialogHeader>Are you sure delete the item?</AlertDialogHeader>
+                                    <AlertDialogHeader>Are you sure save the item?</AlertDialogHeader>
                                     <AlertDialogCloseButton />
                                     <AlertDialogBody>
                                         This operation cannot be reversed.

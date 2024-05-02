@@ -38,6 +38,12 @@ export const authOptions = ({
     adapter: PrismaAdapter(prisma),
     session: {
         strategy: "jwt",
+        // strategy: "database",
+        // maxAge: 30 * 24 * 60 * 60,
+        // updateAge: 24 * 60 * 60,
+        // generateSessionToken: () => {
+        //     return randomUUID?.() ?? randomBytes(32).toString("hex")
+        // }
     },
     callbacks: {
         jwt: async ({ token, user }) => {
