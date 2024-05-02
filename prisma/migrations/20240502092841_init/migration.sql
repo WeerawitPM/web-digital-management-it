@@ -10,7 +10,7 @@ CREATE TABLE `User` (
     `image` VARCHAR(191) NOT NULL,
     `license` VARCHAR(191) NOT NULL,
     `role` VARCHAR(191) NOT NULL DEFAULT 'user',
-    `emp_id` VARCHAR(191) NOT NULL,
+    `empId` INTEGER NULL,
     `companyId` INTEGER NOT NULL,
     `departmentId` INTEGER NOT NULL,
     `positionId` INTEGER NOT NULL,
@@ -91,6 +91,7 @@ CREATE TABLE `Asset` (
     `name` VARCHAR(191) NOT NULL,
     `assetType` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `Asset_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
