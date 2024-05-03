@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import { Button, Divider, Input } from "@nextui-org/react";
 import { Player } from '@lottiefiles/react-lottie-player';
 import {
@@ -9,14 +9,57 @@ import {
     Stack,
     Heading,
     CardFooter,
+    useToast
 } from "@chakra-ui/react";
 import { EyeFilledIcon } from "../components/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "../components/EyeSlashFilledIcon";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from 'next/navigation'
 
 export default function Signin() {
     const [isVisible, setIsVisible] = React.useState(false);
     const toggleVisibility = () => setIsVisible(!isVisible);
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const toast = useToast()
+    const router = useRouter();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const result = await signIn('credentials', {
+                redirect: false,
+                email,
+                password,
+            })
+
+            if (result.error) {
+                console.error(result.error)
+                toast({
+                    title: 'Error',
+                    description: "Wrong email or password",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            } else {
+                toast({
+                    title: 'Success',
+                    description: "Welcome",
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                })
+                setTimeout(function() {
+                    router.push('/dashboard');
+                    location.reload();
+                  }, 2000); // รอสองวินาที (2000 milliseconds) ก่อนที่จะเปลี่ยนเส้นทางและรีโหลดหน้า
+            }
+        } catch (error) {
+            console.log('error', error)
+        }
+    }
 
     return (
         <main>
@@ -36,9 +79,15 @@ export default function Signin() {
                                         >
                                         </Player>
                                     </div>
-                                    <Stack mt='6' spacing='3' className="flex flex-1 w-80">
+                                    <form onSubmit={handleSubmit} className="flex flex-1 flex-col space-y-3">
                                         <Heading size='lg' className="text-center">Sign in</Heading>
-                                        <Input type="email" variant='bordered' placeholder='Enter your Email' size="lg" />
+                                        <Input
+                                            type="email"
+                                            variant='bordered'
+                                            placeholder='Enter your Email'
+                                            size="lg"
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
                                         <Input
                                             variant="bordered"
                                             placeholder="Enter your password"
@@ -53,9 +102,10 @@ export default function Signin() {
                                                 </button>
                                             }
                                             type={isVisible ? "text" : "password"}
+                                            onChange={(e) => setPassword(e.target.value)}
                                         />
-                                        <Button className="bg-vcs-blue" color="primary">Sign in</Button>
-                                    </Stack>
+                                        <Button className="bg-vcs-blue" color="primary" type="submit">Sign in</Button>
+                                    </form>
                                 </div>
                             </CardBody>
                             <Divider />

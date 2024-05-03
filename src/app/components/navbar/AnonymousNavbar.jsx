@@ -8,7 +8,6 @@ import {
     Link,
     Button,
 } from "@nextui-org/react";
-import { signIn } from "next-auth/react"
 
 export default function AnonymousNavbar() {
     return (
@@ -27,9 +26,11 @@ export default function AnonymousNavbar() {
             </NavbarBrand>
 
             <NavbarContent as="div" justify="end">
-                <Button auto size="small" className="text-white" onClick={() => signIn()}>
-                    Login
-                </Button>
+                <Link href="/signin">
+                    <Button auto size="small" className="text-white" variant="bordered">
+                        Signin
+                    </Button>
+                </Link>
             </NavbarContent>
         </Navbar>
     );

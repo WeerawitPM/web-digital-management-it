@@ -17,7 +17,7 @@ export const authOptions = ({
                 //check username and password
                 const user = await prisma.user.findUnique({
                     where: {
-                        username: credentials.username
+                        email: credentials.email
                     }
                 })
                 prisma.$disconnect();
@@ -62,9 +62,9 @@ export const authOptions = ({
         }
     },
     secret: process.env.NEXTAUTH_SECRET,
-    // pages: {
-    //     signIn: "/login",
-    // },
+    pages: {
+        signIn: "/signin",
+    },
 })
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

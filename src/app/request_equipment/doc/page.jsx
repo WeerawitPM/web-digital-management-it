@@ -14,21 +14,23 @@ import {
     Textarea
 } from "@nextui-org/react";
 import { useSearchParams } from 'next/navigation';
-import { rows } from "./fakeData";
 import ModalViewItem from "../doc/ModalViewItem";
+import Approved from "@/images/Approved.png";
+import Reject from "@/images/Reject.png";
+import Image from "next/image";
 
-const columns = [
+const columns1 = [
     {
         key: "id",
         label: "#",
     },
     {
         key: "asset",
-        label: "Asset",
+        label: "ASSET",
     },
     {
-        key: "description",
-        label: "DESCRIPTION",
+        key: "detail",
+        label: "DETAIL",
     },
     {
         key: "qty",
@@ -36,8 +38,27 @@ const columns = [
     },
     {
         key: "action",
-        label: "Action",
+        label: "ACTION",
     },
+];
+
+const columns2 = [
+    {
+        key: "manager1",
+        label: "MANAGER1",
+    },
+    {
+        key: "manager2",
+        label: "MANAGER2",
+    },
+    {
+        key: "manager3",
+        label: "MANAGER3",
+    },
+    {
+        key: "status",
+        label: "STATUS",
+    }
 ];
 
 export default function Home() {
@@ -153,35 +174,72 @@ function MainContent() {
                                 />
                             </div>
                         </div>
-                        {/* <Table aria-label="Example table with dynamic content">
-                        <TableHeader columns={columns}>
-                            {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
-                        </TableHeader>
-                        <TableBody items={requestData} emptyContent={"No rows to display."}>
-                            {console.log(requestData)}
-                            {requestData.map((item) => (
-                                <TableRow key={item.id}>
-                                    <TableCell className="text-base">
-                                        {item.id}
-                                    </TableCell>
-                                    <TableCell className="text-base">
-                                        {item.asset}
-                                    </TableCell>
-                                    <TableCell className="text-base">
-                                        {item.detail.length > 40 ?
-                                            `${item.detail.substring(0, 40)}...` : item.detail
-                                        }
-                                    </TableCell>
-                                    <TableCell className="text-base">
-                                        {item.qty}
-                                    </TableCell>
+                        <Table aria-label="table asset">
+                            <TableHeader columns={columns1}>
+                                {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
+                            </TableHeader>
+                            <TableBody items={requestData.Equipment} emptyContent={"No rows to display."}>
+                                {requestData.Equipment.map((item, index) => (
+                                    <TableRow key={item.id}>
+                                        <TableCell className="text-base">
+                                            {index + 1}
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.asset.name}
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.detail.length > 40 ?
+                                                `${item.detail.substring(0, 40)}...` : item.detail
+                                            }
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.qty}
+                                        </TableCell>
+                                        <TableCell>
+                                            <ModalViewItem id={item.id} asset={item.asset.name} detail={item.detail} qty={item.qty} />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+
+                        <Table aria-label="table approve">
+                            <TableHeader columns={columns2}>
+                                {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
+                            </TableHeader>
+                            <TableBody items={requestData} emptyContent={"No rows to display."}>
+                                <TableRow key={requestData.id}>
+                                    {[...Array(3)].map((_, index) => (
+                                        <TableCell key={index}>
+                                            {requestData.ApproveEquipment[index] ?
+                                                (requestData.ApproveEquipment[index].status === "Approve" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
+                                                requestData.ApproveEquipment[index].status === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : "") :
+                                                null
+                                            }
+                                        </TableCell>
+                                    ))}
+                                    {/* เพิ่ม TableCell เพื่อแสดง Chip ของ status ที่คุณลบไป */}
                                     <TableCell>
-                                        <ModalViewItem id={item.id} asset={item.asset} detail={item.detail} qty={item.qty} />
+                                        {requestData.status === "Approved" ? (
+                                            <Chip color="success" size="xs" variant="flat">
+                                                {requestData.status}
+                                            </Chip>
+                                        ) : requestData.status === "Wait Approve" ? (
+                                            <Chip color="warning" size="xs" variant="flat">
+                                                {requestData.status}
+                                            </Chip>
+                                        ) : requestData.status === "Reject" ? (
+                                            <Chip color="danger" size="xs" variant="flat">
+                                                {requestData.status}
+                                            </Chip>
+                                        ) : (
+                                            ""
+                                        )}
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table> */}
+                            </TableBody>
+
+                        </Table>
                     </div>
                 </main>
             }
