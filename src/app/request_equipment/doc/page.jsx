@@ -51,21 +51,25 @@ export default function Home() {
 function MainContent() {
     const searchParams = useSearchParams();
     const doc_no = searchParams.get('doc_no');
-    const [requestData, setRequestData] = useState([]);
-    const [emp_id, setEmpID] = useState();
-    const [name, setName] = useState();
-    const [purpose, setPurpose] = useState();
-
+    const [requestData, setRequestData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     useEffect(() => {
-        for (let index = 0; index < rows.length; index++) {
-            if (rows[index].doc_no == doc_no) {
-                setEmpID(rows[index].emp_id);
-                setName(rows[index].name);
-                setRequestData(rows[index].data);
-                setPurpose(rows[index].purpose)
+        // เรียกใช้งาน API เพื่อดึงข้อมูล
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`/api/request_equipment/doc_no?doc_no=${doc_no}`); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
             }
+            const data = await response.json();
+            setRequestData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
+            console.log(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
-    }, [doc_no]);
+    };
 
     return (
         <>
@@ -101,7 +105,7 @@ function MainContent() {
                                         <div>
                                             Emp ID.:
                                             <Chip color="primary" size="xs" variant="flat">
-                                                {emp_id}
+                                                {empId}
                                             </Chip>
 
                                         </div>
