@@ -203,8 +203,8 @@ function MainContent() {
                             </TableBody>
                         </Table>
 
-                        <Table aria-label="table approve">
-                            <TableHeader columns={columns2}>
+                        <Table aria-label="table approve" className="w-max mx-auto">
+                            <TableHeader columns={columns2} className="text-center">
                                 {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                             </TableHeader>
                             <TableBody items={requestData} emptyContent={"No rows to display."}>
@@ -212,13 +212,12 @@ function MainContent() {
                                     {[...Array(3)].map((_, index) => (
                                         <TableCell key={index}>
                                             {requestData.ApproveEquipment[index] ?
-                                                (requestData.ApproveEquipment[index].status === "Approve" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
-                                                requestData.ApproveEquipment[index].status === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : "") :
+                                                (requestData.ApproveEquipment[index].status === "Approve" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
+                                                    requestData.ApproveEquipment[index].status === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
                                                 null
                                             }
                                         </TableCell>
                                     ))}
-                                    {/* เพิ่ม TableCell เพื่อแสดง Chip ของ status ที่คุณลบไป */}
                                     <TableCell>
                                         {requestData.status === "Approved" ? (
                                             <Chip color="success" size="xs" variant="flat">
@@ -238,7 +237,6 @@ function MainContent() {
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
-
                         </Table>
                     </div>
                 </main>
