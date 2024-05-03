@@ -8,7 +8,6 @@ import Link from "next/link";
 import Approved from "@/images/Approved.png";
 import Reject from "@/images/Reject.png";
 import Image from "next/image";
-import { rows } from "./fakeData";
 
 const columns = [
     {
@@ -97,55 +96,54 @@ export default function Home() {
                             <TableHeader columns={columns}>
                                 {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
                             </TableHeader>
-                            <TableBody items={rows} emptyContent={"No rows to display."}>
-                                {rows.map((item, index) => (
-                                    <TableRow key={item.key}>
-                                        <TableCell>
-                                            {index + 1}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Link href={{ pathname: '/request_equipment/doc', query: { doc_no: item.doc_no } }} className="text-blue-500">{item.doc_no}</Link>
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.request_date}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.request_by}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.title}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.manager1 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
-                                                item.manager1 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : ""}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.manager2 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
-                                                item.manager2 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : ""}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.manager3 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
-                                                item.manager3 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : ""}
-                                        </TableCell>
-                                        <TableCell>
-                                            {
-                                                item.status === "Approved" ?
-                                                    <Chip color="success" size="xs" variant="flat">
-                                                        {item.status}
-                                                    </Chip> :
-                                                    item.status === "Wait Approve" ?
-                                                        <Chip color="warning" size="xs" variant="flat">
+                            {requestData == null ? <TableBody emptyContent={"No rows to display."} /> :
+                                <TableBody items={requestData} emptyContent={"No rows to display."}>
+                                    {requestData.map((item, index) => (
+                                        <TableRow key={item.key}>
+                                            <TableCell>
+                                                {index + 1}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Link href={{ pathname: '/request_equipment/doc', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
+                                            </TableCell>
+                                            <TableCell>
+                                                {item.requestDate && new Date(item.requestDate).toLocaleDateString('th-TH')}
+                                            </TableCell>
+                                            <TableCell>
+                                                {item.requestBy.username}
+                                            </TableCell>
+                                            <TableCell>
+                                                {item.purpose}
+                                            </TableCell>
+                                            {[...Array(3)].map((_, index) => (
+                                                <TableCell key={index}>
+                                                    {item.ApproveEquipment[index] ?
+                                                        (item.ApproveEquipment[index].status === "Approve" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
+                                                            item.ApproveEquipment[index].status === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : "") :
+                                                        null
+                                                    }
+                                                </TableCell>
+                                            ))}
+                                            <TableCell>
+                                                {
+                                                    item.status === "Approved" ?
+                                                        <Chip color="success" size="xs" variant="flat">
                                                             {item.status}
                                                         </Chip> :
-                                                        item.status === "Reject" ?
-                                                            <Chip color="danger" size="xs" variant="flat">
+                                                        item.status === "Wait Approve" ?
+                                                            <Chip color="warning" size="xs" variant="flat">
                                                                 {item.status}
-                                                            </Chip> : ""
-                                            }
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+                                                            </Chip> :
+                                                            item.status === "Reject" ?
+                                                                <Chip color="danger" size="xs" variant="flat">
+                                                                    {item.status}
+                                                                </Chip> : ""
+                                                }
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            }
                         </Table>
                     </div>
                 </div>
