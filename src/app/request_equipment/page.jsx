@@ -33,14 +33,17 @@ const columns = [
     {
         key: "manager1",
         label: "Manager1",
+        textCenter: "text-center"
     },
     {
         key: "manager2",
         label: "Manager2",
+        textCenter: "text-center"
     },
     {
         key: "manager3",
         label: "Manager3",
+        textCenter: "text-center"
     },
     {
         key: "status",
@@ -94,7 +97,7 @@ export default function Home() {
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                         <Table aria-label="Example table with dynamic content">
                             <TableHeader columns={columns}>
-                                {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+                                {(column) => <TableColumn key={column.key} className={column.textCenter}>{column.label}</TableColumn>}
                             </TableHeader>
                             {requestData == null ? <TableBody emptyContent={"No rows to display."} /> :
                                 <TableBody items={requestData} emptyContent={"No rows to display."}>
@@ -118,8 +121,8 @@ export default function Home() {
                                             {[...Array(3)].map((_, index) => (
                                                 <TableCell key={index}>
                                                     {item.ApproveEquipment[index] ?
-                                                        (item.ApproveEquipment[index].status === "Approve" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
-                                                            item.ApproveEquipment[index].status === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : "") :
+                                                        (item.ApproveEquipment[index].status === "Approve" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
+                                                            item.ApproveEquipment[index].status === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
                                                         null
                                                     }
                                                 </TableCell>

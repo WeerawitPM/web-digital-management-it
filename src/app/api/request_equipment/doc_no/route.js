@@ -16,9 +16,41 @@ export async function GET(req) {
             where: {
                 id: parseInt(doc_no)
             },
+            // include: {
+            //     requestBy: {
+            //         include: {
+            //             company: true,
+            //             department: true,
+            //             position: true
+            //         }
+            //     },
+            //     Equipment: {
+            //         include: {
+            //             asset: true
+            //         }
+            //     },
+            //     ApproveEquipment: {
+            //         include: {
+            //             approveBy: true
+            //         }
+            //     }
+            // }
             include: {
                 requestBy: {
-                    include: {
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                        firstname: true,
+                        lastname: true,
+                        tel: true,
+                        image: true,
+                        license: true,
+                        role: true,
+                        empId: true,
+                        companyId: true,
+                        departmentId: true,
+                        positionId: true,
                         company: true,
                         department: true,
                         position: true
@@ -30,8 +62,29 @@ export async function GET(req) {
                     }
                 },
                 ApproveEquipment: {
-                    include: {
-                        approveBy: true
+                    select: {
+                        id: true,
+                        requestId: true,
+                        approveById: true,
+                        step: true,
+                        status: true,
+                        approveBy: {
+                            select: {
+                                id: true,
+                                username: true,
+                                email: true,
+                                firstname: true,
+                                lastname: true,
+                                tel: true,
+                                image: true,
+                                license: true,
+                                role: true,
+                                empId: true,
+                                companyId: true,
+                                departmentId: true,
+                                positionId: true
+                            }
+                        }
                     }
                 }
             }

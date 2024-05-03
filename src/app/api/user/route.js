@@ -13,7 +13,25 @@ export async function GET() {
             where: {
                 id: session.user.id
             },
-            include: {
+            // include: {
+            //     company: true,
+            //     department: true,
+            //     position: true
+            // }
+            select: {
+                id: true,
+                username: true,
+                email: true,
+                firstname: true,
+                lastname: true,
+                tel: true,
+                image: true,
+                license: true,
+                role: true,
+                empId: true,
+                companyId: true,
+                departmentId: true,
+                positionId: true,
                 company: true,
                 department: true,
                 position: true

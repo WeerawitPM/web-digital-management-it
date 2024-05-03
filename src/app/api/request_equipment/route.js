@@ -9,15 +9,51 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
+        // const dataRequest = await prisma.requestEquipment.findMany({
+        //     where: {
+        //         requestById: session.user.id
+        //     },
+        //     include: {
+        //         requestBy: true,
+        //         ApproveEquipment: {
+        //             include: {
+        //                 approveBy: true
+        //             }
+        //         }
+        //     }
+        // });
         const dataRequest = await prisma.requestEquipment.findMany({
             where: {
                 requestById: session.user.id
             },
-            include: {
-                requestBy: true,
+            select: {
+                id: true,
+                purpose: true,
+                requestDate: true,
+                requestById: true,
+                completeDate: true,
+                step: true,
+                status: true,
+                remark: true,
+                requestBy: {
+                    select: {
+                        id: true,
+                        username: true
+                    }
+                },
                 ApproveEquipment: {
-                    include: {
-                        approveBy: true
+                    select: {
+                        id: true,
+                        requestId: true,
+                        approveById: true,
+                        step: true,
+                        status: true,
+                        approveBy: {
+                            select: {
+                                id: true,
+                                username: true
+                            }
+                        }
                     }
                 }
             }
