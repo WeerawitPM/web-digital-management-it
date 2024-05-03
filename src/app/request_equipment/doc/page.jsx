@@ -65,7 +65,7 @@ function MainContent() {
             }
             const data = await response.json();
             setRequestData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
-            console.log(data);
+            // console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -84,75 +84,76 @@ function MainContent() {
                     </div>
                 </div>
             </header>
-            <main>
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
-                    <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
-                        <div className="pb-4">
-                            <section className="">
-                                <header>
-                                    <h2 className="text-lg font-medium text-gray-900">
-                                        Profile Information
-                                    </h2>
-                                </header>
-                                <div className="flex w-full flex-wrap md:flex-wrap gap-4 pt-4">
-                                    <div className="flex justify-start items-start space-x-4">
-                                        <div>
-                                            Name:{""}
-                                            <Chip color="primary" size="xs" variant="flat">
-                                                {name}
-                                            </Chip>
-                                        </div>
-                                        <div>
-                                            Emp ID.:
-                                            <Chip color="primary" size="xs" variant="flat">
-                                                {empId}
-                                            </Chip>
+            {requestData == null ? "" :
+                <main>
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
+                        <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
+                            <div className="pb-4">
+                                <section className="">
+                                    <header>
+                                        <h2 className="text-lg font-medium text-gray-900">
+                                            Profile Information
+                                        </h2>
+                                    </header>
+                                    <div className="flex w-full flex-wrap md:flex-wrap gap-4 pt-4">
+                                        <div className="flex justify-start items-start space-x-4">
+                                            <div>
+                                                Name:{""}
+                                                <Chip color="primary" size="xs" variant="flat">
+                                                    {requestData.requestBy.firstname}
+                                                </Chip>
+                                            </div>
+                                            <div>
+                                                Emp ID.:
+                                                <Chip color="primary" size="xs" variant="flat">
+                                                    {requestData.requestBy.empId}
+                                                </Chip>
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flex w-full flex-wrap md:flex-nowrap gap-4 pt-4">
-                                    <div className="flex justify-start items-start space-x-4 flex-wrap">
-                                        <div>
-                                            Company:{" "}
-                                            <Chip color="primary" size="xs" variant="flat">
-                                                test
-                                            </Chip>
-                                        </div>
-                                        <div>
-                                            Position:{" "}
-                                            <Chip color="primary" size="xs" variant="flat">
-                                                test
-                                            </Chip>
-                                        </div>
-                                        <div>
-                                            Department/Section:{" "}
-                                            <Chip color="primary" size="xs" variant="flat">
-                                                test
-                                            </Chip>
-                                        </div>
-                                        <div>
-                                            Telephone/Mobile No.:{" "}
-                                            <Chip color="primary" size="xs" variant="flat">
-                                                test
-                                            </Chip>
+                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4 pt-4">
+                                        <div className="flex justify-start items-start space-x-4 flex-wrap">
+                                            <div>
+                                                Company:
+                                                <Chip color="primary" size="xs" variant="flat">
+                                                    {requestData.requestBy.company.name}
+                                                </Chip>
+                                            </div>
+                                            <div>
+                                                Position:
+                                                <Chip color="primary" size="xs" variant="flat">
+                                                    {requestData.requestBy.position.name}
+                                                </Chip>
+                                            </div>
+                                            <div>
+                                                Department/Section:{" "}
+                                                <Chip color="primary" size="xs" variant="flat">
+                                                    {requestData.requestBy.department.name}
+                                                </Chip>
+                                            </div>
+                                            <div>
+                                                Telephone/Mobile No.:{" "}
+                                                <Chip color="primary" size="xs" variant="flat">
+                                                    {requestData.requestBy.tel}
+                                                </Chip>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
+                            </div>
+                            <div className="pt-4">
+                                <h2 className="text-lg font-medium text-gray-900">Purpose Of Usage</h2>
+                                <Textarea
+                                    readOnly
+                                    placeholder="Please write in detail."
+                                    size="lg"
+                                    variant="bordered"
+                                    value={requestData.purpose}
+                                />
+                            </div>
                         </div>
-                        <div className="pt-4">
-                            <h2 className="text-lg font-medium text-gray-900">Purpose Of Usage</h2>
-                            <Textarea
-                                readOnly
-                                placeholder="Please write in detail."
-                                size="lg"
-                                variant="bordered"
-                                value={purpose}
-                            />
-                        </div>
-                    </div>
-                    <Table aria-label="Example table with dynamic content">
+                        {/* <Table aria-label="Example table with dynamic content">
                         <TableHeader columns={columns}>
                             {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                         </TableHeader>
@@ -180,9 +181,10 @@ function MainContent() {
                                 </TableRow>
                             ))}
                         </TableBody>
-                    </Table>
-                </div>
-            </main>
+                    </Table> */}
+                    </div>
+                </main>
+            }
         </>
     )
 }

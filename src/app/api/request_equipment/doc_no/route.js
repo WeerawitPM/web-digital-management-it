@@ -17,7 +17,13 @@ export async function GET(req) {
                 id: parseInt(doc_no)
             },
             include: {
-                requestBy: true,
+                requestBy: {
+                    include: {
+                        company: true,
+                        department: true,
+                        position: true
+                    }
+                },
                 Equipment: {
                     include: {
                         asset: true
