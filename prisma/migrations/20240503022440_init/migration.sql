@@ -71,9 +71,9 @@ CREATE TABLE `RequestEquipment` (
     `requestDate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `requestById` INTEGER NOT NULL,
     `completeDate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `step` INTEGER NOT NULL,
-    `allStatus` VARCHAR(191) NOT NULL,
-    `remark` VARCHAR(191) NOT NULL,
+    `step` INTEGER NOT NULL DEFAULT 1,
+    `status` VARCHAR(191) NOT NULL DEFAULT 'Wait Approve',
+    `remark` VARCHAR(191) NOT NULL DEFAULT '',
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -84,7 +84,7 @@ CREATE TABLE `ApproveEquipment` (
     `requestId` INTEGER NOT NULL,
     `approveById` INTEGER NOT NULL,
     `step` INTEGER NOT NULL,
-    `allStatus` VARCHAR(191) NOT NULL,
+    `status` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

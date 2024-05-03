@@ -111,7 +111,7 @@ export default function Home() {
             }))
         };
 
-        fetch('/api/request_equipment', {
+        fetch('/api/request_equipment/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

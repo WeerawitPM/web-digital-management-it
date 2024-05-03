@@ -1,6 +1,6 @@
 'use client'
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
 import { Button } from '@chakra-ui/react'
 import { AddIcon } from "@chakra-ui/icons";
@@ -50,6 +50,25 @@ const columns = [
 ];
 
 export default function Home() {
+    const [requestData, setRequestData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    useEffect(() => {
+        // เรียกใช้งาน API เพื่อดึงข้อมูล
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('/api/request_equipment'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const data = await response.json();
+            setRequestData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
+            console.log(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     return (
         <>
@@ -97,16 +116,16 @@ export default function Home() {
                                             {item.title}
                                         </TableCell>
                                         <TableCell>
-                                            {item.manager1 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image"/> :
-                                                item.manager1 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image"/> : ""}
+                                            {item.manager1 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
+                                                item.manager1 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : ""}
                                         </TableCell>
                                         <TableCell>
-                                            {item.manager2 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image"/> :
-                                                item.manager2 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image"/> : ""}
+                                            {item.manager2 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
+                                                item.manager2 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : ""}
                                         </TableCell>
                                         <TableCell>
-                                            {item.manager3 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image"/> :
-                                                item.manager3 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image"/> : ""}
+                                            {item.manager3 === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" /> :
+                                                item.manager3 === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" /> : ""}
                                         </TableCell>
                                         <TableCell>
                                             {

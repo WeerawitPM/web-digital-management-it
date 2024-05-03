@@ -75,7 +75,7 @@ model RequestEquipment {
   requestBy        User?              @relation(fields: [requestById], references: [id])
   completeDate     DateTime           @default(now())
   step             Int                @default(1)
-  allStatus        String             @default("Waiting")
+  status           String             @default("Wait Approve")
   remark           String             @default("")
   ApproveEquipment ApproveEquipment[]
   Equipment        Equipment[]
@@ -88,7 +88,7 @@ model ApproveEquipment {
   approveById Int
   approveBy   User?             @relation(fields: [approveById], references: [id])
   step        Int
-  allStatus   String
+  status      String
 }
 
 model Equipment {
