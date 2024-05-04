@@ -10,9 +10,16 @@ export default async function Home() {
   if (session) {
     console.log(session)
     if (session.user.status == "Active") {
-      return (
-        redirect("/dashboard")
-      );
+      if (session.user.role == "admin") {
+        return (
+          redirect("/admin")
+        );
+      }
+      else {
+        return (
+          redirect("/dashboard")
+        );
+      }
     }
     else {
       return (

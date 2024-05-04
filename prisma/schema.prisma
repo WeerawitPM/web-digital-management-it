@@ -28,6 +28,18 @@ model Session {
   user         User     @relation(fields: [userId], references: [id])
 }
 
+model Status {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User[]
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User[]
+}
+
 model User {
   id               Int                @id @default(autoincrement())
   username         String?            @unique
@@ -38,15 +50,17 @@ model User {
   tel              String
   image            String
   license          String
-  role             String             @default("user")
+  roleId           Int
+  role             Role?              @relation(fields: [roleId], references: [id])
   empId            Int?
   companyId        Int
-  company          Company            @relation(fields: [companyId], references: [id])
+  company          Company?           @relation(fields: [companyId], references: [id])
   departmentId     Int
   department       Department?        @relation(fields: [departmentId], references: [id])
   positionId       Int
   position         Position?          @relation(fields: [positionId], references: [id])
-  status           String             @default("Not Active")
+  statusId         Int
+  status           Status?            @relation(fields: [statusId], references: [id])
   step             Int                @default(0)
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt

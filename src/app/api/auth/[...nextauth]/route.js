@@ -18,6 +18,10 @@ export const authOptions = ({
                 const user = await prisma.user.findUnique({
                     where: {
                         email: credentials.email
+                    },
+                    include: {
+                        status: true,
+                        role: true
                     }
                 })
                 prisma.$disconnect();
@@ -27,8 +31,8 @@ export const authOptions = ({
                         name: user.username,
                         email: user.email,
                         image: user.image,
-                        role: user.role,
-                        status: user.status
+                        role: user.role.name,
+                        status: user.status.name
                     }
                 } else {
                     return null

@@ -28,7 +28,15 @@ export async function middleware(request) {
   }
 
   if (pathname.startsWith('/dashboard') && (user.role == "admin")) {
-    return NextResponse.redirect(new URL('/report_repair', request.url))
+    return NextResponse.redirect(new URL('/admin', request.url))
+  }
+
+  if (pathname.startsWith('/admin') && (!user || user.role == "Not Active")) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
+  if (pathname.startsWith('/admin') && (user.role != "admin")) {
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
   // Continue with the request if the user is an admin or the route is not protected

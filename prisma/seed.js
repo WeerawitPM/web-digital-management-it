@@ -3,6 +3,19 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
+    await prisma.role.createMany({
+        data: [
+            { name: 'user' },
+            { name: 'manager' },
+            { name: 'admin' },
+        ],
+    });
+    await prisma.status.createMany({
+        data: [
+            { name: 'Not Active' },
+            { name: 'Active' },
+        ],
+    });
     await prisma.company.createMany({
         data: [
             { name: 'VCS' },

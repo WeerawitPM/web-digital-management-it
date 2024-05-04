@@ -7,6 +7,8 @@ import play from "@/images/play.png"
 import { Player } from '@lottiefiles/react-lottie-player';
 import data_management from "@/images/data-management.png"
 import stamp from "@/images/stamp.png"
+import Animation1 from "@/images/Animation1.json";
+import Animation2 from "@/images/Animation2.json";
 
 export default function AnonymousPage() {
   return (
@@ -32,7 +34,7 @@ export default function AnonymousPage() {
               <Player
                 autoplay
                 loop
-                src="https://lottie.host/1f3d7bfb-77db-4164-b021-7cb9bed825d7/9M6VhCNhlC.json"
+                src={Animation1}
                 className="flex flex-1"
                 style={{ height: "70vh" }}
               >
@@ -43,7 +45,7 @@ export default function AnonymousPage() {
               <Player
                 autoplay
                 loop
-                src="https://lottie.host/a9f43aa8-ab3b-4866-a7f3-c24c709aa05a/FZv589c6iK.json"
+                src={Animation2}
                 className="flex flex-1 order-last md:order-none"
                 style={{ height: "70vh" }}
               >
