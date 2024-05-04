@@ -27,7 +27,8 @@ export const authOptions = ({
                         name: user.username,
                         email: user.email,
                         image: user.image,
-                        role: user.role
+                        role: user.role,
+                        status: user.status
                     }
                 } else {
                     return null
@@ -50,6 +51,7 @@ export const authOptions = ({
             if (user) {
                 token.id = user.id
                 token.role = user.role
+                token.status = user.status
             }
             return token
         },
@@ -57,6 +59,7 @@ export const authOptions = ({
             if (session.user) {
                 session.user.id = token.id
                 session.user.role = token.role
+                session.user.status = token.status
             }
             return session
         }

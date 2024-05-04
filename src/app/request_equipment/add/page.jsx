@@ -30,6 +30,7 @@ import ModalViewItem from "./ModalViewItem";
 import DeleteRequestItem from "./DeleteRequestItem";
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteAll } from "@/lib/equipmentSlice";
+import axios from 'axios';
 
 const columns = [
     {
@@ -71,11 +72,8 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('/api/user'); // เรียกใช้งาน API ที่เส้นทาง '/api'
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
+            const response = await axios.get('/api/user'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const data = response.data;
             setUserData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             console.log(data);
         } catch (error) {
@@ -111,18 +109,16 @@ export default function Home() {
             }))
         };
 
-        fetch('/api/request_equipment/add', {
-            method: 'POST',
+        axios.post('/api/request_equipment/add', requestData, {
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestData),
+            }
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                if (data.status === "success") {
+            .then(response => {
+                console.log('Success:', response.data);
+                if (response.data.status === "success") {
                     dispatch(deleteAll());
+                    onClose();
                     toast({
                         title: 'Success',
                         description: "Request has been saved.",
@@ -149,11 +145,11 @@ export default function Home() {
                     duration: 9000,
                     isClosable: true,
                 })
+            })
+            .finally(() => {
+                onClose();
             });
-
-        onClose();
     }
-
 
     return (
         <>

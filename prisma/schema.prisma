@@ -46,6 +46,8 @@ model User {
   department       Department?        @relation(fields: [departmentId], references: [id])
   positionId       Int
   position         Position?          @relation(fields: [positionId], references: [id])
+  status           String             @default("Not Active")
+  step             Int                @default(0)
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   RequestEquipment RequestEquipment[]

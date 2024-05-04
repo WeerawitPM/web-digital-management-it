@@ -8,6 +8,7 @@ import UserNavbar from "@/components/navbar/UserNavbar";
 import AnonymousNavbar from "@/components/navbar/AnonymousNavbar";
 import SessionProvider from "./SessionProvider";
 import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,8 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -25,7 +27,11 @@ export default async function RootLayout({ children }) {
           <UIProviders>
             <div className="min-h-full">
               <SessionProvider session={session}>
-                {session ? <UserNavbar /> : <AnonymousNavbar />}
+                {!session ? <AnonymousNavbar /> : (session.user.role === "user" ? <UserNavbar />
+                  : (session.user.role === "admin" ? <UserNavbar />
+                    : (session.user.role === "manager" ? <UserNavbar />
+                      : <AnonymousNavbar />
+                    )))}
                 {children}
               </SessionProvider>
             </div>

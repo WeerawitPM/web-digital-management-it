@@ -15,18 +15,21 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  if (pathname.startsWith('/request_equipment') && (!user)) {
+  if (pathname.startsWith('/request_equipment') && (!user || user.status == "Not Active")) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  if (pathname.startsWith('/request_repair') && (!user)) {
+  if (pathname.startsWith('/report_repair') && (!user || user.status == "Not Active")) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  if (pathname.startsWith('/dashboard') && (!user)) {
+  if (pathname.startsWith('/dashboard') && (!user || user.status == "Not Active")) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
+  if (pathname.startsWith('/dashboard') && (user.role == "admin")) {
+    return NextResponse.redirect(new URL('/report_repair', request.url))
+  }
 
   // Continue with the request if the user is an admin or the route is not protected
   return NextResponse.next()

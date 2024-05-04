@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `user` ADD COLUMN `status` VARCHAR(191) NOT NULL DEFAULT 'Not Active',
+    ADD COLUMN `step` INTEGER NOT NULL DEFAULT 0;
