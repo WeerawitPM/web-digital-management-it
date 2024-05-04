@@ -26,6 +26,7 @@
     "mysql2": "^3.9.7",
     "next": "^14.2.3",
     "next-auth": "^4.24.7",
+    "prisma-erd-generator": "^1.11.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",

@@ -24,14 +24,14 @@ import { useSelector } from 'react-redux'
 export default function ModalViewItem({ id }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const equipmentListData = useSelector((state) => state.equipment.data);
-    const [asset, setAsset] = useState(null);
+    const [name, setName] = useState(null);
     const [detail, setDetail] = useState(null);
     const [qty, setQty] = useState(null);
 
     useEffect(() => {
         const selectedAsset = equipmentListData.find(item => item.id === id);
         if (selectedAsset) {
-            setAsset(selectedAsset.asset);
+            setName(selectedAsset.name);
             setDetail(selectedAsset.detail);
             setQty(selectedAsset.qty)
         }
@@ -57,7 +57,7 @@ export default function ModalViewItem({ id }) {
                             <FormLabel>Select Asset</FormLabel>
                             <Input
                                 isReadOnly
-                                value={asset}
+                                value={name}
                             />
                         </FormControl>
 

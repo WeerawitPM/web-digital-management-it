@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Divider } from "@nextui-org/react";
 import hourglass from "@/images/hourglass.png"
 import mechanic from "@/images/mechanic.png"
@@ -10,6 +10,25 @@ import rejected from "@/images/rejected.png"
 import stamp from "@/images/stamp.png"
 
 export default function UserPage() {
+    const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    useEffect(() => {
+        // เรียกใช้งาน API เพื่อดึงข้อมูล
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('/api/dashboard'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const data = await response.json();
+            setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
+            console.log(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
     return (
         <>
             <header className="bg-white shadow">
@@ -43,7 +62,7 @@ export default function UserPage() {
                                             </div>
                                             <div>
                                                 <div className="text-gray-400 text-lg">รอรับเรื่อง</div>
-                                                <div className="text-4xl font-bold text-gray-900">2</div>
+                                                <div className="text-4xl font-bold text-gray-900">0</div>
                                             </div>
                                         </div>
                                         <Button radius="full" color="primary" variant="flat" className="font-medium ms-40">Detail</Button>
@@ -110,7 +129,11 @@ export default function UserPage() {
                                             </div>
                                             <div>
                                                 <div className="text-gray-400 text-lg">รอการอนุมัติ</div>
-                                                <div className="text-4xl font-bold text-gray-900">2</div>
+                                                <div className="text-4xl font-bold text-gray-900">
+                                                    {
+                                                        data ? data.requestEquipment.waitApprove : "0"
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                         <Button radius="full" color="primary" variant="flat" className="font-medium ms-40">Detail</Button>
@@ -130,7 +153,11 @@ export default function UserPage() {
                                             </div>
                                             <div>
                                                 <div className="text-gray-400 text-lg">คำร้องขอถูกปฏิเสธ</div>
-                                                <div className="text-4xl font-bold text-gray-900">2</div>
+                                                <div className="text-4xl font-bold text-gray-900">
+                                                    {
+                                                        data ? data.requestEquipment.rejected : "0"
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                         <Button radius="full" color="danger" variant="flat" className="font-medium ms-40">Detail</Button>
@@ -150,7 +177,11 @@ export default function UserPage() {
                                             </div>
                                             <div>
                                                 <div className="text-gray-400 text-lg">คำร้องขอได้รับการอนุมัติ</div>
-                                                <div className="text-4xl font-bold text-gray-900">2</div>
+                                                <div className="text-4xl font-bold text-gray-900">
+                                                {
+                                                        data ? data.requestEquipment.approved : "0"
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                         <Button radius="full" color="success" variant="flat" className="font-medium ms-40">Detail</Button>
