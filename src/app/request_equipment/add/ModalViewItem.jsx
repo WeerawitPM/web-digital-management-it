@@ -18,7 +18,7 @@ import {
     useDisclosure,
     Textarea,
 } from '@chakra-ui/react'
-import { EyeIcon } from "@/app/components/EyeIcon";
+import { EyeIcon } from "@/components/EyeIcon";
 import { useSelector } from 'react-redux'
 
 export default function ModalViewItem({ id }) {

@@ -11,8 +11,8 @@ import {
     CardFooter,
     useToast
 } from "@chakra-ui/react";
-import { EyeFilledIcon } from "../components/EyeFilledIcon";
-import { EyeSlashFilledIcon } from "../components/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "@/components/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation'

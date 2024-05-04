@@ -11,7 +11,7 @@ export default function Home() {
 
   if (status === "authenticated" && session?.user) {
     return (
-      redirect("/dashboard")
+      redirect("/dashboard/user")
     );
   } else {
     return (

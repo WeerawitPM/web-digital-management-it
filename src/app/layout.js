@@ -4,8 +4,8 @@ import "./globals.css";
 // import 'bootstrap/dist/css/bootstrap.css'
 import { UIProviders } from "./UIproviders";
 import ReduxProvider from "@/lib/reduxProvider";
-import UserNavbar from "./components/navbar/UserNavbar";
-import AnonymousNavbar from "./components/navbar/AnonymousNavbar";
+import UserNavbar from "@/components/navbar/UserNavbar";
+import AnonymousNavbar from "@/components/navbar/AnonymousNavbar";
 import SessionProvider from "./SessionProvider";
 import { getServerSession } from "next-auth";
 

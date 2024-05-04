@@ -11,7 +11,7 @@ import {
     useDisclosure
 } from "@chakra-ui/react"
 import { Button as NextButton, Tooltip } from "@nextui-org/react"
-import { DeleteIcon } from "../../components/DeleteIcon";
+import { DeleteIcon } from "@/components/DeleteIcon";
 import { deleteEquipment } from "@/lib/equipmentSlice";
 import { useDispatch } from 'react-redux'
 

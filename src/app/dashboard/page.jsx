@@ -8,12 +8,10 @@ import mechanic from "@/images/mechanic.png"
 import done from "@/images/done.png"
 import rejected from "@/images/rejected.png"
 import stamp from "@/images/stamp.png"
-import { useSession } from "next-auth/react";
 
 export default function UserPage() {
-    const {userData: session } = useSession();
-
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
@@ -33,7 +31,6 @@ export default function UserPage() {
         }
     };
 
-    console.log(session);
     return (
         <>
             <header className="bg-white shadow">
@@ -46,7 +43,6 @@ export default function UserPage() {
                 </div>
             </header>
             <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-12">
-                {}
                 <div className="flex flex-col gap-4">
                     <h1 className="font-bold">สถานะการแจ้งซ่อม</h1>
                     <div className="flex flex-row flex-wrap justify-center items-center gap-5 mb-5">

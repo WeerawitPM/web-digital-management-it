@@ -18,7 +18,7 @@ import {
     useDisclosure,
     Textarea,
 } from '@chakra-ui/react'
-import { EyeIcon } from "@/app/components/EyeIcon";
+import { EyeIcon } from "@/components/EyeIcon";
 
 export default function ModalViewItem({ id, asset, detail, qty }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
