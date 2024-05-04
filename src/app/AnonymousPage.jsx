@@ -7,7 +7,6 @@ import play from "@/images/play.png"
 import { Player } from '@lottiefiles/react-lottie-player';
 import data_management from "@/images/data-management.png"
 import stamp from "@/images/stamp.png"
-import AnonymousNavbar from "./components/navbar/AnonymousNavbar";
 
 export default function AnonymousPage() {
   return (

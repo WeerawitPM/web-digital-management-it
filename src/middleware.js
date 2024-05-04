@@ -23,6 +23,10 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
+  if (pathname.startsWith('/dashboard') && (!user)) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
 
   // Continue with the request if the user is an admin or the route is not protected
   return NextResponse.next()

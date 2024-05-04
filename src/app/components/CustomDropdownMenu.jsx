@@ -34,10 +34,8 @@ const CustomDropdownMenu = ({ title, menus, className, size }) => {
         }}
       >
         {menus.map((item, index) => (
-          <DropdownItem key={index} description={item.description} startContent={item.startContent}>
-            <Link href={item.href}>
-              {index + 1}.{item.title}
-            </Link>
+          <DropdownItem key={index} description={item.description} startContent={item.startContent} href={item.href}>
+            <div className="text-blue-500">{index + 1}.{item.title}</div>
           </DropdownItem>
         ))}
       </DropdownMenu>

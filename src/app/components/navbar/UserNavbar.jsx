@@ -28,7 +28,7 @@ export default function UserNavbar() {
     const { data: session } = useSession();
 
     return (
-        <Navbar isBordered maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen}>
+        <Navbar maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
             <NavbarMenuToggle
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 className="sm:hidden text-white"
@@ -48,7 +48,7 @@ export default function UserNavbar() {
                     <Link
                         color="foreground"
                         className="w-full"
-                        href="#"
+                        href="report_repair"
                         size="lg"
                     >
                         แจ้งซ่อม
@@ -102,8 +102,8 @@ export default function UserNavbar() {
                             <p className="font-semibold">{session.user.email}</p>
                         </DropdownItem>
                         <DropdownItem key="settings">Profile</DropdownItem>
-                        <DropdownItem key="logout" color="danger" className="text-danger" onClick={() => signOut({ callbackUrl: '/' })}>
-                            Log Out
+                        <DropdownItem key="logout" color="danger" className="text-danger" onClick={() => signOut({ callbackUrl: '/' })} onPress={() => signOut({ callbackUrl: '/' })}>
+                            Sign out
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>

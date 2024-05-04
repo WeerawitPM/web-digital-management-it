@@ -121,8 +121,8 @@ export default function Home() {
                                             {[...Array(3)].map((_, index) => (
                                                 <TableCell key={index}>
                                                     {item.ApproveEquipment[index] ?
-                                                        (item.ApproveEquipment[index].status === "Approve" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
-                                                            item.ApproveEquipment[index].status === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
+                                                        (item.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
+                                                            item.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
                                                         null
                                                     }
                                                 </TableCell>
@@ -137,7 +137,7 @@ export default function Home() {
                                                             <Chip color="warning" size="xs" variant="flat">
                                                                 {item.status}
                                                             </Chip> :
-                                                            item.status === "Reject" ?
+                                                            item.status === "Rejected" ?
                                                                 <Chip color="danger" size="xs" variant="flat">
                                                                     {item.status}
                                                                 </Chip> : ""

@@ -203,7 +203,7 @@ function MainContent() {
                             </TableBody>
                         </Table>
 
-                        <Table aria-label="table approve" className="w-max mx-auto">
+                        <Table aria-label="table approve" className="mx-auto">
                             <TableHeader columns={columns2} className="text-center">
                                 {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                             </TableHeader>
@@ -212,8 +212,8 @@ function MainContent() {
                                     {[...Array(3)].map((_, index) => (
                                         <TableCell key={index}>
                                             {requestData.ApproveEquipment[index] ?
-                                                (requestData.ApproveEquipment[index].status === "Approve" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
-                                                    requestData.ApproveEquipment[index].status === "Reject" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
+                                                (requestData.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
+                                                    requestData.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
                                                 null
                                             }
                                         </TableCell>
@@ -227,7 +227,7 @@ function MainContent() {
                                             <Chip color="warning" size="xs" variant="flat">
                                                 {requestData.status}
                                             </Chip>
-                                        ) : requestData.status === "Reject" ? (
+                                        ) : requestData.status === "Rejected" ? (
                                             <Chip color="danger" size="xs" variant="flat">
                                                 {requestData.status}
                                             </Chip>
