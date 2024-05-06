@@ -18,6 +18,7 @@ import ModalViewItem from "../doc/ModalViewItem";
 import Approved from "@/images/Approved.png";
 import Reject from "@/images/Reject.png";
 import Image from "next/image";
+import axios from "axios";
 
 const columns1 = [
     {
@@ -72,7 +73,7 @@ export default function Home() {
 function MainContent() {
     const searchParams = useSearchParams();
     const doc_no = searchParams.get('doc_no');
-    const [requestData, setRequestData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
@@ -80,12 +81,12 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`/api/request_equipment/doc_no?doc_no=${doc_no}`); // เรียกใช้งาน API ที่เส้นทาง '/api'
-            if (!response.ok) {
+            const response = await axios.get(`/api/request_equipment/doc_no?doc_no=${doc_no}`);
+            if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
-            const data = await response.json();
-            setRequestData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
+            const data = response.data;
+            setData(data);
             // console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -105,7 +106,7 @@ function MainContent() {
                     </div>
                 </div>
             </header>
-            {requestData == null ? "" :
+            {data == null ? "" :
                 <main>
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
                         <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
@@ -121,13 +122,13 @@ function MainContent() {
                                             <div>
                                                 Name:{""}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {requestData.requestBy.firstname}
+                                                    {data.requestBy.firstname}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Emp ID.:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {requestData.requestBy.empId}
+                                                    {data.requestBy.empId}
                                                 </Chip>
 
                                             </div>
@@ -138,25 +139,25 @@ function MainContent() {
                                             <div>
                                                 Company:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {requestData.requestBy.company.name}
+                                                    {data.requestBy.company.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Position:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {requestData.requestBy.position.name}
+                                                    {data.requestBy.position.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Department/Section:{" "}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {requestData.requestBy.department.name}
+                                                    {data.requestBy.department.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Telephone/Mobile No.:{" "}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {requestData.requestBy.tel}
+                                                    {data.requestBy.tel}
                                                 </Chip>
                                             </div>
                                         </div>
@@ -170,7 +171,7 @@ function MainContent() {
                                     placeholder="Please write in detail."
                                     size="lg"
                                     variant="bordered"
-                                    value={requestData.purpose}
+                                    value={data.purpose}
                                 />
                             </div>
                         </div>
@@ -178,8 +179,8 @@ function MainContent() {
                             <TableHeader columns={columns1}>
                                 {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                             </TableHeader>
-                            <TableBody items={requestData.Equipment} emptyContent={"No rows to display."}>
-                                {requestData.Equipment.map((item, index) => (
+                            <TableBody items={data.Equipment} emptyContent={"No rows to display."}>
+                                {data.Equipment.map((item, index) => (
                                     <TableRow key={item.id}>
                                         <TableCell className="text-base">
                                             {index + 1}
@@ -207,29 +208,29 @@ function MainContent() {
                             <TableHeader columns={columns2} className="text-center">
                                 {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                             </TableHeader>
-                            <TableBody items={requestData} emptyContent={"No rows to display."}>
-                                <TableRow key={requestData.id}>
+                            <TableBody items={data} emptyContent={"No rows to display."}>
+                                <TableRow key={data.id}>
                                     {[...Array(3)].map((_, index) => (
                                         <TableCell key={index}>
-                                            {requestData.ApproveEquipment[index] ?
-                                                (requestData.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
-                                                    requestData.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
+                                            {data.ApproveEquipment[index] ?
+                                                (data.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
+                                                    data.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
                                                 null
                                             }
                                         </TableCell>
                                     ))}
                                     <TableCell>
-                                        {requestData.status === "Approved" ? (
+                                        {data.status === "Approved" ? (
                                             <Chip color="success" size="xs" variant="flat">
-                                                {requestData.status}
+                                                {data.status}
                                             </Chip>
-                                        ) : requestData.status === "Wait Approve" ? (
+                                        ) : data.status === "Wait Approve" ? (
                                             <Chip color="warning" size="xs" variant="flat">
-                                                {requestData.status}
+                                                {data.status}
                                             </Chip>
-                                        ) : requestData.status === "Rejected" ? (
+                                        ) : data.status === "Rejected" ? (
                                             <Chip color="danger" size="xs" variant="flat">
-                                                {requestData.status}
+                                                {data.status}
                                             </Chip>
                                         ) : (
                                             ""

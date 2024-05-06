@@ -24,9 +24,8 @@ import {
 } from '@chakra-ui/react'
 import { useDispatch } from 'react-redux'
 import { addEquipment } from "@/lib/equipmentSlice";
-import axios from "axios";
 
-export default function ModalAddRequestItem() {
+export default function ModalAdd() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
 
@@ -42,7 +41,7 @@ export default function ModalAddRequestItem() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/asset'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await fetch('/api/admin/company'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }

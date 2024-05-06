@@ -8,6 +8,7 @@ import Link from "next/link";
 import Approved from "@/images/Approved.png";
 import Reject from "@/images/Reject.png";
 import Image from "next/image";
+import axios from "axios";
 
 const columns = [
     {
@@ -52,7 +53,7 @@ const columns = [
 ];
 
 export default function Home() {
-    const [requestData, setRequestData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
@@ -60,17 +61,25 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('/api/request_equipment'); // เรียกใช้งาน API ที่เส้นทาง '/api'
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
-            setRequestData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
+            const response = await axios.get('/api/request_equipment'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const data = response.data;
+            setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+
+    // Global error handling
+    axios.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            console.error('Error fetching data:', error);
+            return Promise.reject(error);
+        }
+    );
 
     return (
         <>
@@ -99,9 +108,9 @@ export default function Home() {
                             <TableHeader columns={columns}>
                                 {(column) => <TableColumn key={column.key} className={column.textCenter}>{column.label}</TableColumn>}
                             </TableHeader>
-                            {requestData == null ? <TableBody emptyContent={"No rows to display."} /> :
-                                <TableBody items={requestData} emptyContent={"No rows to display."}>
-                                    {requestData.map((item, index) => (
+                            {data == null ? <TableBody emptyContent={"No rows to display."} /> :
+                                <TableBody items={data} emptyContent={"No rows to display."}>
+                                    {data.map((item, index) => (
                                         <TableRow key={item.key}>
                                             <TableCell>
                                                 {index + 1}
@@ -122,7 +131,7 @@ export default function Home() {
                                                 <TableCell key={index}>
                                                     {item.ApproveEquipment[index] ?
                                                         (item.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
-                                                            item.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
+                                                            item.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto" /> : "") :
                                                         null
                                                     }
                                                 </TableCell>

@@ -109,7 +109,7 @@ export default function Home() {
             }))
         };
 
-        axios.post('/api/request_equipment/add', requestData, {
+        axios.post('/api/request_equipment', requestData, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -150,6 +150,17 @@ export default function Home() {
                 onClose();
             });
     }
+
+    // Global error handling
+    axios.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            console.error('Error fetching data:', error);
+            return Promise.reject(error);
+        }
+    );
 
     return (
         <>
