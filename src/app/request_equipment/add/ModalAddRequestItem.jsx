@@ -43,10 +43,10 @@ export default function ModalAddRequestItem() {
     const fetchData = async () => {
         try {
             const response = await axios.get('/api/asset'); // เรียกใช้งาน API ที่เส้นทาง '/api'
-            if (!response.ok) {
+            if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
-            const data = await response.json();
+            const data = response.data;
             setAssetData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             console.log(data);
         } catch (error) {
