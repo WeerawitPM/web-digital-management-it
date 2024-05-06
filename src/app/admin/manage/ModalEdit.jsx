@@ -18,22 +18,22 @@ import {
     useDisclosure,
     useToast
 } from '@chakra-ui/react'
-import { AddIcon } from "@chakra-ui/icons";
+import { EditIcon } from "@/components/EditIcon";
 import axios from "axios";
-import { redirect } from "next/navigation";
 
-export default function ModalAdd() {
+export default function ModalEdit({ id, name, onDataUpdate }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [companyName, setCompanyName] = useState();
+    const [companyName, setCompanyName] = useState(name);
     const toast = useToast();
 
     const handleConfirmSave = () => {
         // สร้างข้อมูลที่จะส่งไปยัง API
         const data = {
+            id: id,
             name: companyName,
         };
 
-        axios.post('/api/admin/company', data, {
+        axios.patch('/api/admin/company', data, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -48,11 +48,11 @@ export default function ModalAdd() {
                         duration: 9000,
                         isClosable: true,
                     })
-                    location.reload();
+                    onDataUpdate();
                 } else {
                     toast({
                         title: 'Error',
-                        description: response.data.message,
+                        description: "Failed to save company name.",
                         status: 'error',
                         duration: 9000,
                         isClosable: true,
@@ -87,9 +87,11 @@ export default function ModalAdd() {
 
     return (
         <>
-            <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm' onClick={onOpen}>
-                เพิ่มรายการร้องขอ
-            </Button>
+            <Tooltip content="View" color="warning">
+                <NextButton isIconOnly variant="light" onClick={onOpen} className=" w-10">
+                    <EditIcon className="text-lg text-yellow-500" />
+                </NextButton>
+            </Tooltip>
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
@@ -97,13 +99,21 @@ export default function ModalAdd() {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Add Company</ModalHeader>
+                    <ModalHeader>Edit Company</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
+                        <FormControl>
+                            <FormLabel>ID</FormLabel>
+                            <Input
+                                isReadOnly
+                                value={id}
+                            />
+                        </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Name</FormLabel>
                             <Input
                                 required
+                                defaultValue={name}
                                 onChange={(event) => setCompanyName(event.target.value)}
                             />
                         </FormControl>

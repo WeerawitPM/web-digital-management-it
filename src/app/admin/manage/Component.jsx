@@ -1,14 +1,11 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
-import { Button } from '@chakra-ui/react'
-import { AddIcon } from "@chakra-ui/icons";
-import Link from "next/link";
-import Approved from "@/images/Approved.png";
-import Reject from "@/images/Reject.png";
-import Image from "next/image";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
 import ModalView from "./ModalView";
+import ModalEdit from "./ModalEdit";
+import axios from "axios";
+import ModalDelete from "./ModalDelete";
 
 const columns = [
     {
@@ -27,6 +24,7 @@ const columns = [
 
 export default function Component() {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
@@ -34,17 +32,25 @@ export default function Component() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('/api/admin/company'); // เรียกใช้งาน API ที่เส้นทาง '/api'
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
+            const response = await axios.get('/api/admin/company'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const data = await response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+
+    // Global error handling
+    axios.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            console.error('Error fetching data:', error);
+            return Promise.reject(error);
+        }
+    );
 
     return (
         <main>
@@ -66,6 +72,8 @@ export default function Component() {
                                     <TableCell>
                                         <div className="relative flex items-center gap-2">
                                             <ModalView id={item.id} name={item.name} />
+                                            <ModalEdit id={item.id} name={item.name} onDataUpdate={fetchData} />
+                                            <ModalDelete id={item.id} name={item.name} onDataDelete={fetchData} />
                                         </div>
                                     </TableCell>
                                 </TableRow>

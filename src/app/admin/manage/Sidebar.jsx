@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from '@chakra-ui/react'
 import { AddIcon } from "@chakra-ui/icons";
+import ModalAdd from './ModalAdd';
 
 export function SidebarComponent() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -52,11 +53,7 @@ export function SidebarComponent() {
                             </span>
                         </div>
                         <div className="justify-end">
-                            <Link href="/request_equipment/add">
-                                <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
-                                    เพิ่มรายการร้องขอ
-                                </Button>
-                            </Link>
+                            <ModalAdd />
                         </div>
                     </div>
                 </div>

@@ -63,7 +63,7 @@ export async function GET() {
     }
 };
 
-export async function POST(Request) {
+export async function POST(req) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -72,7 +72,7 @@ export async function POST(Request) {
         const prisma = new PrismaClient();
         try {
             // const { purpose } = await JSON.parse(Request.json());
-            const { purpose, requestById, equipment } = await Request.json(); // Parse request body as JSON
+            const { purpose, requestById, equipment } = await req.json(); // Parse request body as JSON
 
             // Create requestEquipment
             const requestEquipment = await prisma.requestEquipment.create({

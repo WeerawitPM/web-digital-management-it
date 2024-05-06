@@ -32,6 +32,7 @@ export default function ModalView({ id, name }) {
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
+                isCentered
             >
                 <ModalOverlay />
                 <ModalContent>
