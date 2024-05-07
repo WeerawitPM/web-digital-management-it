@@ -33,7 +33,8 @@ export async function GET() {
                 positionId: true,
                 company: true,
                 department: true,
-                position: true
+                position: true,
+                status: true
             }
         });
         prisma.$disconnect();

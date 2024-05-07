@@ -87,7 +87,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
 
     return (
         <>
-            <Tooltip content="View" color="warning">
+            <Tooltip content="Edit" color="warning">
                 <NextButton isIconOnly variant="light" onClick={onOpen} className=" w-10">
                     <EditIcon className="text-lg text-yellow-500" />
                 </NextButton>

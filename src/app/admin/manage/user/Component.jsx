@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Chip, User } from "@nextui-org/react";
 import ModalView from "./ModalView";
 import ModalEdit from "./ModalEdit";
 import axios from "axios";
@@ -11,15 +11,11 @@ import { SearchIcon } from "@chakra-ui/icons";
 
 const columns = [
     {
+        key: "name",
+        label: "NAME",
+    },
+    {
         key: "id",
-        label: "#",
-    },
-    {
-        key: "company",
-        label: "COMPANY",
-    },
-    {
-        key: "empId",
         label: "EMP ID",
     },
     {
@@ -27,12 +23,8 @@ const columns = [
         label: "USERNAME",
     },
     {
-        key: "firstname",
-        label: "FIRSTNAME",
-    },
-    {
-        key: "lastname",
-        label: "LASTNAME",
+        key: "company",
+        label: "COMPANY",
     },
     {
         key: "deaprtment",
@@ -45,6 +37,10 @@ const columns = [
     {
         key: "tel",
         label: "TEL",
+    },
+    {
+        key: "status",
+        label: "STATUS",
     },
     {
         key: "action",
@@ -124,10 +120,13 @@ export default function Component() {
                             {(filteredData || data).map((item, index) => (
                                 <TableRow key={item.key}>
                                     <TableCell>
-                                        {index + 1}
-                                    </TableCell>
-                                    <TableCell>
-                                        {item.company.name}
+                                        <User
+                                            avatarProps={{ radius: "full", src: item.image }}
+                                            description={item.email}
+                                            name={item.firstname + " " + item.lastname}
+                                        >
+                                            {item.email}
+                                        </User>
                                     </TableCell>
                                     <TableCell>
                                         {item.empId}
@@ -136,10 +135,7 @@ export default function Component() {
                                         {item.username}
                                     </TableCell>
                                     <TableCell>
-                                        {item.firstname}
-                                    </TableCell>
-                                    <TableCell>
-                                        {item.lastname}
+                                        {item.company.name}
                                     </TableCell>
                                     <TableCell>
                                         {item.department.name}
@@ -149,6 +145,18 @@ export default function Component() {
                                     </TableCell>
                                     <TableCell>
                                         {item.tel}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Chip
+                                            className="capitalize"
+                                            color={
+                                                item.status.name == "Active" ? "success" :
+                                                    "danger"
+                                            }
+                                            size="sm"
+                                            variant="flat">
+                                            {item.status.name}
+                                        </Chip>
                                     </TableCell>
                                     <TableCell>
                                         <div className="relative flex items-center gap-2">

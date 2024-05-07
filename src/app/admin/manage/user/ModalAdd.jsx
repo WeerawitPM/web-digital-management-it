@@ -25,7 +25,7 @@ export default function ModalAdd({ fetchData }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [company, setCompany] = useState();
     const [department, setDepartment] = useState();
-    const [position, setPosition] = useState();
+    const [user, setuser] = useState();
     const [role, setRole] = useState();
     const toast = useToast();
     const { register, handleSubmit } = useForm();
@@ -50,7 +50,7 @@ export default function ModalAdd({ fetchData }) {
             const data = response.data;
             setCompany(data.company);
             setDepartment(data.department);
-            setPosition(data.position);
+            setuser(data.user);
             setRole(data.role);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -60,7 +60,7 @@ export default function ModalAdd({ fetchData }) {
     const handleConfirmSave = () => {
         // สร้างข้อมูลที่จะส่งไปยัง API
         const data = {
-            name: position,
+            name: user,
         };
 
         axios.post('/api/admin/user', data, {
@@ -73,7 +73,7 @@ export default function ModalAdd({ fetchData }) {
                     onClose();
                     toast({
                         title: 'Success',
-                        description: "Position has been saved.",
+                        description: "User has been saved.",
                         status: 'success',
                         duration: 9000,
                         isClosable: true,
@@ -93,7 +93,7 @@ export default function ModalAdd({ fetchData }) {
                 console.error('Error:', error);
                 toast({
                     title: 'Error',
-                    description: "Failed to save position.",
+                    description: "Failed to save user.",
                     status: 'error',
                     duration: 9000,
                     isClosable: true,
@@ -133,7 +133,7 @@ export default function ModalAdd({ fetchData }) {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Add position</ModalHeader>
+                    <ModalHeader>Add user</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <FormControl mt={4}>
@@ -200,7 +200,7 @@ export default function ModalAdd({ fetchData }) {
                                     <Input
                                         variant="bordered"
                                         required
-                                        placeholder="Position name"
+                                        placeholder="Firstname"
                                     />
                                 </div>
                                 <div>
@@ -208,7 +208,7 @@ export default function ModalAdd({ fetchData }) {
                                     <Input
                                         variant="bordered"
                                         required
-                                        placeholder="Position name"
+                                        placeholder="Lastname"
                                     />
                                 </div>
                             </div>
@@ -220,7 +220,7 @@ export default function ModalAdd({ fetchData }) {
                                     <Input
                                         variant="bordered"
                                         required
-                                        placeholder="Company"
+                                        placeholder="Emp ID"
                                     />
                                 </div>
                                 <div>
@@ -228,7 +228,7 @@ export default function ModalAdd({ fetchData }) {
                                     <Input
                                         variant="bordered"
                                         required
-                                        placeholder="Position"
+                                        placeholder="Tel"
                                     />
                                 </div>
                             </div>
@@ -264,13 +264,13 @@ export default function ModalAdd({ fetchData }) {
                         <FormControl mt={4}>
                             <div className="flex flex-row gap-3">
                                 <div className="w-full">
-                                    <FormLabel>Position</FormLabel>
+                                    <FormLabel>user</FormLabel>
                                     <Select
                                         placeholder='Select option'
                                         isRequired
-                                        {...register("position", { required: true })}
+                                        {...register("user", { required: true })}
                                     >
-                                        {position && position.map((item) => (
+                                        {user && user.map((item) => (
                                             <option key={item.id} value={item.id}>{item.name}</option>
                                         ))}
                                     </Select>
