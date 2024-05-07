@@ -11,29 +11,22 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    FormControl,
-    Input,
-    FormLabel,
     Button,
     useDisclosure,
     useToast
 } from '@chakra-ui/react'
-import { EditIcon } from "@/components/EditIcon";
+import { DeleteIcon } from "@/components/DeleteIcon";
 import axios from "axios";
 
-export default function ModalEdit({ id, name, onDataUpdate }) {
+export default function ModalDelete({ id, onDataDelete }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [companyName, setCompanyName] = useState(name);
     const toast = useToast();
 
-    const handleConfirmSave = () => {
-        // สร้างข้อมูลที่จะส่งไปยัง API
-        const data = {
-            id: id,
-            name: companyName,
-        };
-
-        axios.patch('/api/admin/company', data, {
+    const handleConfirmDelete = () => {
+        axios.delete('/api/admin/position', {
+            data: {
+                id: id
+            },
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -43,16 +36,16 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
                     onClose();
                     toast({
                         title: 'Success',
-                        description: "Company name has been saved.",
+                        description: "Position has been delete.",
                         status: 'success',
                         duration: 9000,
                         isClosable: true,
                     })
-                    onDataUpdate();
+                    onDataDelete();
                 } else {
                     toast({
                         title: 'Error',
-                        description: "Failed to save company name.",
+                        description: "Failed to delete position.",
                         status: 'error',
                         duration: 9000,
                         isClosable: true,
@@ -63,7 +56,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
                 console.error('Error:', error);
                 toast({
                     title: 'Error',
-                    description: "Failed to save company name.",
+                    description: "Failed to delete position.",
                     status: 'error',
                     duration: 9000,
                     isClosable: true,
@@ -87,9 +80,9 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
 
     return (
         <>
-            <Tooltip content="Edit" color="warning">
+            <Tooltip content="Delete" color="danger">
                 <NextButton isIconOnly variant="light" onClick={onOpen} className=" w-10">
-                    <EditIcon className="text-lg text-yellow-500" />
+                    <DeleteIcon className="text-lg text-red-500" />
                 </NextButton>
             </Tooltip>
             <Modal
@@ -99,28 +92,14 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Edit Company</ModalHeader>
+                    <ModalHeader>Delete position</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        <FormControl>
-                            <FormLabel>ID</FormLabel>
-                            <Input
-                                isReadOnly
-                                value={id}
-                            />
-                        </FormControl>
-                        <FormControl mt={4}>
-                            <FormLabel>Name</FormLabel>
-                            <Input
-                                required
-                                defaultValue={name}
-                                onChange={(event) => setCompanyName(event.target.value)}
-                            />
-                        </FormControl>
+                        Are you sure you want to delete this position?
+                        This action cannot be undone.
                     </ModalBody>
-
                     <ModalFooter>
-                        <Button onClick={() => handleConfirmSave()} colorScheme='green' className="me-2">Save</Button>
+                        <Button onClick={() => handleConfirmDelete()} colorScheme='green' className="me-2">Delete</Button>
                         <Button onClick={onClose} colorScheme='red'>Cancel</Button>
                     </ModalFooter>
                 </ModalContent>

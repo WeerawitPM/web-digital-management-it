@@ -10,7 +10,7 @@ export async function GET() {
     } else {
         if (session.user.role == "admin") {
             const prisma = new PrismaClient();
-            const data = await prisma.department.findMany();
+            const data = await prisma.position.findMany();
             prisma.$disconnect();
             return Response.json(data);
         } else {
@@ -29,35 +29,35 @@ export async function POST(req) {
         try {
             const { name } = await req.json();
 
-            // Check if department name already exists
-            const existingdepartment = await prisma.department.findUnique({
+            // Check if position name already exists
+            const existingposition = await prisma.position.findUnique({
                 where: {
                     name: name,
                 },
             });
 
-            if (existingdepartment) {
+            if (existingposition) {
                 prisma.$disconnect();
                 return Response.json({
                     status: "fail",
-                    message: "department name already exists",
+                    message: "Position already exists",
                 });
             }
 
-            const addDepartmentName = await prisma.department.create({
+            const addPositionName = await prisma.position.create({
                 data: {
                     name: name
                 }
             });
             
             prisma.$disconnect();
-            return Response.json({ status: "success", message: addDepartmentName });
+            return Response.json({ status: "success", message: addPositionName });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
             return Response.json({
                 status: "fail",
-                message: "Failed to save department name",
+                message: "Failed to save position",
                 error: error.message, // Include error message for debugging
             });
         }
@@ -74,7 +74,7 @@ export async function PATCH(req) {
         try {
             const { id, name } = await req.json();
 
-            const updateDepartmentName = await prisma.department.update({
+            const updatePositionName = await prisma.position.update({
                 where: {
                     id: id
                 },
@@ -83,13 +83,13 @@ export async function PATCH(req) {
                 }
             });
             prisma.$disconnect();
-            return Response.json({ status: "success", message: updateDepartmentName });
+            return Response.json({ status: "success", message: updatePositionName });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
             return Response.json({
                 status: "fail",
-                message: "Failed to update department name",
+                message: "Failed to update position",
                 error: error.message, // Include error message for debugging
             });
         }
@@ -105,19 +105,19 @@ export async function DELETE(req) {
         const prisma = new PrismaClient();
         try {
             const { id } = await req.json();
-            const deleteDepartmentName = await prisma.department.delete({
+            const deletePosition = await prisma.position.delete({
                 where: {
                     id: id
                 }
             });
             prisma.$disconnect();
-            return Response.json({ status: "success", message: deleteDepartmentName });
+            return Response.json({ status: "success", message: deletePosition });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
             return Response.json({
                 status: "fail",
-                message: "Failed to delete department name",
+                message: "Failed to delete position",
                 error: error.message, // Include error message for debugging
             });
         }

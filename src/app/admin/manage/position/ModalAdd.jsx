@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import {
-    Button as NextButton,
-    Tooltip
-} from "@nextui-org/react";
-import {
     Modal,
     ModalOverlay,
     ModalContent,
@@ -14,26 +10,26 @@ import {
     FormControl,
     Input,
     FormLabel,
-    Button,
     useDisclosure,
-    useToast
+    useToast,
+    Button
 } from '@chakra-ui/react'
-import { EditIcon } from "@/components/EditIcon";
+import { AddIcon } from "@chakra-ui/icons";
+import { Button as NextButton } from "@nextui-org/react";
 import axios from "axios";
 
-export default function ModalEdit({ id, name, onDataUpdate }) {
+export default function ModalAdd({ fetchData }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [companyName, setCompanyName] = useState(name);
+    const [position, setPosition] = useState();
     const toast = useToast();
 
     const handleConfirmSave = () => {
         // สร้างข้อมูลที่จะส่งไปยัง API
         const data = {
-            id: id,
-            name: companyName,
+            name: position,
         };
 
-        axios.patch('/api/admin/company', data, {
+        axios.post('/api/admin/position', data, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -43,16 +39,16 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
                     onClose();
                     toast({
                         title: 'Success',
-                        description: "Company name has been saved.",
+                        description: "Position has been saved.",
                         status: 'success',
                         duration: 9000,
                         isClosable: true,
                     })
-                    onDataUpdate();
+                    fetchData();
                 } else {
                     toast({
                         title: 'Error',
-                        description: "Failed to save company name.",
+                        description: response.data.message,
                         status: 'error',
                         duration: 9000,
                         isClosable: true,
@@ -63,7 +59,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
                 console.error('Error:', error);
                 toast({
                     title: 'Error',
-                    description: "Failed to save company name.",
+                    description: "Failed to save position.",
                     status: 'error',
                     duration: 9000,
                     isClosable: true,
@@ -87,11 +83,15 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
 
     return (
         <>
-            <Tooltip content="Edit" color="warning">
-                <NextButton isIconOnly variant="light" onClick={onOpen} className=" w-10">
-                    <EditIcon className="text-lg text-yellow-500" />
-                </NextButton>
-            </Tooltip>
+            <NextButton
+                onClick={onOpen}
+                isIconOnly
+                color="primary"
+                size="lg"
+                className="rounded-full fixed bottom-4 right-4 z-10"
+            >
+                <AddIcon />
+            </NextButton>
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
@@ -99,22 +99,15 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Edit Company</ModalHeader>
+                    <ModalHeader>Add position</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        <FormControl>
-                            <FormLabel>ID</FormLabel>
-                            <Input
-                                isReadOnly
-                                value={id}
-                            />
-                        </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Name</FormLabel>
                             <Input
                                 required
-                                defaultValue={name}
-                                onChange={(event) => setCompanyName(event.target.value)}
+                                onChange={(event) => setPosition(event.target.value)}
+                                placeholder="Position Name"
                             />
                         </FormControl>
                     </ModalBody>

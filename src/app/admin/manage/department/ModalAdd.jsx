@@ -107,7 +107,7 @@ export default function ModalAdd({ fetchData }) {
                             <Input
                                 required
                                 onChange={(event) => setDepartment(event.target.value)}
-                                placeholder="department Name"
+                                placeholder="Department Name"
                             />
                         </FormControl>
                     </ModalBody>

@@ -48,7 +48,7 @@ export default function ModalAddRequestItem() {
             }
             const data = response.data;
             setAssetData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
-            console.log(data);
+            // console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }

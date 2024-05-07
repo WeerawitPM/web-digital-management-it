@@ -23,17 +23,17 @@ import axios from "axios";
 
 export default function ModalEdit({ id, name, onDataUpdate }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [companyName, setCompanyName] = useState(name);
+    const [position, setPosition] = useState(name);
     const toast = useToast();
 
     const handleConfirmSave = () => {
         // สร้างข้อมูลที่จะส่งไปยัง API
         const data = {
             id: id,
-            name: companyName,
+            name: position,
         };
 
-        axios.patch('/api/admin/company', data, {
+        axios.patch('/api/admin/position', data, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -43,7 +43,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
                     onClose();
                     toast({
                         title: 'Success',
-                        description: "Company name has been saved.",
+                        description: "Position has been saved.",
                         status: 'success',
                         duration: 9000,
                         isClosable: true,
@@ -52,7 +52,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
                 } else {
                     toast({
                         title: 'Error',
-                        description: "Failed to save company name.",
+                        description: "Failed to save position.",
                         status: 'error',
                         duration: 9000,
                         isClosable: true,
@@ -63,7 +63,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
                 console.error('Error:', error);
                 toast({
                     title: 'Error',
-                    description: "Failed to save company name.",
+                    description: "Failed to save position.",
                     status: 'error',
                     duration: 9000,
                     isClosable: true,
@@ -87,7 +87,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
 
     return (
         <>
-            <Tooltip content="Edit" color="warning">
+            <Tooltip content="View" color="warning">
                 <NextButton isIconOnly variant="light" onClick={onOpen} className=" w-10">
                     <EditIcon className="text-lg text-yellow-500" />
                 </NextButton>
@@ -99,7 +99,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Edit Company</ModalHeader>
+                    <ModalHeader>Edit position</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <FormControl>
@@ -114,7 +114,7 @@ export default function ModalEdit({ id, name, onDataUpdate }) {
                             <Input
                                 required
                                 defaultValue={name}
-                                onChange={(event) => setCompanyName(event.target.value)}
+                                onChange={(event) => setPosition(event.target.value)}
                             />
                         </FormControl>
                     </ModalBody>

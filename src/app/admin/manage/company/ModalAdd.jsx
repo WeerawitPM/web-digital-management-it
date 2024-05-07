@@ -24,50 +24,60 @@ export default function ModalAdd({ fetchData }) {
     const toast = useToast();
 
     const handleConfirmSave = () => {
-        // สร้างข้อมูลที่จะส่งไปยัง API
-        const data = {
-            name: companyName,
-        };
+        if (companyName == null) {
+            toast({
+                title: 'Error',
+                description: "Please enter company.",
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+        } else {
+            // สร้างข้อมูลที่จะส่งไปยัง API
+            const data = {
+                name: companyName,
+            };
 
-        axios.post('/api/admin/company', data, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(response => {
-                if (response.data.status === "success") {
-                    onClose();
-                    toast({
-                        title: 'Success',
-                        description: "Company name has been saved.",
-                        status: 'success',
-                        duration: 9000,
-                        isClosable: true,
-                    })
-                    fetchData();
-                } else {
+            axios.post('/api/admin/company', data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => {
+                    if (response.data.status === "success") {
+                        onClose();
+                        toast({
+                            title: 'Success',
+                            description: "Company name has been saved.",
+                            status: 'success',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                        fetchData();
+                    } else {
+                        toast({
+                            title: 'Error',
+                            description: response.data.message,
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
                     toast({
                         title: 'Error',
-                        description: response.data.message,
+                        description: "Failed to save company name.",
                         status: 'error',
                         duration: 9000,
                         isClosable: true,
                     })
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                toast({
-                    title: 'Error',
-                    description: "Failed to save company name.",
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
                 })
-            })
-            .finally(() => {
-                onClose();
-            });
+                .finally(() => {
+                    onClose();
+                });
+        }
     }
 
     // Global error handling

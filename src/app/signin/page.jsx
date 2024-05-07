@@ -18,7 +18,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation'
 
 export default function Signin() {
-    const [isVisible, setIsVisible] = React.useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const toggleVisibility = () => setIsVisible(!isVisible);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();

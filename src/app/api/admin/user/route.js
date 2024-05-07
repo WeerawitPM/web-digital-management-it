@@ -8,14 +8,36 @@ export async function GET() {
     if (!session) {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
-        if (session.user.role == "admin") {
-            const prisma = new PrismaClient();
-            const data = await prisma.department.findMany();
-            prisma.$disconnect();
-            return Response.json(data);
-        } else {
-            return Response.json({ status: "fail", message: "You are not admin!!!" });
-        }
+        const prisma = new PrismaClient();
+        const data = await prisma.user.findMany({
+            // include: {
+            //     company: true,
+            //     department: true,
+            //     position: true
+            // }
+            select: {
+                id: true,
+                username: true,
+                email: true,
+                password: true,
+                firstname: true,
+                lastname: true,
+                empId: true,
+                tel: true,
+                image: true,
+                license: true,
+                roleId: true,
+                role: true,
+                companyId: true,
+                departmentId: true,
+                positionId: true,
+                company: true,
+                department: true,
+                position: true
+            }
+        });
+        prisma.$disconnect();
+        return Response.json(data);
     }
 };
 
@@ -29,35 +51,35 @@ export async function POST(req) {
         try {
             const { name } = await req.json();
 
-            // Check if department name already exists
-            const existingdepartment = await prisma.department.findUnique({
+            // Check if user name already exists
+            const existinguser = await prisma.user.findUnique({
                 where: {
                     name: name,
                 },
             });
 
-            if (existingdepartment) {
+            if (existinguser) {
                 prisma.$disconnect();
                 return Response.json({
                     status: "fail",
-                    message: "department name already exists",
+                    message: "User already exists",
                 });
             }
 
-            const addDepartmentName = await prisma.department.create({
+            const adduserName = await prisma.user.create({
                 data: {
                     name: name
                 }
             });
-            
+
             prisma.$disconnect();
-            return Response.json({ status: "success", message: addDepartmentName });
+            return Response.json({ status: "success", message: adduserName });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
             return Response.json({
                 status: "fail",
-                message: "Failed to save department name",
+                message: "Failed to save user",
                 error: error.message, // Include error message for debugging
             });
         }
@@ -74,7 +96,7 @@ export async function PATCH(req) {
         try {
             const { id, name } = await req.json();
 
-            const updateDepartmentName = await prisma.department.update({
+            const updateuserName = await prisma.user.update({
                 where: {
                     id: id
                 },
@@ -83,13 +105,13 @@ export async function PATCH(req) {
                 }
             });
             prisma.$disconnect();
-            return Response.json({ status: "success", message: updateDepartmentName });
+            return Response.json({ status: "success", message: updateuserName });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
             return Response.json({
                 status: "fail",
-                message: "Failed to update department name",
+                message: "Failed to update user",
                 error: error.message, // Include error message for debugging
             });
         }
@@ -105,19 +127,19 @@ export async function DELETE(req) {
         const prisma = new PrismaClient();
         try {
             const { id } = await req.json();
-            const deleteDepartmentName = await prisma.department.delete({
+            const deleteuser = await prisma.user.delete({
                 where: {
                     id: id
                 }
             });
             prisma.$disconnect();
-            return Response.json({ status: "success", message: deleteDepartmentName });
+            return Response.json({ status: "success", message: deleteuser });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
             return Response.json({
                 status: "fail",
-                message: "Failed to delete department name",
+                message: "Failed to delete user",
                 error: error.message, // Include error message for debugging
             });
         }

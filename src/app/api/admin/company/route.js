@@ -105,13 +105,13 @@ export async function DELETE(req) {
         const prisma = new PrismaClient();
         try {
             const { id } = await req.json();
-            const deeleteCompanyName = await prisma.company.delete({
+            const deleteCompanyName = await prisma.company.delete({
                 where: {
                     id: id
                 }
             });
             prisma.$disconnect();
-            return Response.json({ status: "success", message: deeleteCompanyName });
+            return Response.json({ status: "success", message: deleteCompanyName });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
