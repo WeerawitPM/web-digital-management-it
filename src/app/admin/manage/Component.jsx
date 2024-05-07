@@ -1,11 +1,13 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input } from "@nextui-org/react";
 import ModalView from "./ModalView";
 import ModalEdit from "./ModalEdit";
 import axios from "axios";
 import ModalDelete from "./ModalDelete";
+import ModalAdd from "./ModalAdd";
+import { SearchIcon } from "@chakra-ui/icons";
 
 const columns = [
     {
@@ -24,6 +26,8 @@ const columns = [
 
 export default function Component() {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    const [searchTerm, setSearchTerm] = useState(""); // เก็บค่าที่ใช้ในการค้นหา
+    const [filteredData, setFilteredData] = useState(null); // เก็บข้อมูลที่ผ่านการกรอง
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -52,16 +56,41 @@ export default function Component() {
         }
     );
 
+    useEffect(() => {
+        // เมื่อมีการเปลี่ยนแปลงในคำค้นหา กรองข้อมูลและปรับปรุงข้อมูลที่แสดงในตาราง
+        if (data) {
+            const filtered = data.filter(item =>
+                item.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredData(filtered);
+        }
+    }, [searchTerm, data]);
+
     return (
         <main>
             <div class="p-4 sm:ml-64">
+                <ModalAdd fetchData={fetchData} />
+                <div className="mb-5">
+                    <Input
+                        isClearable
+                        radius="full"
+                        variant="bordered"
+                        placeholder="Type to search..."
+                        size="lg"
+                        startContent={
+                            <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+                        }
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
                 <Table aria-label="Example table with dynamic content">
                     <TableHeader columns={columns}>
                         {(column) => <TableColumn key={column.key} className={column.textCenter}>{column.label}</TableColumn>}
                     </TableHeader>
                     {data == null ? <TableBody emptyContent={"No rows to display."} /> :
-                        <TableBody items={data} emptyContent={"No rows to display."}>
-                            {data.map((item, index) => (
+                        <TableBody items={filteredData || data} emptyContent={"No rows to display."}>
+                            {(filteredData || data).map((item, index) => (
                                 <TableRow key={item.key}>
                                     <TableCell>
                                         {index + 1}

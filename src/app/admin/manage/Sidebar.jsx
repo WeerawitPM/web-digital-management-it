@@ -1,10 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { Button } from '@chakra-ui/react'
-import { AddIcon } from "@chakra-ui/icons";
-import ModalAdd from './ModalAdd';
 
 export function SidebarComponent() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -51,9 +47,6 @@ export function SidebarComponent() {
                             <span className="font-semibold text-md text-gray-800 leading-tight">
                                 Admin - จัดการชื่อบริษัท
                             </span>
-                        </div>
-                        <div className="justify-end">
-                            <ModalAdd />
                         </div>
                     </div>
                 </div>

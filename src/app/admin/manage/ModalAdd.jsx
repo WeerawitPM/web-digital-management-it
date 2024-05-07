@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import {
-    Button as NextButton,
-    Tooltip
-} from "@nextui-org/react";
-import {
     Modal,
     ModalOverlay,
     ModalContent,
@@ -14,15 +10,15 @@ import {
     FormControl,
     Input,
     FormLabel,
-    Button,
     useDisclosure,
-    useToast
+    useToast,
+    Button
 } from '@chakra-ui/react'
 import { AddIcon } from "@chakra-ui/icons";
+import { Button as NextButton } from "@nextui-org/react";
 import axios from "axios";
-import { redirect } from "next/navigation";
 
-export default function ModalAdd() {
+export default function ModalAdd({ fetchData }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [companyName, setCompanyName] = useState();
     const toast = useToast();
@@ -48,7 +44,7 @@ export default function ModalAdd() {
                         duration: 9000,
                         isClosable: true,
                     })
-                    location.reload();
+                    fetchData();
                 } else {
                     toast({
                         title: 'Error',
@@ -87,9 +83,15 @@ export default function ModalAdd() {
 
     return (
         <>
-            <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm' onClick={onOpen}>
-                เพิ่มรายการร้องขอ
-            </Button>
+            <NextButton
+                onClick={onOpen}
+                isIconOnly
+                color="primary"
+                size="lg"
+                className="rounded-full fixed bottom-4 right-4 z-10"
+            >
+                <AddIcon />
+            </NextButton>
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
@@ -105,6 +107,7 @@ export default function ModalAdd() {
                             <Input
                                 required
                                 onChange={(event) => setCompanyName(event.target.value)}
+                                placeholder="Company Name"
                             />
                         </FormControl>
                     </ModalBody>

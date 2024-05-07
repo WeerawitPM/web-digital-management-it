@@ -1,7 +1,7 @@
 import { SidebarComponent } from "./Sidebar";
 import Component from "./Component";
 
-export default function Manage() {
+export default function Home() {
     return (
         <>
             <SidebarComponent />
