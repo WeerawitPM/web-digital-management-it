@@ -82,6 +82,7 @@ export default function Component() {
                         }
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        onClear={() => setSearchTerm("")}
                     />
                 </div>
                 <Table aria-label="Example table with dynamic content">

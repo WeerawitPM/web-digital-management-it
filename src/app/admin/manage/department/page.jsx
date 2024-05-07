@@ -1,10 +1,10 @@
-import { SidebarComponent } from "./Sidebar";
+import { SidebarComponent } from "../Sidebar";
 import Component from "./Component";
 
 export default function Home() {
     return (
         <>
-            <SidebarComponent />
+            <SidebarComponent name="จัดการแผนก"/>
             <Component />
         </>
     );

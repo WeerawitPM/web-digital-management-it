@@ -46,7 +46,7 @@ export default function AdminNavbar() {
                     <Link
                         color="foreground"
                         className="w-full"
-                        href="/admin/manage"
+                        href="/admin/manage/company"
                         size="lg"
                     >
                         จัดการระบบ
@@ -73,7 +73,7 @@ export default function AdminNavbar() {
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link href="/admin/manage" className="text-white">
+                    <Link href="/admin/manage/company" className="text-white">
                         จัดการระบบ
                     </Link>
                 </NavbarItem>
