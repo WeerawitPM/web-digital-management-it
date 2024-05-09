@@ -35,6 +35,8 @@ export default function ModalAdd({ fetchData }) {
     const [isVisible2, setIsVisible2] = useState(false);
     const toggleVisibility2 = () => setIsVisible2(!isVisible2);
 
+    const [file, setFile] = useState();
+
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchFormData();
@@ -58,27 +60,27 @@ export default function ModalAdd({ fetchData }) {
 
     const handleConfirmSave = (formData) => {
         // สร้างข้อมูลที่จะส่งไปยัง API
-        const data = {
-            email: formData.email,
-            username: formData.username,
-            password: formData.password,
-            firstname: formData.firstname,
-            lastname: formData.lastname,
-            tel: formData.tel,
-            // image: "",
-            // license: "",
-            roleId: parseInt(formData.role),
-            empId: parseInt(formData.empId),
-            companyId: parseInt(formData.company),
-            departmentId: parseInt(formData.department),
-            positionId: parseInt(formData.position),
-            status: 1,
-        }
+        const data = new FormData();
+
+        data.append('email', formData.email);
+        data.append('username', formData.username);
+        data.append('password', formData.password);
+        data.append('firstname', formData.firstname);
+        data.append('lastname', formData.lastname);
+        data.append('tel', formData.tel);
+        data.append('image', file);
+        // data.append('license', "");
+        data.append('roleId', parseInt(formData.role));
+        data.append('empId', parseInt(formData.empId));
+        data.append('companyId', parseInt(formData.company));
+        data.append('departmentId', parseInt(formData.department));
+        data.append('positionId', parseInt(formData.position));
+        data.append('status', 1);        
 
         axios.post('/api/admin/user', data, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // }
         })
             .then(response => {
                 if (response.data.status === "success") {
@@ -317,6 +319,12 @@ export default function ModalAdd({ fetchData }) {
                                     type="file"
                                     accept="image/*"
                                     className="file-input file-input-bordered file-input-sm w-full max-w-xs"
+                                    onChange={({target}) => {
+                                        if (target.files) {
+                                            const file = target.files[0];
+                                            setFile(file);
+                                        }
+                                    }}
                                 />
                             </FormControl>
                         </ModalBody>
