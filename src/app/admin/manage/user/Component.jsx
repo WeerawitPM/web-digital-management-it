@@ -120,13 +120,24 @@ export default function Component() {
                             {(filteredData || data).map((item, index) => (
                                 <TableRow key={item.key}>
                                     <TableCell>
-                                        <User
-                                            avatarProps={{ radius: "full", src: item.image }}
-                                            description={item.email}
-                                            name={item.firstname + " " + item.lastname}
-                                        >
-                                            {item.email}
-                                        </User>
+                                        {(!item.image || item.image === "") ? (
+                                            <User
+                                                avatarProps={{ radius: "full", src: "/images/userProfile/user.png" }}
+                                                description={item.email}
+                                                name={`${item.firstname} ${item.lastname}`}
+                                            >
+                                                {item.email}
+                                            </User>
+                                        ) : (
+                                            <User
+                                                avatarProps={{ radius: "full", src: item.image }}
+                                                description={item.email}
+                                                name={`${item.firstname} ${item.lastname}`}
+                                            >
+                                                {item.email}
+                                            </User>
+                                        )}
+
                                     </TableCell>
                                     <TableCell>
                                         {item.empId}
@@ -163,6 +174,7 @@ export default function Component() {
                                             <ModalView
                                                 id={item.id}
                                                 email={item.email}
+                                                image={item.image}
                                                 username={item.username}
                                                 password={item.password}
                                                 firstname={item.firstname}

@@ -4,7 +4,7 @@ import Component from "./Component";
 export default function Home() {
     return (
         <>
-            <SidebarComponent name="จัดการแผนก"/>
+            <SidebarComponent name="จัดการตำแหน่งงาน"/>
             <Component />
         </>
     );

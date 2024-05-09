@@ -18,6 +18,7 @@ import {
     useDisclosure,
 } from '@chakra-ui/react'
 import { EyeIcon } from "@/components/EyeIcon";
+import Image from "next/image";
 
 export default function ModalView(data) {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,6 +40,13 @@ export default function ModalView(data) {
                     <ModalHeader>View user</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
+                        <Image
+                            src={!data.image || data.image === "" ? "/images/userProfile/user.png" : data.image}
+                            width={150}
+                            height={150}
+                            className="mx-auto rounded-full text-center"
+                            alt={data.username}
+                        />
                         <FormControl mt={4}>
                             <FormLabel>Email</FormLabel>
                             <Input

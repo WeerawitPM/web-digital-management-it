@@ -50,31 +50,62 @@ export async function POST(req) {
     } else {
         const prisma = new PrismaClient();
         try {
-            const { name } = await req.json();
+            const {
+                email,
+                username,
+                password,
+                firstname,
+                lastname,
+                tel,
+                // image: "",
+                // license: "",
+                roleId,
+                empId,
+                companyId,
+                departmentId,
+                positionId,
+                status,
+            } = await req.json();
 
             // Check if user name already exists
-            const existinguser = await prisma.user.findUnique({
+            const existingUser = await prisma.user.findFirst({
                 where: {
-                    name: name,
+                    OR: [
+                        { email: email },
+                        { username: username }
+                    ]
                 },
             });
 
-            if (existinguser) {
+            if (existingUser) {
                 prisma.$disconnect();
                 return Response.json({
                     status: "fail",
                     message: "User already exists",
                 });
+            } else {
+                const adduserName = await prisma.user.create({
+                    data: {
+                        email: email,
+                        username: username,
+                        password: password,
+                        firstname: firstname,
+                        lastname: lastname,
+                        tel: tel,
+                        image: "",
+                        license: "",
+                        role: { connect: { id: roleId } },
+                        empId: empId,
+                        company: { connect: { id: companyId } },
+                        department: { connect: { id: departmentId } },
+                        position: { connect: { id: positionId } },
+                        status: { connect: { id: status } },
+                    }
+                });
+    
+                prisma.$disconnect();
+                return Response.json({ status: "success", message: adduserName });
             }
-
-            const adduserName = await prisma.user.create({
-                data: {
-                    name: name
-                }
-            });
-
-            prisma.$disconnect();
-            return Response.json({ status: "success", message: adduserName });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
