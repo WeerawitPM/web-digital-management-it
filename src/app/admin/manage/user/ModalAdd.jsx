@@ -310,6 +310,15 @@ export default function ModalAdd({ fetchData }) {
                                     </div>
                                 </div>
                             </FormControl>
+                            <FormControl mt={4}>
+                                <FormLabel>Image</FormLabel>
+                                <input
+                                    required
+                                    type="file"
+                                    accept="image/*"
+                                    className="file-input file-input-bordered file-input-sm w-full max-w-xs"
+                                />
+                            </FormControl>
                         </ModalBody>
 
                         <ModalFooter>
