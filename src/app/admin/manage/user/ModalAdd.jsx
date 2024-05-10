@@ -75,7 +75,7 @@ export default function ModalAdd({ fetchData }) {
         data.append('companyId', formData.companyId);
         data.append('departmentId', formData.departmentId);
         data.append('positionId', formData.positionId);
-        data.append('status', 1);
+        data.append('statusId', 1);
 
         axios.post('/api/admin/user', data, {
             // headers: {
@@ -242,6 +242,7 @@ export default function ModalAdd({ fetchData }) {
                                             variant="bordered"
                                             isRequired
                                             placeholder="Emp ID"
+                                            type="number"
                                             {...register("empId", { required: true })}
                                         />
                                     </div>
@@ -251,6 +252,7 @@ export default function ModalAdd({ fetchData }) {
                                             variant="bordered"
                                             isRequired
                                             placeholder="Tel"
+                                            type="number"
                                             {...register("tel", { required: true })}
                                         />
                                     </div>
@@ -315,7 +317,6 @@ export default function ModalAdd({ fetchData }) {
                             <FormControl mt={4}>
                                 <FormLabel>Image</FormLabel>
                                 <input
-                                    required
                                     type="file"
                                     accept="image/*"
                                     className="file-input file-input-bordered file-input-sm w-full max-w-xs"

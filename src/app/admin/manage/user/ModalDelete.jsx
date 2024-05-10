@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     Button as NextButton,
     Tooltip
@@ -23,7 +23,7 @@ export default function ModalDelete({ id, onDataDelete }) {
     const toast = useToast();
 
     const handleConfirmDelete = () => {
-        axios.delete('/api/admin/position', {
+        axios.delete('/api/admin/user', {
             data: {
                 id: id
             },
@@ -36,7 +36,7 @@ export default function ModalDelete({ id, onDataDelete }) {
                     onClose();
                     toast({
                         title: 'Success',
-                        description: "Position has been delete.",
+                        description: "User has been delete.",
                         status: 'success',
                         duration: 9000,
                         isClosable: true,
@@ -45,7 +45,7 @@ export default function ModalDelete({ id, onDataDelete }) {
                 } else {
                     toast({
                         title: 'Error',
-                        description: "Failed to delete position.",
+                        description: "Failed to delete user.",
                         status: 'error',
                         duration: 9000,
                         isClosable: true,
@@ -56,7 +56,7 @@ export default function ModalDelete({ id, onDataDelete }) {
                 console.error('Error:', error);
                 toast({
                     title: 'Error',
-                    description: "Failed to delete position.",
+                    description: "Failed to delete user.",
                     status: 'error',
                     duration: 9000,
                     isClosable: true,
@@ -92,10 +92,10 @@ export default function ModalDelete({ id, onDataDelete }) {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Delete position</ModalHeader>
+                    <ModalHeader>Delete user</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        Are you sure you want to delete this position?
+                        Are you sure you want to delete this user?
                         This action cannot be undone.
                     </ModalBody>
                     <ModalFooter>

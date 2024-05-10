@@ -1,7 +1,7 @@
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
-const { writeFile } = require('fs').promises;
+const { writeFile, unlink } = require('fs').promises;
 
 export async function GET() {
     const session = await getServerSession(authOptions);
@@ -63,7 +63,7 @@ export async function POST(req) {
             const companyId = parseInt(data.get("companyId"));
             const departmentId = parseInt(data.get("departmentId"));
             const positionId = parseInt(data.get("positionId"));
-            const status = parseInt(data.get("status"));
+            const statusId = parseInt(data.get("statusId"));
             const file = data.get("image");
 
             // Check if user name already exists
@@ -83,23 +83,8 @@ export async function POST(req) {
                     message: "User already exists",
                 });
             } else {
-                const bytes = await file.arrayBuffer();
-                const buffer = Buffer.from(bytes);
-
-                // Get the file extension
-                const fileExtension = file.name.split('.').pop();
-
-                // Create the new file name using the username and original file extension
-                const fileName = `${username}.${fileExtension}`;
-
-                const path = `public/images/userProfile/${fileName}`;
-                const image = `/images/userProfile/${fileName}`;
-
-                // Write file and create user in a try-catch block
-                try {
-                    await writeFile(path, buffer);
-
-                    const adduserName = await prisma.user.create({
+                if (file == 'undefined' || undefined || null || "") {
+                    const addUser = await prisma.user.create({
                         data: {
                             email: email,
                             username: username,
@@ -107,26 +92,64 @@ export async function POST(req) {
                             firstname: firstname,
                             lastname: lastname,
                             tel: tel,
-                            image: image,
+                            image: "",
                             license: "",
                             role: { connect: { id: roleId } },
                             empId: empId,
                             company: { connect: { id: companyId } },
                             department: { connect: { id: departmentId } },
                             position: { connect: { id: positionId } },
-                            status: { connect: { id: status } },
+                            status: { connect: { id: statusId } },
                         }
                     });
+                    prisma.$disconnect();
+                    return Response.json({ status: "success", message: addUser });
+                } else {
+                    const bytes = await file.arrayBuffer();
+                    const buffer = Buffer.from(bytes);
 
-                    prisma.$disconnect();
-                    return Response.json({ status: "success", message: adduserName });
-                } catch (error) {
-                    prisma.$disconnect();
-                    return Response.json({
-                        status: "fail",
-                        message: "Failed to save user",
-                        error: error.message, // Include error message for debugging
-                    });
+                    // Get the file extension
+                    const fileExtension = file.name.split('.').pop();
+
+                    // Create the new file name using the username and original file extension
+                    const fileName = `${username}.${fileExtension}`;
+
+                    const path = `public/images/userProfile/${fileName}`;
+                    const image = `/images/userProfile/${fileName}`;
+
+                    // Write file and create user in a try-catch block
+                    try {
+                        await writeFile(path, buffer);
+
+                        const addUser = await prisma.user.create({
+                            data: {
+                                email: email,
+                                username: username,
+                                password: password,
+                                firstname: firstname,
+                                lastname: lastname,
+                                tel: tel,
+                                image: image,
+                                license: "",
+                                role: { connect: { id: roleId } },
+                                empId: empId,
+                                company: { connect: { id: companyId } },
+                                department: { connect: { id: departmentId } },
+                                position: { connect: { id: positionId } },
+                                status: { connect: { id: statusId } },
+                            }
+                        });
+
+                        prisma.$disconnect();
+                        return Response.json({ status: "success", message: addUser });
+                    } catch (error) {
+                        prisma.$disconnect();
+                        return Response.json({
+                            status: "fail",
+                            message: "Failed to save user",
+                            error: error.message, // Include error message for debugging
+                        });
+                    }
                 }
             }
         } catch (error) {
@@ -149,18 +172,93 @@ export async function PATCH(req) {
     } else {
         const prisma = new PrismaClient();
         try {
-            const { id, name } = await req.json();
+            const data = await req.formData();
+            const id = parseInt(data.get("id"));
+            const email = data.get("email");
+            const username = data.get("username");
+            const password = data.get("password");
+            const firstname = data.get("firstname");
+            const lastname = data.get("lastname");
+            const tel = data.get("tel");
+            const roleId = parseInt(data.get("roleId"));
+            const empId = parseInt(data.get("empId"));
+            const companyId = parseInt(data.get("companyId"));
+            const departmentId = parseInt(data.get("departmentId"));
+            const positionId = parseInt(data.get("positionId"));
+            const statusId = parseInt(data.get("statusId"));
+            const file = data.get("image");
 
-            const updateuserName = await prisma.user.update({
-                where: {
-                    id: id
-                },
-                data: {
-                    name: name
+            if (file == 'undefined' || undefined || null || "") {
+                const updateuserName = await prisma.user.update({
+                    where: {
+                        id: id
+                    },
+                    data: {
+                        email: email,
+                        username: username,
+                        password: password,
+                        firstname: firstname,
+                        lastname: lastname,
+                        tel: tel,
+                        role: { connect: { id: roleId } },
+                        empId: empId,
+                        company: { connect: { id: companyId } },
+                        department: { connect: { id: departmentId } },
+                        position: { connect: { id: positionId } },
+                        status: { connect: { id: statusId } },
+                    }
+                });
+                prisma.$disconnect();
+                return Response.json({ status: "success", message: updateuserName });
+            } else {
+                const bytes = await file.arrayBuffer();
+                const buffer = Buffer.from(bytes);
+
+                // Get the file extension
+                const fileExtension = file.name.split('.').pop();
+
+                // Create the new file name using the username and original file extension
+                const fileName = `${username}.${fileExtension}`;
+
+                const path = `public/images/userProfile/${fileName}`;
+                const image = `/images/userProfile/${fileName}`;
+
+                // Write file and create user in a try-catch block
+                try {
+                    await writeFile(path, buffer);
+
+                    const updateuserName = await prisma.user.update({
+                        where: {
+                            id: id
+                        },
+                        data: {
+                            email: email,
+                            username: username,
+                            password: password,
+                            firstname: firstname,
+                            lastname: lastname,
+                            tel: tel,
+                            image: image,
+                            role: { connect: { id: roleId } },
+                            empId: empId,
+                            company: { connect: { id: companyId } },
+                            department: { connect: { id: departmentId } },
+                            position: { connect: { id: positionId } },
+                            status: { connect: { id: statusId } },
+                        }
+                    });
+
+                    prisma.$disconnect();
+                    return Response.json({ status: "success", message: updateuserName });
+                } catch (error) {
+                    prisma.$disconnect();
+                    return Response.json({
+                        status: "fail",
+                        message: "Failed to save user",
+                        error: error.message, // Include error message for debugging
+                    });
                 }
-            });
-            prisma.$disconnect();
-            return Response.json({ status: "success", message: updateuserName });
+            }
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();
@@ -182,13 +280,32 @@ export async function DELETE(req) {
         const prisma = new PrismaClient();
         try {
             const { id } = await req.json();
-            const deleteuser = await prisma.user.delete({
+
+            // Find the user by id
+            const user = await prisma.user.findUnique({
+                where: {
+                    id: id
+                }
+            });
+
+            if (!user) {
+                prisma.$disconnect();
+                return Response.json({ status: "fail", message: "User not found" });
+            }
+
+            // Delete the user's image file if it exists
+            if (user.image) {
+                const imagePath = `public${user.image}`;
+                await unlink(imagePath); // Remove the image file
+            }
+
+            const deleteUser = await prisma.user.delete({
                 where: {
                     id: id
                 }
             });
             prisma.$disconnect();
-            return Response.json({ status: "success", message: deleteuser });
+            return Response.json({ status: "success", message: deleteUser });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();

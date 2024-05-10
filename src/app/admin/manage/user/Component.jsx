@@ -186,7 +186,23 @@ export default function Component() {
                                                 position={item.position.name}
                                                 role={item.role.name}
                                             />
-                                            <ModalEdit id={item.id} onDataUpdate={fetchData} />
+                                            <ModalEdit
+                                                id={item.id}
+                                                email={item.email}
+                                                image={item.image}
+                                                username={item.username}
+                                                password={item.password}
+                                                firstname={item.firstname}
+                                                lastname={item.lastname}
+                                                empId={item.empId}
+                                                tel={item.tel}
+                                                company={item.company.id}
+                                                department={item.department.id}
+                                                position={item.position.id}
+                                                role={item.role.id}
+                                                status={item.status.id}
+                                                onDataUpdate={fetchData}
+                                            />
                                             <ModalDelete id={item.id} onDataDelete={fetchData} />
                                         </div>
                                     </TableCell>
