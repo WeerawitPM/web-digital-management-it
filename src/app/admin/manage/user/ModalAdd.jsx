@@ -70,12 +70,12 @@ export default function ModalAdd({ fetchData }) {
         data.append('tel', formData.tel);
         data.append('image', file);
         // data.append('license', "");
-        data.append('roleId', parseInt(formData.role));
-        data.append('empId', parseInt(formData.empId));
-        data.append('companyId', parseInt(formData.company));
-        data.append('departmentId', parseInt(formData.department));
-        data.append('positionId', parseInt(formData.position));
-        data.append('status', 1);        
+        data.append('roleId', formData.roleId);
+        data.append('empId', formData.empId);
+        data.append('companyId', formData.companyId);
+        data.append('departmentId', formData.departmentId);
+        data.append('positionId', formData.positionId);
+        data.append('status', 1);
 
         axios.post('/api/admin/user', data, {
             // headers: {
@@ -263,7 +263,7 @@ export default function ModalAdd({ fetchData }) {
                                         <Select
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("company", { required: true })}
+                                            {...register("companyId", { required: true })}
                                         >
                                             {company && company.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -275,7 +275,7 @@ export default function ModalAdd({ fetchData }) {
                                         <Select
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("department", { required: true })}
+                                            {...register("departmentId", { required: true })}
                                         >
                                             {department && department.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -291,7 +291,7 @@ export default function ModalAdd({ fetchData }) {
                                         <Select
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("position", { required: true })}
+                                            {...register("positionId", { required: true })}
                                         >
                                             {position && position.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -303,7 +303,7 @@ export default function ModalAdd({ fetchData }) {
                                         <Select
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("role", { required: true })}
+                                            {...register("roleId", { required: true })}
                                         >
                                             {role && role.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -319,7 +319,7 @@ export default function ModalAdd({ fetchData }) {
                                     type="file"
                                     accept="image/*"
                                     className="file-input file-input-bordered file-input-sm w-full max-w-xs"
-                                    onChange={({target}) => {
+                                    onChange={({ target }) => {
                                         if (target.files) {
                                             const file = target.files[0];
                                             setFile(file);
