@@ -293,10 +293,14 @@ export async function DELETE(req) {
                 return Response.json({ status: "fail", message: "User not found" });
             }
 
-            // Delete the user's image file if it exists
             if (user.image) {
                 const imagePath = `public${user.image}`;
-                await unlink(imagePath); // Remove the image file
+                try {
+                    await unlink(imagePath); // Try to remove the image file
+                } catch (unlinkError) {
+                    console.error('Error removing image file:', unlinkError);
+                    // If unlink fails due to file not found, just proceed without deleting
+                }
             }
 
             const deleteUser = await prisma.user.delete({
