@@ -67,64 +67,75 @@ export default function ModalEdit(data) {
     };
 
     const handleConfirmSave = (formData) => {
-        // สร้างข้อมูลที่จะส่งไปยัง API
-        const dataForm = new FormData();
 
-        dataForm.append('id', data.id);
-        dataForm.append('email', formData.email);
-        dataForm.append('username', formData.username);
-        dataForm.append('password', formData.password);
-        dataForm.append('firstname', formData.firstname);
-        dataForm.append('lastname', formData.lastname);
-        dataForm.append('tel', formData.tel);
-        dataForm.append('image', file);
-        // data.append('license', "");
-        dataForm.append('roleId', formData.roleId);
-        dataForm.append('empId', formData.empId);
-        dataForm.append('companyId', formData.companyId);
-        dataForm.append('departmentId', formData.departmentId);
-        dataForm.append('positionId', formData.positionId);
-        dataForm.append('statusId', formData.statusId);
+        if (formData.password != formData.confirmPassword) {
+            toast({
+                title: 'Warning',
+                description: "Password not match.",
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+        } else {
+            // สร้างข้อมูลที่จะส่งไปยัง API
+            const dataForm = new FormData();
 
-        axios.patch('/api/admin/user', dataForm, {
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // }
-        })
-            .then(response => {
-                if (response.data.status === "success") {
-                    onClose();
-                    toast({
-                        title: 'Success',
-                        description: "User has been saved.",
-                        status: 'success',
-                        duration: 9000,
-                        isClosable: true,
-                    })
-                    data.onDataUpdate();
-                } else {
+            dataForm.append('id', data.id);
+            dataForm.append('email', formData.email);
+            dataForm.append('username', formData.username);
+            dataForm.append('password', formData.password);
+            dataForm.append('firstname', formData.firstname);
+            dataForm.append('lastname', formData.lastname);
+            dataForm.append('tel', formData.tel);
+            dataForm.append('image', file);
+            // data.append('license', "");
+            dataForm.append('roleId', formData.roleId);
+            dataForm.append('empId', formData.empId);
+            dataForm.append('companyId', formData.companyId);
+            dataForm.append('departmentId', formData.departmentId);
+            dataForm.append('positionId', formData.positionId);
+            dataForm.append('statusId', formData.statusId);
+
+            axios.patch('/api/admin/user', dataForm, {
+                // headers: {
+                //     'Content-Type': 'application/json',
+                // }
+            })
+                .then(response => {
+                    if (response.data.status === "success") {
+                        onClose();
+                        toast({
+                            title: 'Success',
+                            description: "User has been saved.",
+                            status: 'success',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                        data.onDataUpdate();
+                    } else {
+                        toast({
+                            title: 'Error',
+                            description: response.data.message,
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
                     toast({
                         title: 'Error',
-                        description: response.data.message,
+                        description: "Something went wrong",
                         status: 'error',
                         duration: 9000,
                         isClosable: true,
                     })
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                toast({
-                    title: 'Error',
-                    description: "Something went wrong",
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
                 })
-            })
-            .finally(() => {
-                onClose();
-            });
+                .finally(() => {
+                    onClose();
+                });
+        }
     }
 
     // Global error handling
@@ -236,7 +247,7 @@ export default function ModalEdit(data) {
                                                 </button>
                                             }
                                             type={isVisible2 ? "text" : "password"}
-                                            {...register("confirmpassword", { required: true })}
+                                            {...register("confirmPassword", { required: true })}
                                         />
                                     </div>
                                 </div>

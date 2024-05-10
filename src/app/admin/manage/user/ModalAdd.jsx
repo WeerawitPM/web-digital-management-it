@@ -59,41 +59,61 @@ export default function ModalAdd({ fetchData }) {
     };
 
     const handleConfirmSave = (formData) => {
-        // สร้างข้อมูลที่จะส่งไปยัง API
-        const data = new FormData();
+        if (formData.password != formData.confirmPassword) {
+            toast({
+                title: 'Warning',
+                description: "Password not match.",
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+        } else {
+            // สร้างข้อมูลที่จะส่งไปยัง API
+            const data = new FormData();
 
-        data.append('email', formData.email);
-        data.append('username', formData.username);
-        data.append('password', formData.password);
-        data.append('firstname', formData.firstname);
-        data.append('lastname', formData.lastname);
-        data.append('tel', formData.tel);
-        data.append('image', file);
-        // data.append('license', "");
-        data.append('roleId', formData.roleId);
-        data.append('empId', formData.empId);
-        data.append('companyId', formData.companyId);
-        data.append('departmentId', formData.departmentId);
-        data.append('positionId', formData.positionId);
-        data.append('statusId', 1);
+            data.append('email', formData.email);
+            data.append('username', formData.username);
+            data.append('password', formData.password);
+            data.append('firstname', formData.firstname);
+            data.append('lastname', formData.lastname);
+            data.append('tel', formData.tel);
+            data.append('image', file);
+            // data.append('license', "");
+            data.append('roleId', formData.roleId);
+            data.append('empId', formData.empId);
+            data.append('companyId', formData.companyId);
+            data.append('departmentId', formData.departmentId);
+            data.append('positionId', formData.positionId);
+            data.append('statusId', 1);
 
-        axios.post('/api/admin/user', data, {
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // }
-        })
-            .then(response => {
-                if (response.data.status === "success") {
-                    onClose();
-                    toast({
-                        title: 'Success',
-                        description: "User has been saved.",
-                        status: 'success',
-                        duration: 9000,
-                        isClosable: true,
-                    })
-                    fetchData();
-                } else {
+            axios.post('/api/admin/user', data, {
+                // headers: {
+                //     'Content-Type': 'application/json',
+                // }
+            })
+                .then(response => {
+                    if (response.data.status === "success") {
+                        onClose();
+                        toast({
+                            title: 'Success',
+                            description: "User has been saved.",
+                            status: 'success',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                        fetchData();
+                    } else {
+                        toast({
+                            title: 'Error',
+                            description: response.data.message,
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
                     toast({
                         title: 'Error',
                         description: response.data.message,
@@ -101,21 +121,11 @@ export default function ModalAdd({ fetchData }) {
                         duration: 9000,
                         isClosable: true,
                     })
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                toast({
-                    title: 'Error',
-                    description: response.data.message,
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
                 })
-            })
-            .finally(() => {
-                onClose();
-            });
+                .finally(() => {
+                    onClose();
+                });
+        }
     }
 
     // Global error handling
@@ -207,7 +217,7 @@ export default function ModalAdd({ fetchData }) {
                                                 </button>
                                             }
                                             type={isVisible2 ? "text" : "password"}
-                                            {...register("confirmpassword", { required: true })}
+                                            {...register("confirmPassword", { required: true })}
                                         />
                                     </div>
                                 </div>
