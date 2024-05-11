@@ -108,7 +108,7 @@ export default function Home() {
             }))
         };
 
-        axios.post('/api/request_equipment', requestData, {
+        axios.post('/api/user/request_equipment', requestData, {
             headers: {
                 'Content-Type': 'application/json',
             }

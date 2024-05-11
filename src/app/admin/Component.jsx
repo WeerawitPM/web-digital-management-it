@@ -8,26 +8,26 @@ import mechanic from "@/images/mechanic.png"
 import done from "@/images/done.png"
 
 export default function Component() {
-    const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    // const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
 
-    useEffect(() => {
-        // เรียกใช้งาน API เพื่อดึงข้อมูล
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     // เรียกใช้งาน API เพื่อดึงข้อมูล
+    //     fetchData();
+    // }, []);
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch('/api/dashboard'); // เรียกใช้งาน API ที่เส้นทาง '/api'
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
-            setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
-            // console.log(data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await fetch('/api/dashboard'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+    //         if (!response.ok) {
+    //             throw new Error('Failed to fetch data');
+    //         }
+    //         const data = await response.json();
+    //         setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
+    //         // console.log(data);
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // };
 
     return (
         <>

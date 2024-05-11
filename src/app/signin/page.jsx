@@ -52,7 +52,7 @@ export default function Signin() {
                     isClosable: true,
                 })
                 setTimeout(function() {
-                    router.push('/dashboard');
+                    router.push('/');
                     location.reload();
                   }, 2000); // รอสองวินาที (2000 milliseconds) ก่อนที่จะเปลี่ยนเส้นทางและรีโหลดหน้า
             }

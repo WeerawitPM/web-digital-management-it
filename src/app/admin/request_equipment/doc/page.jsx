@@ -81,7 +81,7 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/user/request_equipment/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/request_equipment/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }

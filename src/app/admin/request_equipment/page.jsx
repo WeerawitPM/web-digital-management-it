@@ -61,7 +61,7 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/user/request_equipment'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/request_equipment'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);

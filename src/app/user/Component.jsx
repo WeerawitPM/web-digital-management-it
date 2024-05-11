@@ -20,7 +20,7 @@ export default function Component() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/dashboard'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/user/dashboard'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);
