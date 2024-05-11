@@ -34,10 +34,17 @@ async function main() {
             { name: 'หัวหน้างาน' },
         ],
     });
+    await prisma.assetType.createMany({
+        data: [
+            { name: 'Hardware' },
+            { name: 'Software' },
+        ],
+    });
     await prisma.asset.createMany({
         data: [
-            { name: 'Computer', assetType: "Hardware" },
-            { name: 'Notebook', assetType: "Hardware" },
+            { name: 'Computer', assetTypeId: 1 },
+            { name: 'Notebook', assetTypeId: 1 },
+            { name: 'Microsoft Office', assetTypeId: 2 },
         ],
     });
 }

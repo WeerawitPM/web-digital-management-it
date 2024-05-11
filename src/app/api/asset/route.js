@@ -9,7 +9,13 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
-        const data = await prisma.asset.findMany();
+        const data = await prisma.assetType.findMany(
+            {
+                include: {
+                    Asset: true
+                }
+            }
+        );
         prisma.$disconnect();
         return Response.json(data);
     }

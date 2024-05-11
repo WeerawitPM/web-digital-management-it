@@ -33,25 +33,32 @@ export default function ModalAddRequestItem() {
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
 
-    const [assetData, setAssetData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    const [assetData, setAssetData] = useState(null);
+    const [selectedAssetType, setSelectedAssetType] = useState(null);
+    const [selectedAssets, setSelectedAssets] = useState([]);
 
     useEffect(() => {
-        // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
     }, []);
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/asset'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/asset');
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
             const data = response.data;
-            setAssetData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
-            // console.log(data);
+            setAssetData(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    };
+
+    const handleAssetTypeChange = (event) => {
+        const selectedType = event.target.value;
+        setSelectedAssetType(selectedType);
+        const assets = assetData.find(assetType => assetType.id === parseInt(selectedType)).Asset;
+        setSelectedAssets(assets);
     };
 
     const { register, handleSubmit } = useForm();
@@ -59,8 +66,7 @@ export default function ModalAddRequestItem() {
     const doSubmit = (data) => {
         dispatch(
             addEquipment({
-                // problem: problemObj,
-                assetId: (assetData.find((asset) => asset.name === data.name)).id,
+                assetId: (selectedAssets.find((asset) => asset.name === data.name)).id,
                 name: data.name,
                 detail: data.detail,
                 qty: parseInt(data.qty),
@@ -87,20 +93,33 @@ export default function ModalAddRequestItem() {
                     <form onSubmit={handleSubmit((doSubmit))}>
                         <ModalBody pb={6}>
                             <FormControl>
+                                <FormLabel>Select Asset Type</FormLabel>
+                                <Select
+                                    placeholder='Select option'
+                                    isRequired
+                                    onChange={handleAssetTypeChange}
+                                >
+                                    {assetData && assetData.map((assetType) => (
+                                        <option key={assetType.id} value={assetType.id}>{assetType.name}</option>
+                                    ))}
+                                </Select>
+                            </FormControl>
+
+                            <FormControl mt={4}>
                                 <FormLabel>Select Asset</FormLabel>
                                 <Select
                                     placeholder='Select option'
                                     isRequired
                                     {...register("name", { required: true })}
                                 >
-                                    {assetData && assetData.map((asset) => (
-                                        <option key={asset.name} value={asset.name}>{asset.name}</option>
+                                    {selectedAssets && selectedAssets.map((asset) => (
+                                        <option key={asset.id} value={asset.name}>{asset.name}</option>
                                     ))}
                                 </Select>
                             </FormControl>
 
                             <FormControl mt={4}>
-                                <FormLabel>Device Specification/Software version </FormLabel>
+                                <FormLabel>Device Specification/Software version</FormLabel>
                                 <Textarea
                                     required
                                     placeholder='Device Specification/Software version'

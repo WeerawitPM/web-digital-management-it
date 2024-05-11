@@ -121,9 +121,16 @@ model Equipment {
   request   RequestEquipment? @relation(fields: [requestId], references: [id])
 }
 
+model AssetType {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  Asset Asset[]
+}
+
 model Asset {
-  id        Int         @id @default(autoincrement())
-  name      String      @unique
-  assetType String
-  Equipment Equipment[]
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  assetTypeId Int
+  assetType   AssetType?   @relation(fields: [assetTypeId], references: [id])
+  Equipment   Equipment[]
 }
