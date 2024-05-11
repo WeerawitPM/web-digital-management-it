@@ -41,7 +41,7 @@ export default function ModalView(data) {
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <Image
-                            src={!data.image || data.image === "" ? "/images/userProfile/user.png" : data.image}
+                            src={!data.image || data.image === "" ? "/images/userProfile/user.png" : data.image + "?timestamp=" + Date.now()}
                             width={150}
                             height={150}
                             className="mx-auto rounded-full text-center"

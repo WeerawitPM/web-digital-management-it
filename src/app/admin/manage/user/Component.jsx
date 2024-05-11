@@ -130,7 +130,7 @@ export default function Component() {
                                             </User>
                                         ) : (
                                             <User
-                                                avatarProps={{ radius: "full", src: item.image }}
+                                                avatarProps={{ radius: "full", src: item.image + "?timestamp=" + Date.now() }}
                                                 description={item.email}
                                                 name={`${item.firstname} ${item.lastname}`}
                                             >
