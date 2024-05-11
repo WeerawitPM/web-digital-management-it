@@ -12,7 +12,8 @@ export default function UploadForm() {
 
     try {
       const data = new FormData();
-      data.set('image', file);
+      data.append("username", "test1");
+      data.append('image', file);
       console.log(data);
 
       const res = await fetch('http://localhost:3001/upload', {
@@ -27,9 +28,23 @@ export default function UploadForm() {
     }
   };
 
+  const onDelete = async () => {
+    try {
+      const image = "http://localhost:3001/uploads/userProfiles/test2.jpg";
+      const res = await axios.delete('http://localhost:3001/delete/userProfile', {
+        data: { image: image }
+      });
+      // จัดการข้อผิดพลาด
+      if (!res.data) throw new Error("Failed to delete image");
+    } catch (e) {
+      // จัดการข้อผิดพลาดที่นี่
+      console.error(e);
+    }
+  }
+
   return (
     <>
-      <Image src="http://localhost:3001/uploads/test2.jpg" width={150} height={150}/>
+      {/* <Image src="http://localhost:3001/uploads/userProfiles/test2.jpg" width={150} height={150} />
       <form onSubmit={onSubmit}>
         <input
           type="file"
@@ -37,7 +52,8 @@ export default function UploadForm() {
           onChange={(e) => setFile(e.target.files?.[0])}
         />
         <input type="submit" value="Upload" />
-      </form>
+      </form> */}
+      <input type="button" value="Delete" onClick={() => onDelete()} />
     </>
   );
 }
