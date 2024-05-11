@@ -92,7 +92,7 @@ export default function Home() {
                             </span>
                         </div>
                         <div className="justify-end">
-                            <Link href="/request_equipment/add">
+                            <Link href="/user/request_equipment/add">
                                 <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
                                     เพิ่มรายการร้องขอ
                                 </Button>
@@ -116,7 +116,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/request_equipment/doc', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
+                                                <Link href={{ pathname: '/user/request_equipment/doc', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.requestDate && new Date(item.requestDate).toLocaleDateString('th-TH')}

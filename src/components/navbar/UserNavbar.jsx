@@ -38,7 +38,7 @@ export default function UserNavbar() {
                     <Link
                         color="foreground"
                         className="w-full"
-                        href="/dashboard"
+                        href="/user"
                         size="lg"
                     >
                         หน้าแรก
@@ -48,7 +48,7 @@ export default function UserNavbar() {
                     <Link
                         color="foreground"
                         className="w-full"
-                        href="report_repair"
+                        href="/user/report_repair"
                         size="lg"
                     >
                         แจ้งซ่อม
@@ -71,12 +71,12 @@ export default function UserNavbar() {
 
             <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
                 <NavbarItem>
-                    <Link href="/dashboard" className="text-white">
+                    <Link href="/user" className="text-white">
                         หน้าแรก
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link href="/report_repair" className="text-white">
+                    <Link href="/user/report_repair" className="text-white">
                         แจ้งซ่อม
                     </Link>
                 </NavbarItem>
