@@ -196,53 +196,39 @@ export async function PATCH(req) {
                 prisma.$disconnect();
                 return Response.json({ status: "success", message: updateuserName });
             } else {
-                const bytes = await file.arrayBuffer();
-                const buffer = Buffer.from(bytes);
 
-                // Get the file extension
-                const fileExtension = file.name.split('.').pop();
+                //ส่ง username และ file ไปที่ api
+                const uploadData = new FormData();
+                uploadData.append('username', username); // ส่ง username ไปด้วย
+                uploadData.append('image', file);
 
-                // Create the new file name using the username and original file extension
-                const fileName = `${username}.${fileExtension}`;
+                // เรียกใช้งาน API upload ภาพ
+                const response = await axios.post('http://localhost:3001/upload/userProfile', uploadData);
+                const image = response.data.imageUrl;
 
-                const path = `public/images/userProfile/${fileName}`;
-                const image = `/images/userProfile/${fileName}`;
+                const updateuserName = await prisma.user.update({
+                    where: {
+                        id: id
+                    },
+                    data: {
+                        email: email,
+                        username: username,
+                        password: password,
+                        firstname: firstname,
+                        lastname: lastname,
+                        tel: tel,
+                        image: image,
+                        role: { connect: { id: roleId } },
+                        empId: empId,
+                        company: { connect: { id: companyId } },
+                        department: { connect: { id: departmentId } },
+                        position: { connect: { id: positionId } },
+                        status: { connect: { id: statusId } },
+                    }
+                });
 
-                // Write file and create user in a try-catch block
-                try {
-                    await writeFile(path, buffer);
-
-                    const updateuserName = await prisma.user.update({
-                        where: {
-                            id: id
-                        },
-                        data: {
-                            email: email,
-                            username: username,
-                            password: password,
-                            firstname: firstname,
-                            lastname: lastname,
-                            tel: tel,
-                            image: image,
-                            role: { connect: { id: roleId } },
-                            empId: empId,
-                            company: { connect: { id: companyId } },
-                            department: { connect: { id: departmentId } },
-                            position: { connect: { id: positionId } },
-                            status: { connect: { id: statusId } },
-                        }
-                    });
-
-                    prisma.$disconnect();
-                    return Response.json({ status: "success", message: updateuserName });
-                } catch (error) {
-                    prisma.$disconnect();
-                    return Response.json({
-                        status: "fail",
-                        message: "Failed to save user",
-                        error: error.message, // Include error message for debugging
-                    });
-                }
+                prisma.$disconnect();
+                return Response.json({ status: "success", message: updateuserName });
             }
         } catch (error) {
             console.error('Error:', error);
@@ -270,6 +256,9 @@ export async function DELETE(req) {
             const user = await prisma.user.findUnique({
                 where: {
                     id: id
+                },
+                select: {
+                    image: true
                 }
             });
 
@@ -279,12 +268,12 @@ export async function DELETE(req) {
             }
 
             if (user.image) {
-                const imagePath = `public${user.image}`;
+                const image = user.image;
                 try {
-                    await unlink(imagePath); // Try to remove the image file
-                } catch (unlinkError) {
-                    console.error('Error removing image file:', unlinkError);
-                    // If unlink fails due to file not found, just proceed without deleting
+                    const response = await axios.delete('http://localhost:3001/delete/userProfile', { data: { image: image } });
+                    if (!response.data) throw new Error("Failed to delete image");
+                } catch (error) {
+                    return Response.json({ status: "fail", message: "Delete image fail" });
                 }
             }
 
