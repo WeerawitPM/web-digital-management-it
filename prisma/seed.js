@@ -47,6 +47,16 @@ async function main() {
             { name: 'Microsoft Office', assetTypeId: 2 },
         ],
     });
+    await prisma.tableProcess.createMany({
+        data: [
+            { docNo: 'QF-ITC-0001', name: "User Request", step: 0 },
+            { docNo: 'QF-ITC-0001', name: "IT Attach document", step: 1 },
+            { docNo: 'QF-ITC-0001', name: "User Manager Approve", step: 2 },
+            { docNo: 'QF-ITC-0001', name: "IT Approve", step: 3 },
+            { docNo: 'QF-ITC-0001', name: "IT Manager Approve", step: 4 },
+            { docNo: 'QF-ITC-0001', name: "Manager Approve", step: 5 },
+        ],
+    });
 }
 
 main()

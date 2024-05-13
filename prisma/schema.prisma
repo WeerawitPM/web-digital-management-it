@@ -87,28 +87,45 @@ model Position {
   User User[]
 }
 
+model TableProcess {
+  id    Int    @id @default(autoincrement())
+  docNo String
+  name  String
+  step  Int
+  Step  Step[]
+}
+
+model Step {
+  id        Int               @id @default(autoincrement())
+  processId Int
+  process   TableProcess?     @relation(fields: [processId], references: [id])
+  requestId String
+  request   RequestEquipment? @relation(fields: [requestId], references: [id])
+  status    Int               @default(0)
+}
+
 model RequestEquipment {
-  id               Int                @id @default(autoincrement())
+  id               String             @id
   purpose          String
   requestDate      DateTime           @default(now())
   requestById      Int
   requestBy        User?              @relation(fields: [requestById], references: [id])
   completeDate     DateTime           @default(now())
-  step             Int                @default(1)
-  status           String             @default("Wait Approve")
+  document         String             @default("")
   remark           String             @default("")
   ApproveEquipment ApproveEquipment[]
   Equipment        Equipment[]
+  Step             Step[]
 }
 
 model ApproveEquipment {
   id          Int               @id @default(autoincrement())
-  requestId   Int
+  requestId   String
   request     RequestEquipment? @relation(fields: [requestId], references: [id])
   approveById Int
   approveBy   User?             @relation(fields: [approveById], references: [id])
   step        Int
-  status      String
+  status      Int
 }
 
 model Equipment {
@@ -117,7 +134,7 @@ model Equipment {
   asset     Asset?            @relation(fields: [assetId], references: [id])
   detail    String
   qty       Int
-  requestId Int
+  requestId String
   request   RequestEquipment? @relation(fields: [requestId], references: [id])
 }
 
@@ -131,6 +148,6 @@ model Asset {
   id          Int         @id @default(autoincrement())
   name        String      @unique
   assetTypeId Int
-  assetType   AssetType?   @relation(fields: [assetTypeId], references: [id])
+  assetType   AssetType?  @relation(fields: [assetTypeId], references: [id])
   Equipment   Equipment[]
 }

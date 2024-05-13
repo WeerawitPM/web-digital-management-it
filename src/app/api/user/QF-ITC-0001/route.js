@@ -24,7 +24,7 @@ export async function GET() {
         // });
         const dataRequest = await prisma.requestEquipment.findMany({
             where: {
-                requestById: session.user.id
+                requestById: session.user.id,
             },
             select: {
                 id: true,
@@ -32,8 +32,6 @@ export async function GET() {
                 requestDate: true,
                 requestById: true,
                 completeDate: true,
-                step: true,
-                status: true,
                 remark: true,
                 requestBy: {
                     select: {
@@ -55,7 +53,8 @@ export async function GET() {
                             }
                         }
                     }
-                }
+                },
+                Step: true
             }
         });
         prisma.$disconnect();
@@ -71,15 +70,42 @@ export async function POST(req) {
     } else {
         const prisma = new PrismaClient();
         try {
-            // const { purpose } = await JSON.parse(Request.json());
             const { purpose, requestById, equipment } = await req.json(); // Parse request body as JSON
+
+            // Generate requestEquipment ID
+            const now = new Date();
+            const year = now.getFullYear().toString().slice(-2); // ใช้แค่สองตัวท้ายของปี
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const doc_id = "QF-ITC-0001";
+            // Retrieve the last used request number for the current year and month
+            const lastRequest = await prisma.requestEquipment.findFirst({
+                where: {
+                    id: {
+                        startsWith: `${doc_id}-${year}${month}`, // ค้นหา id ที่มีคำนำหน้าตามที่กำหนด
+                    }
+                },
+                orderBy: [{ id: 'desc' }],
+                take: 1
+            });
+
+
+            let requestId;
+            if (lastRequest) {
+                const lastNumber = parseInt(lastRequest.id.slice(-4)); // Extract the last 4 digits
+                const newNumber = (lastNumber % 9999) + 1; // Increment the last number, reset to 1 if it reaches 9999
+                requestId = `${doc_id}-${year}${month}${newNumber.toString().padStart(4, '0')}`;
+            } else {
+                // If no request exists for this year and month, start with 0001
+                requestId = `${doc_id}-${year}${month}0001`;
+            }
 
             // Create requestEquipment
             const requestEquipment = await prisma.requestEquipment.create({
                 data: {
+                    id: requestId,
                     purpose: purpose,
-                    requestById: parseInt(requestById),
                     // requestBy: { connect: { id: parseInt(requestById) } },
+                    requestById: parseInt(requestById),
                 },
             });
 
@@ -89,26 +115,39 @@ export async function POST(req) {
                 const newEquipment = await prisma.equipment.create({
                     data: {
                         assetId: parseInt(eq.assetId),
-                        // asset: { connect: { id: parseInt(eq.assetId) } },
                         detail: eq.detail,
                         qty: parseInt(eq.qty),
-                        requestId: parseInt(requestEquipment.id),
-                        // request: { connect: { id: parseInt(requestEquipment.id) } },
+                        requestId: requestEquipment.id,
                     },
                 });
                 createdEquipment.push(newEquipment);
             }
 
+
+            const tableProcess = await prisma.tableProcess.findMany({
+                where: {
+                    docNo: doc_id
+                }
+            })
+
+            // Create equipment and link to requestEquipment
+            const createdStep = [];
+            for (const step of tableProcess) {
+                const newStep = await prisma.step.create({
+                    data: {
+                        requestId: requestId,
+                        processId: step.id,
+                    },
+                });
+                createdStep.push(newStep);
+            }
+
             prisma.$disconnect();
 
-            // return {
-            //     status: "success",
-            //     requestEquipment,
-            //     equipment: createdEquipment,
-            // };
             return Response.json({
                 status: "success",
                 message: "Equipment request created successfully",
+                requestId: requestId, // Include the generated ID in the response
             });
         } catch (error) {
             console.error('Error:', error);

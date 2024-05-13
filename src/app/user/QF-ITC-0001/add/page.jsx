@@ -108,7 +108,7 @@ export default function Home() {
             }))
         };
 
-        axios.post('/api/user/request_equipment', requestData, {
+        axios.post('/api/user/QF-ITC-001', requestData, {
             headers: {
                 'Content-Type': 'application/json',
             }

@@ -31,25 +31,25 @@ const columns = [
         key: "title",
         label: "TITLE",
     },
-    {
-        key: "manager1",
-        label: "Manager1",
-        textCenter: "text-center"
-    },
-    {
-        key: "manager2",
-        label: "Manager2",
-        textCenter: "text-center"
-    },
-    {
-        key: "manager3",
-        label: "Manager3",
-        textCenter: "text-center"
-    },
-    {
-        key: "status",
-        label: "STATUS",
-    },
+    // {
+    //     key: "manager1",
+    //     label: "Manager1",
+    //     textCenter: "text-center"
+    // },
+    // {
+    //     key: "manager2",
+    //     label: "Manager2",
+    //     textCenter: "text-center"
+    // },
+    // {
+    //     key: "manager3",
+    //     label: "Manager3",
+    //     textCenter: "text-center"
+    // },
+    // {
+    //     key: "status",
+    //     label: "STATUS",
+    // },
 ];
 
 export default function Home() {
@@ -61,7 +61,7 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/user/request_equipment'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/user/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);
@@ -92,7 +92,7 @@ export default function Home() {
                             </span>
                         </div>
                         <div className="justify-end">
-                            <Link href="/user/request_equipment/add">
+                            <Link href="/user/QF-ITC-0001/add">
                                 <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
                                     เพิ่มรายการร้องขอ
                                 </Button>
@@ -116,7 +116,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/user/request_equipment/doc', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
+                                                <Link href={{ pathname: '/user/QF-ITC-0001/doc', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.requestDate && new Date(item.requestDate).toLocaleDateString('th-TH')}
@@ -127,7 +127,7 @@ export default function Home() {
                                             <TableCell>
                                                 {item.purpose}
                                             </TableCell>
-                                            {[...Array(3)].map((_, index) => (
+                                            {/* {[...Array(3)].map((_, index) => (
                                                 <TableCell key={index}>
                                                     {item.ApproveEquipment[index] ?
                                                         (item.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
@@ -135,8 +135,8 @@ export default function Home() {
                                                         null
                                                     }
                                                 </TableCell>
-                                            ))}
-                                            <TableCell>
+                                            ))} */}
+                                            {/* <TableCell>
                                                 {
                                                     item.status === "Approved" ?
                                                         <Chip color="success" size="xs" variant="flat">
@@ -151,7 +151,7 @@ export default function Home() {
                                                                     {item.status}
                                                                 </Chip> : ""
                                                 }
-                                            </TableCell>
+                                            </TableCell> */}
                                         </TableRow>
                                     ))}
                                 </TableBody>
