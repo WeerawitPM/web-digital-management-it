@@ -23,19 +23,15 @@ export async function GET() {
                 password: true,
                 firstname: true,
                 lastname: true,
-                empId: true,
+                emp_id: true,
                 tel: true,
                 image: true,
                 license: true,
-                roleId: true,
                 role: true,
-                companyId: true,
-                departmentId: true,
-                positionId: true,
                 company: true,
                 department: true,
                 position: true,
-                status: true
+                user_status: true
             }
         });
         prisma.$disconnect();
@@ -58,12 +54,12 @@ export async function POST(req) {
             const firstname = data.get("firstname");
             const lastname = data.get("lastname");
             const tel = data.get("tel");
-            const roleId = parseInt(data.get("roleId"));
-            const empId = parseInt(data.get("empId"));
-            const companyId = parseInt(data.get("companyId"));
-            const departmentId = parseInt(data.get("departmentId"));
-            const positionId = parseInt(data.get("positionId"));
-            const statusId = parseInt(data.get("statusId"));
+            const role_id = parseInt(data.get("role_id"));
+            const emp_id = parseInt(data.get("emp_id"));
+            const company_id = parseInt(data.get("company_id"));
+            const department_id = parseInt(data.get("department_id"));
+            const position_id = parseInt(data.get("position_id"));
+            const user_status_id = parseInt(data.get("user_status_id"));
             const file = data.get("image");
 
             // Check if user name already exists
@@ -94,12 +90,12 @@ export async function POST(req) {
                             tel: tel,
                             image: "",
                             license: "",
-                            role: { connect: { id: roleId } },
-                            empId: empId,
-                            company: { connect: { id: companyId } },
-                            department: { connect: { id: departmentId } },
-                            position: { connect: { id: positionId } },
-                            status: { connect: { id: statusId } },
+                            role: { connect: { id: role_id } },
+                            emp_id: emp_id,
+                            company: { connect: { id: company_id } },
+                            department: { connect: { id: department_id } },
+                            position: { connect: { id: position_id } },
+                            user_status: { connect: { id: user_status_id } },
                         }
                     });
                     prisma.$disconnect();
@@ -124,12 +120,12 @@ export async function POST(req) {
                             tel: tel,
                             image: image,
                             license: "",
-                            role: { connect: { id: roleId } },
-                            empId: empId,
-                            company: { connect: { id: companyId } },
-                            department: { connect: { id: departmentId } },
-                            position: { connect: { id: positionId } },
-                            status: { connect: { id: statusId } },
+                            role: { connect: { id: role_id } },
+                            emp_id: emp_id,
+                            company: { connect: { id: company_id } },
+                            department: { connect: { id: department_id } },
+                            position: { connect: { id: position_id } },
+                            user_status: { connect: { id: user_status_id } },
                         }
                     });
 
@@ -165,12 +161,12 @@ export async function PATCH(req) {
             const firstname = data.get("firstname");
             const lastname = data.get("lastname");
             const tel = data.get("tel");
-            const roleId = parseInt(data.get("roleId"));
-            const empId = parseInt(data.get("empId"));
-            const companyId = parseInt(data.get("companyId"));
-            const departmentId = parseInt(data.get("departmentId"));
-            const positionId = parseInt(data.get("positionId"));
-            const statusId = parseInt(data.get("statusId"));
+            const role_id = parseInt(data.get("role_id"));
+            const emp_id = parseInt(data.get("emp_id"));
+            const company_id = parseInt(data.get("company_id"));
+            const department_id = parseInt(data.get("department_id"));
+            const position_id = parseInt(data.get("position_id"));
+            const user_status_id = parseInt(data.get("user_status_id"));
             const file = data.get("image");
 
             if (file == 'undefined' || undefined || null || "") {
@@ -185,12 +181,12 @@ export async function PATCH(req) {
                         firstname: firstname,
                         lastname: lastname,
                         tel: tel,
-                        role: { connect: { id: roleId } },
-                        empId: empId,
-                        company: { connect: { id: companyId } },
-                        department: { connect: { id: departmentId } },
-                        position: { connect: { id: positionId } },
-                        status: { connect: { id: statusId } },
+                        role: { connect: { id: role_id } },
+                        emp_id: emp_id,
+                        company: { connect: { id: company_id } },
+                        department: { connect: { id: department_id } },
+                        position: { connect: { id: position_id } },
+                        user_status: { connect: { id: user_status_id } },
                     }
                 });
                 prisma.$disconnect();
@@ -218,12 +214,12 @@ export async function PATCH(req) {
                         lastname: lastname,
                         tel: tel,
                         image: image,
-                        role: { connect: { id: roleId } },
-                        empId: empId,
-                        company: { connect: { id: companyId } },
-                        department: { connect: { id: departmentId } },
-                        position: { connect: { id: positionId } },
-                        status: { connect: { id: statusId } },
+                        role: { connect: { id: role_id } },
+                        emp_id: emp_id,
+                        company: { connect: { id: company_id } },
+                        department: { connect: { id: department_id } },
+                        position: { connect: { id: position_id } },
+                        user_status: { connect: { id: user_status_id } },
                     }
                 });
 

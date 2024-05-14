@@ -60,7 +60,7 @@ export default function ModalEdit(data) {
             setDepartment(data.department);
             setPosition(data.position);
             setRole(data.role);
-            setStatus(data.status);
+            setStatus(data.user_status);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -89,12 +89,12 @@ export default function ModalEdit(data) {
             dataForm.append('tel', formData.tel);
             dataForm.append('image', file);
             // data.append('license', "");
-            dataForm.append('roleId', formData.roleId);
-            dataForm.append('empId', formData.empId);
-            dataForm.append('companyId', formData.companyId);
-            dataForm.append('departmentId', formData.departmentId);
-            dataForm.append('positionId', formData.positionId);
-            dataForm.append('statusId', formData.statusId);
+            dataForm.append('role_id', formData.role_id);
+            dataForm.append('emp_id', formData.emp_id);
+            dataForm.append('company_id', formData.company_id);
+            dataForm.append('department_id', formData.department_id);
+            dataForm.append('position_id', formData.position_id);
+            dataForm.append('user_status_id', formData.user_status_id);
 
             axios.patch('/api/admin/user', dataForm, {
                 // headers: {
@@ -177,10 +177,10 @@ export default function ModalEdit(data) {
                             <div className="w-full">
                                 <FormLabel>Status</FormLabel>
                                 <Select
-                                    defaultValue={data.status}
+                                    defaultValue={data.user_status}
                                     placeholder='Select option'
                                     isRequired
-                                    {...register("statusId", { required: true })}
+                                    {...register("user_status_id", { required: true })}
                                 >
                                     {status && status.map((item) => (
                                         <option key={item.id} value={item.id}>{item.name}</option>
@@ -281,12 +281,12 @@ export default function ModalEdit(data) {
                                     <div>
                                         <FormLabel>Emp ID</FormLabel>
                                         <Input
-                                            defaultValue={data.empId}
+                                            defaultValue={data.emp_id}
                                             variant="bordered"
                                             isRequired
                                             placeholder="Emp ID"
                                             type="number"
-                                            {...register("empId", { required: true })}
+                                            {...register("emp_id", { required: true })}
                                         />
                                     </div>
                                     <div>
@@ -310,7 +310,7 @@ export default function ModalEdit(data) {
                                             defaultValue={data.company}
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("companyId", { required: true })}
+                                            {...register("company_id", { required: true })}
                                         >
                                             {company && company.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -323,7 +323,7 @@ export default function ModalEdit(data) {
                                             defaultValue={data.department}
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("departmentId", { required: true })}
+                                            {...register("department_id", { required: true })}
                                         >
                                             {department && department.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -340,7 +340,7 @@ export default function ModalEdit(data) {
                                             defaultValue={data.position}
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("positionId", { required: true })}
+                                            {...register("position_id", { required: true })}
                                         >
                                             {position && position.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -353,7 +353,7 @@ export default function ModalEdit(data) {
                                             defaultValue={data.role}
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("roleId", { required: true })}
+                                            {...register("role_id", { required: true })}
                                         >
                                             {role && role.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>

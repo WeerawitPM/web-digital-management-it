@@ -79,12 +79,12 @@ export default function ModalAdd({ fetchData }) {
             data.append('tel', formData.tel);
             data.append('image', file);
             // data.append('license', "");
-            data.append('roleId', formData.roleId);
-            data.append('empId', formData.empId);
-            data.append('companyId', formData.companyId);
-            data.append('departmentId', formData.departmentId);
-            data.append('positionId', formData.positionId);
-            data.append('statusId', 1);
+            data.append('role_id', formData.role_id);
+            data.append('emp_id', formData.emp_id);
+            data.append('company_id', formData.company_id);
+            data.append('department_id', formData.department_id);
+            data.append('position_id', formData.position_id);
+            data.append('user_status_id', 1);
 
             axios.post('/api/admin/user', data, {
                 // headers: {
@@ -253,7 +253,7 @@ export default function ModalAdd({ fetchData }) {
                                             isRequired
                                             placeholder="Emp ID"
                                             type="number"
-                                            {...register("empId", { required: true })}
+                                            {...register("emp_id", { required: true })}
                                         />
                                     </div>
                                     <div>
@@ -275,7 +275,7 @@ export default function ModalAdd({ fetchData }) {
                                         <Select
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("companyId", { required: true })}
+                                            {...register("company_id", { required: true })}
                                         >
                                             {company && company.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -287,7 +287,7 @@ export default function ModalAdd({ fetchData }) {
                                         <Select
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("departmentId", { required: true })}
+                                            {...register("department_id", { required: true })}
                                         >
                                             {department && department.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -303,7 +303,7 @@ export default function ModalAdd({ fetchData }) {
                                         <Select
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("positionId", { required: true })}
+                                            {...register("position_id", { required: true })}
                                         >
                                             {position && position.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -315,7 +315,7 @@ export default function ModalAdd({ fetchData }) {
                                         <Select
                                             placeholder='Select option'
                                             isRequired
-                                            {...register("roleId", { required: true })}
+                                            {...register("role_id", { required: true })}
                                         >
                                             {role && role.map((item) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>

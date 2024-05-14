@@ -14,14 +14,14 @@ export async function GET() {
             const department = await prisma.department.findMany();
             const position = await prisma.position.findMany();
             const role = await prisma.role.findMany();
-            const status = await prisma.status.findMany();
+            const user_status = await prisma.userStatus.findMany();
 
             const data = {
                 company: company,
                 department: department,
                 position: position,
                 role: role,
-                status: status
+                user_status: user_status
             }
             prisma.$disconnect();
             return Response.json(data);

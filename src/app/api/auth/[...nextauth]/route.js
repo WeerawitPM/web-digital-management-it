@@ -20,7 +20,7 @@ export const authOptions = ({
                         email: credentials.email
                     },
                     include: {
-                        status: true,
+                        user_status: true,
                         role: true
                     }
                 })
@@ -32,7 +32,7 @@ export const authOptions = ({
                         email: user.email,
                         image: user.image,
                         role: user.role.name,
-                        status: user.status.name
+                        status: user.user_status.name
                     }
                 } else {
                     return null

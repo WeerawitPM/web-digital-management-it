@@ -140,7 +140,7 @@ export default function Component() {
 
                                     </TableCell>
                                     <TableCell>
-                                        {item.empId}
+                                        {item.emp_id}
                                     </TableCell>
                                     <TableCell>
                                         {item.username}
@@ -161,12 +161,12 @@ export default function Component() {
                                         <Chip
                                             className="capitalize"
                                             color={
-                                                item.status.name == "Active" ? "success" :
+                                                item.user_status.name == "Active" ? "success" :
                                                     "danger"
                                             }
                                             size="sm"
                                             variant="flat">
-                                            {item.status.name}
+                                            {item.user_status.name}
                                         </Chip>
                                     </TableCell>
                                     <TableCell>
@@ -179,7 +179,7 @@ export default function Component() {
                                                 password={item.password}
                                                 firstname={item.firstname}
                                                 lastname={item.lastname}
-                                                empId={item.empId}
+                                                emp_id={item.emp_id}
                                                 tel={item.tel}
                                                 company={item.company.name}
                                                 department={item.department.name}
@@ -194,13 +194,13 @@ export default function Component() {
                                                 password={item.password}
                                                 firstname={item.firstname}
                                                 lastname={item.lastname}
-                                                empId={item.empId}
+                                                emp_id={item.emp_id}
                                                 tel={item.tel}
                                                 company={item.company.id}
                                                 department={item.department.id}
                                                 position={item.position.id}
                                                 role={item.role.id}
-                                                status={item.status.id}
+                                                user_status={item.user_status.id}
                                                 onDataUpdate={fetchData}
                                             />
                                             <ModalDelete id={item.id} onDataDelete={fetchData} />

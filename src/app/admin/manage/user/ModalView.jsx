@@ -92,7 +92,7 @@ export default function ModalView(data) {
                                     <FormLabel>Emp ID</FormLabel>
                                     <Input
                                         isReadOnly
-                                        value={data.empId}
+                                        value={data.emp_id}
                                     />
                                 </div>
                                 <div>

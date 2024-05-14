@@ -3,17 +3,17 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
+    await prisma.userStatus.createMany({
+        data: [
+            { name: 'Not Active' },
+            { name: 'Active' },
+        ],
+    });
     await prisma.role.createMany({
         data: [
             { name: 'user' },
             { name: 'manager' },
             { name: 'admin' },
-        ],
-    });
-    await prisma.status.createMany({
-        data: [
-            { name: 'Not Active' },
-            { name: 'Active' },
         ],
     });
     await prisma.company.createMany({
@@ -30,11 +30,13 @@ async function main() {
     });
     await prisma.position.createMany({
         data: [
-            { name: 'พนักงานทั่วไป' },
-            { name: 'หัวหน้างาน' },
+            { name: 'O1' },
+            { name: 'O2' },
+            { name: 'O3' },
+            { name: 'O4' },
         ],
     });
-    await prisma.assetType.createMany({
+    await prisma.asset_Type.createMany({
         data: [
             { name: 'Hardware' },
             { name: 'Software' },
@@ -42,19 +44,25 @@ async function main() {
     });
     await prisma.asset.createMany({
         data: [
-            { name: 'Computer', assetTypeId: 1 },
-            { name: 'Notebook', assetTypeId: 1 },
-            { name: 'Microsoft Office', assetTypeId: 2 },
+            { name: 'Computer', asset_type_id: 1 },
+            { name: 'Notebook', asset_type_id: 1 },
+            { name: 'Microsoft Office', asset_type_id: 2 },
         ],
     });
-    await prisma.tableProcess.createMany({
+    await prisma.document.createMany({
         data: [
-            { docNo: 'QF-ITC-0001', name: "User Request", step: 0 },
-            { docNo: 'QF-ITC-0001', name: "IT Attach document", step: 1 },
-            { docNo: 'QF-ITC-0001', name: "User Manager Approve", step: 2 },
-            { docNo: 'QF-ITC-0001', name: "IT Approve", step: 3 },
-            { docNo: 'QF-ITC-0001', name: "IT Manager Approve", step: 4 },
-            { docNo: 'QF-ITC-0001', name: "Manager Approve", step: 5 },
+            { name: "QF-ITC-0001" },
+            { name: "QF-ITC-0002" },
+        ],
+    });
+    await prisma.routing.createMany({
+        data: [
+            { document_id: 1, name: "User Request", step: 0 },
+            { document_id: 1, name: "IT Attach document", step: 1 },
+            { document_id: 1, name: "User Manager Approve", step: 2 },
+            { document_id: 1, name: "IT Approve", step: 3 },
+            { document_id: 1, name: "IT Manager Approve", step: 4 },
+            { document_id: 1, name: "Manager Approve", step: 5 },
         ],
     });
 }
