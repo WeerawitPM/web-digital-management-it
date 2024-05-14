@@ -70,86 +70,110 @@ export async function POST(req) {
     } else {
         const prisma = new PrismaClient();
         try {
-            const { purpose, requestById, equipment } = await req.json(); // Parse request body as JSON
+            const { request_by_id, equipment } = await req.json(); // Parse request body as JSON
 
             // Generate requestEquipment ID
             const now = new Date();
             const year = now.getFullYear().toString().slice(-2); // ใช้แค่สองตัวท้ายของปี
             const month = (now.getMonth() + 1).toString().padStart(2, '0');
-            const doc_id = "QF-ITC-0001";
+            const docId = "QF-ITC-0001";
             // Retrieve the last used request number for the current year and month
-            const lastRequest = await prisma.requestEquipment.findFirst({
+            const lastRequest = await prisma.document_Head.findFirst({
                 where: {
-                    id: {
-                        startsWith: `${doc_id}-${year}${month}`, // ค้นหา id ที่มีคำนำหน้าตามที่กำหนด
+                    ref_no: {
+                        startsWith: `${docId}-${year}${month}`, // ค้นหา id ที่มีคำนำหน้าตามที่กำหนด
                     }
                 },
-                orderBy: [{ id: 'desc' }],
+                orderBy: [{ ref_no: 'desc' }],
                 take: 1
             });
 
 
             let requestId;
             if (lastRequest) {
-                const lastNumber = parseInt(lastRequest.id.slice(-4)); // Extract the last 4 digits
+                const lastNumber = parseInt(lastRequest.ref_no.slice(-4)); // Extract the last 4 digits
                 const newNumber = (lastNumber % 9999) + 1; // Increment the last number, reset to 1 if it reaches 9999
-                requestId = `${doc_id}-${year}${month}${newNumber.toString().padStart(4, '0')}`;
+                requestId = `${docId}-${year}${month}${newNumber.toString().padStart(4, '0')}`;
             } else {
                 // If no request exists for this year and month, start with 0001
-                requestId = `${doc_id}-${year}${month}0001`;
+                requestId = `${docId}-${year}${month}0001`;
             }
 
+            const findDoc = await prisma.document.findFirst({
+                where: {
+                    name: docId
+                }
+            })
             // Create requestEquipment
-            const requestEquipment = await prisma.requestEquipment.create({
+            const requestEquipment = await prisma.document_Head.create({
                 data: {
-                    id: requestId,
-                    purpose: purpose,
-                    // requestBy: { connect: { id: parseInt(requestById) } },
-                    requestById: parseInt(requestById),
+                    ref_no: requestId,
+                    document: { connect: { id: findDoc.id } },
+                    end_date: null
                 },
             });
 
             // Create equipment and link to requestEquipment
             const createdEquipment = [];
             for (const eq of equipment) {
-                const newEquipment = await prisma.equipment.create({
+                const newEquipment = await prisma.table_ITC_0001.create({
                     data: {
-                        assetId: parseInt(eq.assetId),
-                        detail: eq.detail,
+                        asset_id: parseInt(eq.assetId),
+                        purpose: eq.purpose,
+                        spec_detail: eq.detail,
                         qty: parseInt(eq.qty),
-                        requestId: requestEquipment.id,
+                        request_by_id: parseInt(request_by_id),
+                        document_head_id: requestId
                     },
                 });
                 createdEquipment.push(newEquipment);
             }
 
 
-            const tableProcess = await prisma.tableProcess.findMany({
-                where: {
-                    docNo: doc_id
+            const tableRouting = await prisma.routing.findMany({
+                include: {
+                    document: {
+                        where: {
+                            name: docId
+                        }
+                    }
                 }
             })
 
             // Create equipment and link to requestEquipment
-            const createdStep = [];
-            for (const step of tableProcess) {
-                const newStep = await prisma.step.create({
+            const createTrackDoc = [];
+            for (const item of tableRouting) {
+                const newStep = await prisma.track_Doc.create({
                     data: {
-                        requestId: requestId,
-                        processId: step.id,
+                        step: item.step,
+                        name: item.name,
+                        document_head: { connect: { ref_no: requestId } },
+                        user: { connect: { id: session.user.id } },
                     },
                 });
-                createdStep.push(newStep);
+                createTrackDoc.push(newStep);
             }
 
-            const updateStep = await prisma.step.update({
+            // Find track_Doc with step 0
+            const findTrackDoc = await prisma.track_Doc.findFirst({
                 where: {
-                    id: 1
-                },
-                data: {
-                    status: 1
+                    step: 0,
+                    document_head_id: requestId
                 }
-            })
+            });
+
+            if (findTrackDoc) {
+                // Update the track_Doc if step is 0
+                const updatedTrackDoc = await prisma.track_Doc.update({
+                    where: {
+                        id: findTrackDoc.id, // Use the unique id here
+                    },
+                    data: {
+                        step: 1,
+                        status: 1
+                    }
+                });
+            }
 
             prisma.$disconnect();
 

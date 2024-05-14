@@ -25,8 +25,8 @@ import {
     useDisclosure,
     useToast
 } from "@chakra-ui/react"
-import ModalAddRequestItem from "./ModalAddRequestItem";
-import ModalViewItem from "./ModalViewItem";
+import ModalAdd from "./ModalAdd";
+import ModalView from "./ModalView";
 import DeleteRequestItem from "./DeleteRequestItem";
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteAll } from "@/lib/equipmentSlice";
@@ -42,8 +42,12 @@ const columns = [
         label: "Asset",
     },
     {
-        key: "description",
-        label: "DESCRIPTION",
+        key: "purpose",
+        label: "PURPOSE OF USAGE",
+    },
+    {
+        key: "deviceSpecification",
+        label: "DEVICE SPECIFICATION",
     },
     {
         key: "qty",
@@ -59,7 +63,6 @@ export default function Home() {
     const equipmentListData = useSelector((state) => state.equipment.data);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef();
-    const [purpose, setPurpose] = useState("");
     const toast = useToast()
     const dispatch = useDispatch();
 
@@ -81,37 +84,25 @@ export default function Home() {
     };
 
     const handleSave = () => {
-        if (purpose === "" || equipmentListData.length === 0) {
-            return (
-                toast({
-                    title: 'Error',
-                    description: "Please fill in complete information.",
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
-                })
-            )
-        } else {
-            onOpen();
-        }
+        onOpen();
     }
 
     const handleConfirmSave = () => {
         // สร้างข้อมูลที่จะส่งไปยัง API
         const requestData = {
-            purpose: purpose,
-            requestById: userData.id,
+            request_by_id: userData.id,
             equipment: equipmentListData.map(item => ({
                 assetId: item.assetId,
+                purpose: item.purpose,
                 detail: item.detail,
                 qty: item.qty
             }))
         };
 
         axios.post('/api/user/QF-ITC-0001', requestData, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // }
         })
             .then(response => {
                 console.log('Success:', response.data);
@@ -196,7 +187,7 @@ export default function Home() {
                                             <div>
                                                 Emp ID.:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {userData.empId}
+                                                    {userData.emp_id}
                                                 </Chip>
 
                                             </div>
@@ -232,19 +223,9 @@ export default function Home() {
                                     </div>
                                 </section>
                             </div>
-                            <div className="pt-4">
-                                <h2 className="text-lg font-medium text-gray-900">Purpose Of Usage</h2>
-                                <Textarea
-                                    required
-                                    placeholder="Please write in detail."
-                                    size="lg"
-                                    variant="bordered"
-                                    onChange={(event) => setPurpose(event.target.value)}
-                                />
-                            </div>
                         </div>
                         <div className="flex justify-center">
-                            <ModalAddRequestItem />
+                            <ModalAdd />
                         </div>
                         <Table aria-label="Example table with dynamic content">
                             <TableHeader columns={columns}>
@@ -261,6 +242,11 @@ export default function Home() {
                                                 {item.name}
                                             </TableCell>
                                             <TableCell className="text-base">
+                                                {item.purpose.length > 40 ?
+                                                    `${item.purpose.substring(0, 40)}...` : item.purpose
+                                                }
+                                            </TableCell>
+                                            <TableCell className="text-base">
                                                 {item.detail.length > 40 ?
                                                     `${item.detail.substring(0, 40)}...` : item.detail
                                                 }
@@ -270,7 +256,7 @@ export default function Home() {
                                             </TableCell>
                                             <TableCell>
                                                 <div className="relative flex items-center gap-2">
-                                                    <ModalViewItem id={item.id} />
+                                                    <ModalView id={item.id} />
                                                     <DeleteRequestItem id={item.id} />
                                                 </div>
                                             </TableCell>

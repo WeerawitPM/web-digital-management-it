@@ -26,7 +26,7 @@ import { useDispatch } from 'react-redux'
 import { addEquipment } from "@/lib/equipmentSlice";
 import axios from "axios";
 
-export default function ModalAddRequestItem() {
+export default function ModalAdd() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
 
@@ -68,6 +68,7 @@ export default function ModalAddRequestItem() {
             addEquipment({
                 assetId: (selectedAssets.find((asset) => asset.name === data.name)).id,
                 name: data.name,
+                purpose: data.purpose,
                 detail: data.detail,
                 qty: parseInt(data.qty),
             })
@@ -117,7 +118,14 @@ export default function ModalAddRequestItem() {
                                     ))}
                                 </Select>
                             </FormControl>
-
+                            <FormControl mt={4}>
+                                <FormLabel>Purpose of Usage</FormLabel>
+                                <Textarea
+                                    required
+                                    placeholder='Purpose of Usage'
+                                    {...register("purpose", { required: true })}
+                                />
+                            </FormControl>
                             <FormControl mt={4}>
                                 <FormLabel>Device Specification/Software version</FormLabel>
                                 <Textarea

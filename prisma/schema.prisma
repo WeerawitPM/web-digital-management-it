@@ -43,33 +43,33 @@ model Role {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  username      String?         @unique
-  email         String?         @unique
-  password      String?
-  firstname     String?
-  lastname      String?
-  tel           String
-  image         String
-  license       String
-  role_id       Int
-  role          Role?           @relation(fields: [role_id], references: [id])
-  emp_id        Int?
-  company_id    Int
-  company       Company?        @relation(fields: [company_id], references: [id])
-  department_id Int
-  department    Department?     @relation(fields: [department_id], references: [id])
-  position_id   Int
-  position      Position?       @relation(fields: [position_id], references: [id])
-  status_id     Int
-  user_status   UserStatus?     @relation(fields: [status_id], references: [id])
-  step          Int             @default(0)
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
-  status_flag   Int             @default(0)
-  Session       Session[]
-  Table_ITC0001 Table_ITC0001[]
-  Track_Doc     Track_Doc[]
+  id             Int              @id @default(autoincrement())
+  username       String?          @unique
+  email          String?          @unique
+  password       String?
+  firstname      String?
+  lastname       String?
+  tel            String
+  image          String
+  license        String
+  role_id        Int
+  role           Role?            @relation(fields: [role_id], references: [id])
+  emp_id         Int?
+  company_id     Int
+  company        Company?         @relation(fields: [company_id], references: [id])
+  department_id  Int
+  department     Department?      @relation(fields: [department_id], references: [id])
+  position_id    Int
+  position       Position?        @relation(fields: [position_id], references: [id])
+  status_id      Int
+  user_status    UserStatus?      @relation(fields: [status_id], references: [id])
+  step           Int              @default(0)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+  status_flag    Int              @default(0)
+  Session        Session[]
+  Table_ITC_0001 Table_ITC_0001[]
+  Track_Doc      Track_Doc[]
 }
 
 model Company {
@@ -94,34 +94,31 @@ model Position {
 }
 
 model Asset_Type {
-  id            Int             @id @default(autoincrement())
-  name          String          @unique
-  status_flag   Int             @default(0)
-  Asset         Asset[]
-  Table_ITC0001 Table_ITC0001[]
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  status_flag Int     @default(0)
+  Asset       Asset[]
 }
 
 model Asset {
-  id            Int             @id @default(autoincrement())
-  name          String          @unique
-  asset_type_id Int
-  asset_type    Asset_Type?     @relation(fields: [asset_type_id], references: [id])
-  status_flag   Int             @default(0)
-  Table_ITC0001 Table_ITC0001[]
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  asset_type_id  Int
+  asset_type     Asset_Type?      @relation(fields: [asset_type_id], references: [id])
+  status_flag    Int              @default(0)
+  Table_ITC_0001 Table_ITC_0001[]
 }
 
-model Table_ITC0001 {
+model Table_ITC_0001 {
   id               Int            @id @default(autoincrement())
-  asset_type_id    Int
-  asset_type       Asset_Type?    @relation(fields: [asset_type_id], references: [id])
   asset_id         Int
   asset            Asset?         @relation(fields: [asset_id], references: [id])
-  qty              Int
-  purpose          String
-  spec_detail      String
-  ref_quotation    String
-  ref_ro           String
-  remark           String
+  qty              Int?
+  purpose          String?
+  spec_detail      String?
+  ref_quotation    String?
+  ref_ro           String?
+  remark           String?
   created_at       DateTime       @default(now())
   request_by_id    Int
   request_by       User?          @relation(fields: [request_by_id], references: [id])
@@ -148,16 +145,16 @@ model Routing {
 }
 
 model Document_Head {
-  id            Int             @id @default(autoincrement())
-  ref_no        String          @unique
-  document_id   Int
-  document      Document?       @relation(fields: [document_id], references: [id])
-  start_date    DateTime        @default(now())
-  end_date      DateTime
-  status        Int             @default(0)
-  status_flag   Int             @default(0)
-  Table_ITC0001 Table_ITC0001[]
-  Track_Doc     Track_Doc[]
+  id             Int              @id @default(autoincrement())
+  ref_no         String           @unique
+  document_id    Int
+  document       Document?        @relation(fields: [document_id], references: [id])
+  start_date     DateTime         @default(now())
+  end_date       DateTime?
+  status         Int              @default(0)
+  status_flag    Int              @default(0)
+  Table_ITC_0001 Table_ITC_0001[]
+  Track_Doc      Track_Doc[]
 }
 
 model Track_Doc {
@@ -167,9 +164,9 @@ model Track_Doc {
   document_head_id String
   document_head    Document_Head? @relation(fields: [document_head_id], references: [ref_no])
   start_date       DateTime       @default(now())
-  end_date         DateTime       @default(now())
+  end_date         DateTime?
   user_id          Int
-  user             User           @relation(fields: [user_id], references: [id])
+  user             User?          @relation(fields: [user_id], references: [id])
   status           Int            @default(0)
   status_flag      Int            @default(0)
 }

@@ -12,6 +12,7 @@ export const equipmentSlice = createSlice({
         id: state.data.length + 1,
         assetId: obj.assetId,
         name: obj.name,
+        purpose: obj.purpose,
         detail: obj.detail,
         qty: obj.qty,
       };
@@ -25,7 +26,7 @@ export const equipmentSlice = createSlice({
       const index = state.data.findIndex((item) => item.id === obj.id);
       if (index !== -1) {
         state.data.splice(index, 1);
-        
+
         state.data = state.data.map((item, idx) => {
           return {
             ...item,

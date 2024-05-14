@@ -28,10 +28,7 @@ export async function GET() {
                 image: true,
                 license: true,
                 role: true,
-                empId: true,
-                companyId: true,
-                departmentId: true,
-                positionId: true,
+                emp_id: true,
                 company: true,
                 department: true,
                 position: true

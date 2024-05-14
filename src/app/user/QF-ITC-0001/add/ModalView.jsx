@@ -21,7 +21,7 @@ import {
 import { EyeIcon } from "@/components/EyeIcon";
 import { useSelector } from 'react-redux'
 
-export default function ModalViewItem({ id }) {
+export default function ModalView({ id }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const equipmentListData = useSelector((state) => state.equipment.data);
     const [name, setName] = useState(null);
