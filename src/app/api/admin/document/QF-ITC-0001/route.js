@@ -10,9 +10,9 @@ export async function GET() {
     } else {
         const prisma = new PrismaClient();
         const data = await prisma.requestEquipment.findMany({
-            where: {
-                step: 1,
-            },
+            // where: {
+            //     step: 1,
+            // },
             select: {
                 id: true,
                 purpose: true,

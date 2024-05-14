@@ -16,6 +16,7 @@ import {
     Button
 } from "@nextui-org/react";
 import { useToast } from "@chakra-ui/react";
+import { Steps } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import ModalViewItem from "./ModalViewItem";
 import Approved from "@/images/Approved.png";
@@ -88,6 +89,8 @@ function MainContent() {
     const [file, setFile] = useState();
     const [price, setPrice] = useState();
     const toast = useToast();
+    const [steps, setStep] = useState();
+    const [statusStep, setStatusStep] = useState("");
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -103,6 +106,23 @@ function MainContent() {
             const data = response.data;
             setData(data);
             //console.log(data);
+            const steps = data.Step.map((step, index) => {
+                let status;
+                if (step.status === 1) {
+                    status = index === data.step ? "current" : "finished";
+                } else if (step.status === 0) {
+                    status = "waiting";
+                } else if (step.status === 2) {
+                    status = "error";
+                    setStatusStep(status);
+                }
+
+                return {
+                    title: index === data.step ? "In Process" : status === "waiting" ? "Waiting" : "Finished",
+                    description: step.process.name,
+                };
+            });
+            setStep(steps);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -178,6 +198,12 @@ function MainContent() {
             {data == null ? "" :
                 <main>
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
+                        <Steps
+                            current={data.step}
+                            status={statusStep == "" ? "process" : statusStep}
+                            items={steps}
+                            className="mt-5"
+                        />
                         <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                             <div className="pb-4">
                                 <section className="">
@@ -273,42 +299,7 @@ function MainContent() {
                             </TableBody>
                         </Table>
 
-                        <Table aria-label="table approve" className="mx-auto">
-                            <TableHeader columns={columns2} className="text-center">
-                                {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
-                            </TableHeader>
-                            <TableBody items={data} emptyContent={"No rows to display."}>
-                                <TableRow key={data.id}>
-                                    {[...Array(5)].map((_, index) => (
-                                        <TableCell key={index}>
-                                            {data.Step[index] ?
-                                                (data.Step[index].status === 1 ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
-                                                    data.Step[index].status === 2 ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto" /> : "") :
-                                                null
-                                            }
-                                        </TableCell>
-                                    ))}
-                                    <TableCell>
-                                        {data.status === "Approved" ? (
-                                            <Chip color="success" size="xs" variant="flat">
-                                                {data.status}
-                                            </Chip>
-                                        ) : data.status === "Wait Approve" ? (
-                                            <Chip color="warning" size="xs" variant="flat">
-                                                {data.status}
-                                            </Chip>
-                                        ) : data.status === "Rejected" ? (
-                                            <Chip color="danger" size="xs" variant="flat">
-                                                {data.status}
-                                            </Chip>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                        {data.step == 1 ?
+                        {data.step == 1 && data.Step[1].status == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div>Price</div>
                                 <Input
@@ -339,7 +330,7 @@ function MainContent() {
                                     <Button color="danger" onClick={() => handleConfirmSave(2)}>Reject</Button>
                                 </div>
                             </div>
-                            :""}
+                            : ""}
                     </div>
                 </main>
             }

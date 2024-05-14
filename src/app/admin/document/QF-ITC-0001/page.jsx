@@ -46,10 +46,10 @@ const columns = [
     //     label: "Manager3",
     //     textCenter: "text-center"
     // },
-    {
-        key: "status",
-        label: "STATUS",
-    },
+    // {
+    //     key: "status",
+    //     label: "STATUS",
+    // },
 ];
 
 export default function Home() {
@@ -136,7 +136,7 @@ export default function Home() {
                                                     }
                                                 </TableCell>
                                             ))} */}
-                                            <TableCell>
+                                            {/* <TableCell>
                                                 {
                                                     item.status === "Approved" ?
                                                         <Chip color="success" size="xs" variant="flat">
@@ -151,7 +151,7 @@ export default function Home() {
                                                                     {item.status}
                                                                 </Chip> : ""
                                                 }
-                                            </TableCell>
+                                            </TableCell> */}
                                         </TableRow>
                                     ))}
                                 </TableBody>
