@@ -14,7 +14,7 @@ import {
     Textarea
 } from "@nextui-org/react";
 import { useSearchParams } from 'next/navigation';
-import ModalViewItem from "../doc/ModalViewItem";
+import ModalViewItem from "./ModalViewItem";
 import Approved from "@/images/Approved.png";
 import Reject from "@/images/Reject.png";
 import Image from "next/image";
@@ -45,16 +45,24 @@ const columns1 = [
 
 const columns2 = [
     {
-        key: "manager1",
-        label: "MANAGER1",
+        key: "user1",
+        label: "USER REQUEST",
     },
     {
-        key: "manager2",
-        label: "MANAGER2",
+        key: "IT1",
+        label: "IT ATTACH DOCUMENT",
     },
     {
-        key: "manager3",
-        label: "MANAGER3",
+        key: "user2",
+        label: "USER MANAGER APPROVE",
+    },
+    {
+        key: "IT2",
+        label: "IT APPROVE",
+    },
+    {
+        key: "IT3",
+        label: "IT MANAGER APPROVE",
     },
     {
         key: "status",
@@ -81,7 +89,7 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/request_equipment/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/user/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
@@ -210,11 +218,11 @@ function MainContent() {
                             </TableHeader>
                             <TableBody items={data} emptyContent={"No rows to display."}>
                                 <TableRow key={data.id}>
-                                    {[...Array(3)].map((_, index) => (
+                                    {[...Array(5)].map((_, index) => (
                                         <TableCell key={index}>
-                                            {data.ApproveEquipment[index] ?
-                                                (data.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
-                                                    data.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
+                                            {data.Step[index] ?
+                                                (data.Step[index].status === 1 ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
+                                                    data.Step[index].status === 2 ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
                                                 null
                                             }
                                         </TableCell>

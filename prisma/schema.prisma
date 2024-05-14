@@ -113,6 +113,8 @@ model RequestEquipment {
   completeDate     DateTime           @default(now())
   document         String             @default("")
   remark           String             @default("")
+  price            Float              @default(0)
+  step             Int                @default(1)
   ApproveEquipment ApproveEquipment[]
   Equipment        Equipment[]
   Step             Step[]

@@ -9,22 +9,9 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
-        // const dataRequest = await prisma.requestEquipment.findMany({
-        //     where: {
-        //         requestById: session.user.id
-        //     },
-        //     include: {
-        //         requestBy: true,
-        //         ApproveEquipment: {
-        //             include: {
-        //                 approveBy: true
-        //             }
-        //         }
-        //     }
-        // });
-        const dataRequest = await prisma.requestEquipment.findMany({
+        const data = await prisma.requestEquipment.findMany({
             where: {
-                requestById: session.user.id,
+                step: 1,
             },
             select: {
                 id: true,
@@ -58,7 +45,7 @@ export async function GET() {
             }
         });
         prisma.$disconnect();
-        return Response.json(dataRequest);
+        return Response.json(data);
     }
 };
 

@@ -46,10 +46,10 @@ const columns = [
     //     label: "Manager3",
     //     textCenter: "text-center"
     // },
-    // {
-    //     key: "status",
-    //     label: "STATUS",
-    // },
+    {
+        key: "status",
+        label: "STATUS",
+    },
 ];
 
 export default function Home() {
@@ -116,7 +116,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/user/QF-ITC-0001/doc', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
+                                                <Link href={{ pathname: '/user/QF-ITC-0001/doc_no', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.requestDate && new Date(item.requestDate).toLocaleDateString('th-TH')}
@@ -136,7 +136,7 @@ export default function Home() {
                                                     }
                                                 </TableCell>
                                             ))} */}
-                                            {/* <TableCell>
+                                            <TableCell>
                                                 {
                                                     item.status === "Approved" ?
                                                         <Chip color="success" size="xs" variant="flat">
@@ -151,7 +151,7 @@ export default function Home() {
                                                                     {item.status}
                                                                 </Chip> : ""
                                                 }
-                                            </TableCell> */}
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

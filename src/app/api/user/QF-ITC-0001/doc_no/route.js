@@ -14,12 +14,7 @@ export async function GET(req) {
         const prisma = new PrismaClient();
         const dataRequest = await prisma.requestEquipment.findUnique({
             where: {
-                id: parseInt(doc_no),
-                step: {
-                    TableProcess: {
-                        docNo: "QF-ITC001"
-                    }
-                }
+                id: doc_no
             },
             // include: {
             //     requestBy: {
@@ -64,6 +59,11 @@ export async function GET(req) {
                 Equipment: {
                     include: {
                         asset: true
+                    }
+                },
+                Step: {
+                    include: {
+                        process: true
                     }
                 },
                 ApproveEquipment: {

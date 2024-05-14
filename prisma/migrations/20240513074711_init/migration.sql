@@ -113,6 +113,7 @@ CREATE TABLE `RequestEquipment` (
     `completeDate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `document` VARCHAR(191) NOT NULL DEFAULT '',
     `remark` VARCHAR(191) NOT NULL DEFAULT '',
+    `price` DOUBLE NOT NULL DEFAULT 0,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

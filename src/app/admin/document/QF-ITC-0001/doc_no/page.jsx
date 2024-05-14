@@ -11,10 +11,13 @@ import {
     Tooltip,
     Chip,
     Divider,
-    Textarea
+    Textarea,
+    Input,
+    Button
 } from "@nextui-org/react";
+import { useToast } from "@chakra-ui/react";
 import { useSearchParams } from 'next/navigation';
-import ModalViewItem from "../doc/ModalViewItem";
+import ModalViewItem from "./ModalViewItem";
 import Approved from "@/images/Approved.png";
 import Reject from "@/images/Reject.png";
 import Image from "next/image";
@@ -45,16 +48,24 @@ const columns1 = [
 
 const columns2 = [
     {
-        key: "manager1",
-        label: "MANAGER1",
+        key: "user1",
+        label: "USER REQUEST",
     },
     {
-        key: "manager2",
-        label: "MANAGER2",
+        key: "IT1",
+        label: "IT ATTACH DOCUMENT",
     },
     {
-        key: "manager3",
-        label: "MANAGER3",
+        key: "user2",
+        label: "USER MANAGER APPROVE",
+    },
+    {
+        key: "IT2",
+        label: "IT APPROVE",
+    },
+    {
+        key: "IT3",
+        label: "IT MANAGER APPROVE",
     },
     {
         key: "status",
@@ -74,6 +85,10 @@ function MainContent() {
     const searchParams = useSearchParams();
     const doc_no = searchParams.get('doc_no');
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    const [file, setFile] = useState();
+    const [price, setPrice] = useState();
+    const toast = useToast();
+
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
@@ -81,17 +96,71 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/user/request_equipment/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/admin/document/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
             const data = response.data;
             setData(data);
-            // console.log(data);
+            //console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+
+    const handleConfirmSave = (status) => {
+        if (price === undefined) {
+            toast({
+                title: 'Warning',
+                description: "Please fill price.",
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+        } else {
+            const formData = new FormData();
+            formData.append("id", data.id);
+            formData.append("step", data.step);
+            formData.append("price", price);
+            formData.append("file", file);
+            formData.append("status", status);
+
+            axios.patch('/api/admin/document/QF-ITC-0001/doc_no', formData, {
+                // headers: {
+                //     'Content-Type': 'application/json',
+                // }
+            })
+                .then(response => {
+                    if (response.data.status === "success") {
+                        toast({
+                            title: 'Success',
+                            description: "Document has been saved.",
+                            status: 'success',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                    } else {
+                        toast({
+                            title: 'Error',
+                            description: response.data.message,
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    toast({
+                        title: 'Error',
+                        description: "Something went wrong",
+                        status: 'error',
+                        duration: 9000,
+                        isClosable: true,
+                    })
+                })
+        }
+    }
 
     return (
         <>
@@ -210,11 +279,11 @@ function MainContent() {
                             </TableHeader>
                             <TableBody items={data} emptyContent={"No rows to display."}>
                                 <TableRow key={data.id}>
-                                    {[...Array(3)].map((_, index) => (
+                                    {[...Array(5)].map((_, index) => (
                                         <TableCell key={index}>
-                                            {data.ApproveEquipment[index] ?
-                                                (data.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
-                                                    data.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
+                                            {data.Step[index] ?
+                                                (data.Step[index].status === 1 ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
+                                                    data.Step[index].status === 2 ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto" /> : "") :
                                                 null
                                             }
                                         </TableCell>
@@ -239,6 +308,38 @@ function MainContent() {
                                 </TableRow>
                             </TableBody>
                         </Table>
+                        {data.step == 1 ?
+                            <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
+                                <div>Price</div>
+                                <Input
+                                    required
+                                    type="number"
+                                    variant="bordered"
+                                    className=" mb-3"
+                                    onChange={(e) => setPrice(e.target.value)}
+                                />
+                                <label for="file-input" class="sr-only">Choose file</label>
+                                <input
+                                    type="file"
+                                    name="file-input"
+                                    id="file-input"
+                                    className="block w-full border border-gray-200 shadow-sm rounded-lg 
+                                text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 
+                                disabled:pointer-events-none file:bg-gray-50 file:border-0 file:me-4 file:py-3 file:px-4
+                                mb-3"
+                                    onChange={({ target }) => {
+                                        if (target.files) {
+                                            const file = target.files[0];
+                                            setFile(file);
+                                        }
+                                    }}
+                                />
+                                <div className="mx-auto text-center">
+                                    <Button color="success" className="text-white mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>
+                                    <Button color="danger" onClick={() => handleConfirmSave(2)}>Reject</Button>
+                                </div>
+                            </div>
+                            :""}
                     </div>
                 </main>
             }
