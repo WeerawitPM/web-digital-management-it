@@ -21,6 +21,7 @@ import Approved from "@/images/Approved.png";
 import Reject from "@/images/Reject.png";
 import Image from "next/image";
 import axios from "axios";
+import ModalEditItem from "./ModalEditItem";
 
 const columns1 = [
     {
@@ -295,12 +296,13 @@ function MainContent() {
                                         </TableCell>
                                         <TableCell>
                                             <ModalViewItem id={item.id} asset={item.asset.name} purpose={item.purpose} spec_detail={item.spec_detail} qty={item.qty} />
+                                            <ModalEditItem />
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
-
+                        <div>Price: {data.price}</div>
                         {data.status == 1 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>

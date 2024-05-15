@@ -14,7 +14,7 @@ export async function GET() {
             const department = await prisma.department.findMany();
             const position = await prisma.position.findMany();
             const role = await prisma.role.findMany();
-            const user_status = await prisma.userStatus.findMany();
+            const user_status = await prisma.user_Status.findMany();
 
             const data = {
                 company: company,

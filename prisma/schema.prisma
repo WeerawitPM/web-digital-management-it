@@ -62,7 +62,7 @@ model User {
   position_id    Int
   position       Position?        @relation(fields: [position_id], references: [id])
   status_id      Int
-  user_status    User_Status?      @relation(fields: [status_id], references: [id])
+  user_status    User_Status?     @relation(fields: [status_id], references: [id])
   step           Int              @default(0)
   created_at     DateTime         @default(now())
   updated_at     DateTime         @updatedAt
@@ -112,6 +112,7 @@ model Asset {
 model Table_Ref_Quotation {
   id                Int             @id @default(autoincrement())
   name              String?
+  path              String?
   table_ITC_0001_id Int?
   table_ITC_0001_   Table_ITC_0001? @relation(fields: [table_ITC_0001_id], references: [id])
 }
@@ -121,6 +122,7 @@ model Table_ITC_0001 {
   asset_id            Int
   asset               Asset?                @relation(fields: [asset_id], references: [id])
   qty                 Int?
+  price               Float?
   purpose             String?
   spec_detail         String?
   ref_ro              String?
@@ -154,6 +156,7 @@ model Routing {
 model Document_Head {
   id             Int              @id @default(autoincrement())
   ref_no         String           @unique
+  price          Float?
   document_id    Int
   document       Document?        @relation(fields: [document_id], references: [id])
   start_date     DateTime         @default(now())
