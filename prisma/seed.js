@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-    await prisma.userStatus.createMany({
+    await prisma.user_Status.createMany({
         data: [
             { name: 'Not Active' },
             { name: 'Active' },

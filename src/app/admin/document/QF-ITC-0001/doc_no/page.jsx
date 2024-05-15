@@ -10,9 +10,7 @@ import {
     TableCell,
     Tooltip,
     Chip,
-    Divider,
     Textarea,
-    Input,
     Button
 } from "@nextui-org/react";
 import { useToast } from "@chakra-ui/react";
@@ -34,8 +32,12 @@ const columns1 = [
         label: "ASSET",
     },
     {
-        key: "detail",
-        label: "DETAIL",
+        key: "purpose",
+        label: "PURPOSE OF USAGE",
+    },
+    {
+        key: "device",
+        label: "DEVICE SPECIFICATION",
     },
     {
         key: "qty",
@@ -91,6 +93,7 @@ function MainContent() {
     const toast = useToast();
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
+    const [trackStatus, setTrackStatus] = useState();
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -105,11 +108,11 @@ function MainContent() {
             }
             const data = response.data;
             setData(data);
-            //console.log(data);
-            const steps = data.Step.map((step, index) => {
+            // console.log(data);
+            const steps = data.Track_Doc.map((step, index) => {
                 let status;
                 if (step.status === 1) {
-                    status = index === data.step ? "current" : "finished";
+                    status = index === data.status ? "current" : "finished";
                 } else if (step.status === 0) {
                     status = "waiting";
                 } else if (step.status === 2) {
@@ -117,9 +120,13 @@ function MainContent() {
                     setStatusStep(status);
                 }
 
+                if (data.status == step.step) {
+                    setTrackStatus(step.status);
+                }
+
                 return {
-                    title: index === data.step ? "In Process" : status === "waiting" ? "Waiting" : "Finished",
-                    description: step.process.name,
+                    title: index === data.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
+                    description: step.name,
                 };
             });
             setStep(steps);
@@ -199,7 +206,7 @@ function MainContent() {
                 <main>
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
                         <Steps
-                            current={data.step}
+                            current={data.status}
                             status={statusStep == "" ? "process" : statusStep}
                             items={steps}
                             className="mt-5"
@@ -217,13 +224,13 @@ function MainContent() {
                                             <div>
                                                 Name:{""}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.firstname}
+                                                    {`${data.Table_ITC_0001[0].request_by.firstname} ${data.Table_ITC_0001[0].request_by.lastname}`}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Emp ID.:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.empId}
+                                                    {data.Table_ITC_0001[0].request_by.emp_id}
                                                 </Chip>
 
                                             </div>
@@ -234,40 +241,30 @@ function MainContent() {
                                             <div>
                                                 Company:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.company.name}
+                                                    {data.Table_ITC_0001[0].request_by.company.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Position:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.position.name}
+                                                    {data.Table_ITC_0001[0].request_by.position.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Department/Section:{" "}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.department.name}
+                                                    {data.Table_ITC_0001[0].request_by.department.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Telephone/Mobile No.:{" "}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.tel}
+                                                    {data.Table_ITC_0001[0].request_by.tel}
                                                 </Chip>
                                             </div>
                                         </div>
                                     </div>
                                 </section>
-                            </div>
-                            <div className="pt-4">
-                                <h2 className="text-lg font-medium text-gray-900">Purpose Of Usage</h2>
-                                <Textarea
-                                    readOnly
-                                    placeholder="Please write in detail."
-                                    size="lg"
-                                    variant="bordered"
-                                    value={data.purpose}
-                                />
                             </div>
                         </div>
                         <Table aria-label="table asset">
@@ -275,7 +272,7 @@ function MainContent() {
                                 {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                             </TableHeader>
                             <TableBody items={data.Equipment} emptyContent={"No rows to display."}>
-                                {data.Equipment.map((item, index) => (
+                                {data.Table_ITC_0001.map((item, index) => (
                                     <TableRow key={item.id}>
                                         <TableCell className="text-base">
                                             {index + 1}
@@ -284,46 +281,34 @@ function MainContent() {
                                             {item.asset.name}
                                         </TableCell>
                                         <TableCell className="text-base">
-                                            {item.detail.length > 40 ?
-                                                `${item.detail.substring(0, 40)}...` : item.detail
+                                            {item.purpose.length > 40 ?
+                                                `${item.purpose.substring(0, 40)}...` : item.purpose
+                                            }
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.spec_detail.length > 40 ?
+                                                `${item.spec_detail.substring(0, 40)}...` : item.spec_detail
                                             }
                                         </TableCell>
                                         <TableCell className="text-base">
                                             {item.qty}
                                         </TableCell>
                                         <TableCell>
-                                            <ModalViewItem id={item.id} asset={item.asset.name} detail={item.detail} qty={item.qty} />
+                                            <ModalViewItem id={item.id} asset={item.asset.name} purpose={item.purpose} spec_detail={item.spec_detail} qty={item.qty} />
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
 
-                        {data.step == 1 && data.Step[1].status == 0 ?
+                        {data.status == 1 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
-                                <div>Price</div>
-                                <Input
-                                    required
-                                    type="number"
+                                <div className=" font-medium">Remark</div>
+                                <Textarea
+                                    placeholder="Remark"
                                     variant="bordered"
-                                    className=" mb-3"
+                                    size="lg"
                                     onChange={(e) => setPrice(e.target.value)}
-                                />
-                                <label for="file-input" class="sr-only">Choose file</label>
-                                <input
-                                    type="file"
-                                    name="file-input"
-                                    id="file-input"
-                                    className="block w-full border border-gray-200 shadow-sm rounded-lg 
-                                text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 
-                                disabled:pointer-events-none file:bg-gray-50 file:border-0 file:me-4 file:py-3 file:px-4
-                                mb-3"
-                                    onChange={({ target }) => {
-                                        if (target.files) {
-                                            const file = target.files[0];
-                                            setFile(file);
-                                        }
-                                    }}
                                 />
                                 <div className="mx-auto text-center">
                                     <Button color="success" className="text-white mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>

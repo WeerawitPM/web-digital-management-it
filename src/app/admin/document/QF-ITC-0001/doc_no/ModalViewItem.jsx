@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import { EyeIcon } from "@/components/EyeIcon";
 
-export default function ModalViewItem({ id, asset, detail, qty }) {
+export default function ModalViewItem(data) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -31,6 +31,7 @@ export default function ModalViewItem({ id, asset, detail, qty }) {
                 </NextButton>
             </Tooltip>
             <Modal
+                closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
             >
@@ -40,26 +41,47 @@ export default function ModalViewItem({ id, asset, detail, qty }) {
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <FormControl>
-                            <FormLabel>Select Asset</FormLabel>
+                            <FormLabel>Asset</FormLabel>
                             <Input
                                 isReadOnly
-                                value={asset}
+                                value={data.asset}
                             />
                         </FormControl>
-
                         <FormControl mt={4}>
-                            <FormLabel>Device Specification/Software version </FormLabel>
+                            <FormLabel>Purpose of Usage</FormLabel>
+                            <Textarea
+                                placeholder='Purpose of Usage'
+                                isReadOnly
+                                value={data.purpose}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Device Specification/Software version</FormLabel>
                             <Textarea
                                 placeholder='Device Specification/Software version'
                                 isReadOnly
-                                value={detail}
+                                value={data.spec_detail}
                             />
                         </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Quantity</FormLabel>
                             <Input
                                 isReadOnly
-                                value={qty}
+                                value={data.qty}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Price</FormLabel>
+                            <Input
+                                isReadOnly
+                                value={data.qty}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Refer to Quotation No</FormLabel>
+                            <Input
+                                isReadOnly
+                                value={data.qty}
                             />
                         </FormControl>
                     </ModalBody>

@@ -9,39 +9,25 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
-        const data = await prisma.requestEquipment.findMany({
-            // where: {
-            //     step: 1,
-            // },
-            select: {
-                id: true,
-                purpose: true,
-                requestDate: true,
-                requestById: true,
-                completeDate: true,
-                remark: true,
-                requestBy: {
+        const data = await prisma.document_Head.findMany({
+            where: {
+                status: 1,
+            },
+            include: {
+                Table_ITC_0001: {
                     select: {
-                        id: true,
-                        username: true
-                    }
-                },
-                ApproveEquipment: {
-                    select: {
-                        id: true,
-                        requestId: true,
-                        approveById: true,
-                        step: true,
-                        status: true,
-                        approveBy: {
+                        request_by: {
                             select: {
-                                id: true,
                                 username: true
                             }
                         }
                     }
                 },
-                Step: true
+                Track_Doc: {
+                    where: {
+                        step: 1
+                    },
+                }
             }
         });
         prisma.$disconnect();

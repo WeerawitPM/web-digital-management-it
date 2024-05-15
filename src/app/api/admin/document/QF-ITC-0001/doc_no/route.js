@@ -13,71 +13,32 @@ export async function GET(req) {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
-        const dataRequest = await prisma.requestEquipment.findUnique({
+        const data = await prisma.document_Head.findUnique({
             where: {
-                id: doc_no
+                ref_no: doc_no
             },
             include: {
-                requestBy: {
-                    select: {
-                        id: true,
-                        username: true,
-                        email: true,
-                        firstname: true,
-                        lastname: true,
-                        tel: true,
-                        image: true,
-                        license: true,
-                        role: true,
-                        empId: true,
-                        companyId: true,
-                        departmentId: true,
-                        positionId: true,
-                        company: true,
-                        department: true,
-                        position: true
-                    }
-                },
-                Equipment: {
+                Table_ITC_0001: {
                     include: {
+                        request_by: {
+                            select: {
+                                firstname: true,
+                                lastname: true,
+                                emp_id: true,
+                                company: true,
+                                position: true,
+                                department: true,
+                                tel: true
+                            }
+                        },
                         asset: true
                     }
                 },
-                Step: {
-                    include: {
-                        process: true
-                    }
-                },
-                ApproveEquipment: {
-                    select: {
-                        id: true,
-                        requestId: true,
-                        approveById: true,
-                        step: true,
-                        status: true,
-                        approveBy: {
-                            select: {
-                                id: true,
-                                username: true,
-                                email: true,
-                                firstname: true,
-                                lastname: true,
-                                tel: true,
-                                image: true,
-                                license: true,
-                                role: true,
-                                empId: true,
-                                companyId: true,
-                                departmentId: true,
-                                positionId: true
-                            }
-                        }
-                    }
-                }
+                Track_Doc: true
             }
         });
         prisma.$disconnect();
-        return Response.json(dataRequest);
+        return Response.json(data);
     }
 };
 

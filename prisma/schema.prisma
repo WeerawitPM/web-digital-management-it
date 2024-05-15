@@ -28,7 +28,7 @@ model Session {
   user          User     @relation(fields: [user_id], references: [id])
 }
 
-model UserStatus {
+model User_Status {
   id          Int    @id @default(autoincrement())
   name        String @unique
   status_flag Int    @default(0)
@@ -62,7 +62,7 @@ model User {
   position_id    Int
   position       Position?        @relation(fields: [position_id], references: [id])
   status_id      Int
-  user_status    UserStatus?      @relation(fields: [status_id], references: [id])
+  user_status    User_Status?      @relation(fields: [status_id], references: [id])
   step           Int              @default(0)
   created_at     DateTime         @default(now())
   updated_at     DateTime         @updatedAt
@@ -109,22 +109,29 @@ model Asset {
   Table_ITC_0001 Table_ITC_0001[]
 }
 
+model Table_Ref_Quotation {
+  id                Int             @id @default(autoincrement())
+  name              String?
+  table_ITC_0001_id Int?
+  table_ITC_0001_   Table_ITC_0001? @relation(fields: [table_ITC_0001_id], references: [id])
+}
+
 model Table_ITC_0001 {
-  id               Int            @id @default(autoincrement())
-  asset_id         Int
-  asset            Asset?         @relation(fields: [asset_id], references: [id])
-  qty              Int?
-  purpose          String?
-  spec_detail      String?
-  ref_quotation    String?
-  ref_ro           String?
-  remark           String?
-  created_at       DateTime       @default(now())
-  request_by_id    Int
-  request_by       User?          @relation(fields: [request_by_id], references: [id])
-  document_head_id String
-  document_head    Document_Head? @relation(fields: [document_head_id], references: [ref_no])
-  status_flag      Int            @default(0)
+  id                  Int                   @id @default(autoincrement())
+  asset_id            Int
+  asset               Asset?                @relation(fields: [asset_id], references: [id])
+  qty                 Int?
+  purpose             String?
+  spec_detail         String?
+  ref_ro              String?
+  remark              String?
+  created_at          DateTime              @default(now())
+  request_by_id       Int
+  request_by          User?                 @relation(fields: [request_by_id], references: [id])
+  document_head_id    String
+  document_head       Document_Head?        @relation(fields: [document_head_id], references: [ref_no])
+  status_flag         Int                   @default(0)
+  Table_Ref_Quotation Table_Ref_Quotation[]
 }
 
 model Document {
@@ -167,6 +174,7 @@ model Track_Doc {
   end_date         DateTime?
   user_id          Int?
   user             User?          @relation(fields: [user_id], references: [id])
+  remark           String?
   status           Int            @default(0)
   status_flag      Int            @default(0)
 }

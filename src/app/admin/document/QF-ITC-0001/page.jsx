@@ -64,7 +64,7 @@ export default function Home() {
             const response = await axios.get('/api/admin/document/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
-            console.log(data);
+            // console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -116,42 +116,19 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/admin/document/QF-ITC-0001/doc_no', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
+                                                <Link href={{ pathname: '/admin/document/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
-                                                {item.requestDate && new Date(item.requestDate).toLocaleDateString('th-TH')}
+                                                {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
                                             </TableCell>
                                             <TableCell>
-                                                {item.requestBy.username}
+                                                {item.Table_ITC_0001[0].request_by.username}
                                             </TableCell>
                                             <TableCell>
-                                                {item.purpose}
+                                                <Chip color="primary" size="xs" variant="flat">
+                                                    {item.Track_Doc[0].name}
+                                                </Chip>
                                             </TableCell>
-                                            {/* {[...Array(3)].map((_, index) => (
-                                                <TableCell key={index}>
-                                                    {item.ApproveEquipment[index] ?
-                                                        (item.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
-                                                            item.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto" /> : "") :
-                                                        null
-                                                    }
-                                                </TableCell>
-                                            ))} */}
-                                            {/* <TableCell>
-                                                {
-                                                    item.status === "Approved" ?
-                                                        <Chip color="success" size="xs" variant="flat">
-                                                            {item.status}
-                                                        </Chip> :
-                                                        item.status === "Wait Approve" ?
-                                                            <Chip color="warning" size="xs" variant="flat">
-                                                                {item.status}
-                                                            </Chip> :
-                                                            item.status === "Rejected" ?
-                                                                <Chip color="danger" size="xs" variant="flat">
-                                                                    {item.status}
-                                                                </Chip> : ""
-                                                }
-                                            </TableCell> */}
                                         </TableRow>
                                     ))}
                                 </TableBody>
