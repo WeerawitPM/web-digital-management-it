@@ -44,14 +44,14 @@ model Role {
 
 model User {
   id             Int              @id @default(autoincrement())
-  username       String?          @unique
-  email          String?          @unique
-  password       String?
-  firstname      String?
-  lastname       String?
-  tel            String
-  image          String
-  license        String
+  username       String           @unique
+  email          String           @unique
+  password       String
+  firstname      String
+  lastname       String
+  tel            String?
+  image          String?
+  license        String?
   role_id        Int
   role           Role?            @relation(fields: [role_id], references: [id])
   emp_id         Int?
@@ -73,23 +73,23 @@ model User {
 }
 
 model Company {
-  id          Int     @id @default(autoincrement())
-  name        String? @unique
-  status_flag Int     @default(0)
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  status_flag Int    @default(0)
   User        User[]
 }
 
 model Department {
-  id          Int     @id @default(autoincrement())
-  name        String? @unique
-  status_flag Int     @default(0)
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  status_flag Int    @default(0)
   User        User[]
 }
 
 model Position {
-  id          Int     @id @default(autoincrement())
-  name        String? @unique
-  status_flag Int     @default(0)
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  status_flag Int    @default(0)
   User        User[]
 }
 
@@ -165,7 +165,7 @@ model Track_Doc {
   document_head    Document_Head? @relation(fields: [document_head_id], references: [ref_no])
   start_date       DateTime       @default(now())
   end_date         DateTime?
-  user_id          Int
+  user_id          Int?
   user             User?          @relation(fields: [user_id], references: [id])
   status           Int            @default(0)
   status_flag      Int            @default(0)

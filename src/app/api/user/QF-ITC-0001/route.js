@@ -9,56 +9,31 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
-        // const dataRequest = await prisma.requestEquipment.findMany({
-        //     where: {
-        //         requestById: session.user.id
-        //     },
-        //     include: {
-        //         requestBy: true,
-        //         ApproveEquipment: {
-        //             include: {
-        //                 approveBy: true
-        //             }
-        //         }
-        //     }
-        // });
-        const dataRequest = await prisma.requestEquipment.findMany({
+
+        const data = await prisma.document_Head.findMany({
             where: {
-                requestById: session.user.id,
-            },
-            select: {
-                id: true,
-                purpose: true,
-                requestDate: true,
-                requestById: true,
-                completeDate: true,
-                remark: true,
-                requestBy: {
-                    select: {
-                        id: true,
-                        username: true
+                Table_ITC_0001: {
+                    some: {
+                        request_by_id: session.user.id
                     }
-                },
-                ApproveEquipment: {
+                }
+            },
+            include: {
+                Table_ITC_0001: {
                     select: {
-                        id: true,
-                        requestId: true,
-                        approveById: true,
-                        step: true,
-                        status: true,
-                        approveBy: {
+                        request_by: {
                             select: {
-                                id: true,
                                 username: true
                             }
                         }
                     }
                 },
-                Step: true
+                Track_Doc: true
             }
         });
+
         prisma.$disconnect();
-        return Response.json(dataRequest);
+        return Response.json(data);
     }
 };
 
@@ -147,8 +122,7 @@ export async function POST(req) {
                     data: {
                         step: item.step,
                         name: item.name,
-                        document_head: { connect: { ref_no: requestId } },
-                        user: { connect: { id: session.user.id } },
+                        document_head: { connect: { ref_no: requestId } }
                     },
                 });
                 createTrackDoc.push(newStep);
@@ -169,7 +143,6 @@ export async function POST(req) {
                         id: findTrackDoc.id, // Use the unique id here
                     },
                     data: {
-                        step: 1,
                         status: 1
                     }
                 });

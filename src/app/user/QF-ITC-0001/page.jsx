@@ -27,10 +27,6 @@ const columns = [
         key: "request_by",
         label: "REQUEST BY",
     },
-    {
-        key: "title",
-        label: "TITLE",
-    },
     // {
     //     key: "manager1",
     //     label: "Manager1",
@@ -54,6 +50,8 @@ const columns = [
 
 export default function Home() {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    const [status, setStatus] = useState([]);
+
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
@@ -63,8 +61,20 @@ export default function Home() {
         try {
             const response = await axios.get('/api/user/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
+
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
-            // console.log(data);
+
+            data.map((item) => {
+                // วนลูปผ่าน Track_Doc ของแต่ละ item
+                item.Track_Doc.map((trackItem) => {
+                    // ตรวจสอบว่า status เป็น 1 หรือไม่ และ trackItem.step เท่ากับ status หรือไม่
+                    if (trackItem.step === item.status) {
+                        // ใช้ spread operator (...) ในการเพิ่มข้อมูลใน state อย่างถูกต้อง
+                        setStatus(prevStatus => [...prevStatus, trackItem.name]);
+                    }
+                });
+            });
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -116,16 +126,13 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/user/QF-ITC-0001/doc_no', query: { doc_no: item.id } }} className="text-blue-500">{item.id}</Link>
+                                                <Link href={{ pathname: '/user/QF-ITC-0001/doc_no', query: { ref_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
-                                                {item.requestDate && new Date(item.requestDate).toLocaleDateString('th-TH')}
+                                                {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
                                             </TableCell>
                                             <TableCell>
-                                                {item.requestBy.username}
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.purpose}
+                                                {item.Table_ITC_0001[0].request_by.username}
                                             </TableCell>
                                             {/* {[...Array(3)].map((_, index) => (
                                                 <TableCell key={index}>
@@ -137,20 +144,9 @@ export default function Home() {
                                                 </TableCell>
                                             ))} */}
                                             <TableCell>
-                                                {
-                                                    item.status === "Approved" ?
-                                                        <Chip color="success" size="xs" variant="flat">
-                                                            {item.status}
-                                                        </Chip> :
-                                                        item.status === "Wait Approve" ?
-                                                            <Chip color="warning" size="xs" variant="flat">
-                                                                {item.status}
-                                                            </Chip> :
-                                                            item.status === "Rejected" ?
-                                                                <Chip color="danger" size="xs" variant="flat">
-                                                                    {item.status}
-                                                                </Chip> : ""
-                                                }
+                                                <Chip color="primary" size="xs" variant="flat">
+                                                    {status[index]}
+                                                </Chip>
                                             </TableCell>
                                         </TableRow>
                                     ))}

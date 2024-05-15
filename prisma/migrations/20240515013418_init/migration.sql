@@ -36,14 +36,14 @@ CREATE TABLE `Role` (
 -- CreateTable
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(191) NULL,
-    `email` VARCHAR(191) NULL,
-    `password` VARCHAR(191) NULL,
-    `firstname` VARCHAR(191) NULL,
-    `lastname` VARCHAR(191) NULL,
-    `tel` VARCHAR(191) NOT NULL,
-    `image` VARCHAR(191) NOT NULL,
-    `license` VARCHAR(191) NOT NULL,
+    `username` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `firstname` VARCHAR(191) NOT NULL,
+    `lastname` VARCHAR(191) NOT NULL,
+    `tel` VARCHAR(191) NULL,
+    `image` VARCHAR(191) NULL,
+    `license` VARCHAR(191) NULL,
     `role_id` INTEGER NOT NULL,
     `emp_id` INTEGER NULL,
     `company_id` INTEGER NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `Company` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(191) NULL,
+    `name` VARCHAR(191) NOT NULL,
     `status_flag` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `Company_name_key`(`name`),
@@ -73,7 +73,7 @@ CREATE TABLE `Company` (
 -- CreateTable
 CREATE TABLE `Department` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(191) NULL,
+    `name` VARCHAR(191) NOT NULL,
     `status_flag` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `Department_name_key`(`name`),
@@ -83,7 +83,7 @@ CREATE TABLE `Department` (
 -- CreateTable
 CREATE TABLE `Position` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(191) NULL,
+    `name` VARCHAR(191) NOT NULL,
     `status_flag` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `Position_name_key`(`name`),
@@ -112,16 +112,15 @@ CREATE TABLE `Asset` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Table_ITC0001` (
+CREATE TABLE `Table_ITC_0001` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `asset_type_id` INTEGER NOT NULL,
     `asset_id` INTEGER NOT NULL,
-    `qty` INTEGER NOT NULL,
-    `purpose` VARCHAR(191) NOT NULL,
-    `spec_detail` VARCHAR(191) NOT NULL,
-    `ref_quotation` VARCHAR(191) NOT NULL,
-    `ref_ro` VARCHAR(191) NOT NULL,
-    `remark` VARCHAR(191) NOT NULL,
+    `qty` INTEGER NULL,
+    `purpose` VARCHAR(191) NULL,
+    `spec_detail` VARCHAR(191) NULL,
+    `ref_quotation` VARCHAR(191) NULL,
+    `ref_ro` VARCHAR(191) NULL,
+    `remark` VARCHAR(191) NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `request_by_id` INTEGER NOT NULL,
     `document_head_id` VARCHAR(191) NOT NULL,
@@ -156,7 +155,7 @@ CREATE TABLE `Document_Head` (
     `ref_no` VARCHAR(191) NOT NULL,
     `document_id` INTEGER NOT NULL,
     `start_date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `end_date` DATETIME(3) NOT NULL,
+    `end_date` DATETIME(3) NULL,
     `status` INTEGER NOT NULL DEFAULT 0,
     `status_flag` INTEGER NOT NULL DEFAULT 0,
 
@@ -171,7 +170,7 @@ CREATE TABLE `Track_Doc` (
     `name` VARCHAR(191) NOT NULL,
     `document_head_id` VARCHAR(191) NOT NULL,
     `start_date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `end_date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `end_date` DATETIME(3) NULL,
     `user_id` INTEGER NOT NULL,
     `status` INTEGER NOT NULL DEFAULT 0,
     `status_flag` INTEGER NOT NULL DEFAULT 0,
@@ -201,16 +200,13 @@ ALTER TABLE `User` ADD CONSTRAINT `User_status_id_fkey` FOREIGN KEY (`status_id`
 ALTER TABLE `Asset` ADD CONSTRAINT `Asset_asset_type_id_fkey` FOREIGN KEY (`asset_type_id`) REFERENCES `Asset_Type`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Table_ITC0001` ADD CONSTRAINT `Table_ITC0001_asset_type_id_fkey` FOREIGN KEY (`asset_type_id`) REFERENCES `Asset_Type`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Table_ITC_0001` ADD CONSTRAINT `Table_ITC_0001_asset_id_fkey` FOREIGN KEY (`asset_id`) REFERENCES `Asset`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Table_ITC0001` ADD CONSTRAINT `Table_ITC0001_asset_id_fkey` FOREIGN KEY (`asset_id`) REFERENCES `Asset`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Table_ITC_0001` ADD CONSTRAINT `Table_ITC_0001_request_by_id_fkey` FOREIGN KEY (`request_by_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Table_ITC0001` ADD CONSTRAINT `Table_ITC0001_request_by_id_fkey` FOREIGN KEY (`request_by_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Table_ITC0001` ADD CONSTRAINT `Table_ITC0001_document_head_id_fkey` FOREIGN KEY (`document_head_id`) REFERENCES `Document_Head`(`ref_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Table_ITC_0001` ADD CONSTRAINT `Table_ITC_0001_document_head_id_fkey` FOREIGN KEY (`document_head_id`) REFERENCES `Document_Head`(`ref_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Routing` ADD CONSTRAINT `Routing_document_id_fkey` FOREIGN KEY (`document_id`) REFERENCES `Document`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
