@@ -56,6 +56,7 @@ export default function ModalEditItem(data) {
                             duration: 9000,
                             isClosable: true,
                         })
+                        data.fetchData();
                     } else {
                         toast({
                             title: 'Error',
@@ -75,6 +76,9 @@ export default function ModalEditItem(data) {
                         duration: 9000,
                         isClosable: true,
                     })
+                })
+                .finally(() => {
+                    onClose();
                 })
         }
     }

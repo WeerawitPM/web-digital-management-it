@@ -15,16 +15,27 @@ export async function PATCH(req) {
             const id = parseInt(data.get("id"));
             const price = parseFloat(data.get("price"));
 
-            const updatePrice = await prisma.table_ITC_0001.update({
-                where: {
-                    id: id
-                },
-                data: {
-                    price: price
-                }
-            })
+            // ใช้ Prisma transaction เพื่อรวมการอัปเดตและการสร้างข้อมูลใน transaction เดียวกัน
+            const result = await prisma.$transaction([
+                prisma.table_ITC_0001.update({
+                    where: {
+                        id: id
+                    },
+                    data: {
+                        price: price
+                    }
+                }),
+                prisma.table_Ref_Quotation.create({
+                    data: {
+                        name: "test2",
+                        path: "test2",
+                        table_ITC_0001_id: id
+                    }
+                })
+            ]);
+
             prisma.$disconnect();
-            return Response.json({ status: "success", message: updatePrice });
+            return Response.json({ status: "success", message: result[0] });
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();

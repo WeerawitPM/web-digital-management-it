@@ -308,6 +308,7 @@ function MainContent() {
                                                 id={item.id}
                                                 price={item.price}
                                                 ref_quotation={item.Table_Ref_Quotation}
+                                                fetchData={fetchData}
                                             />
                                         </TableCell>
                                     </TableRow>
