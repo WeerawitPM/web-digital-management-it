@@ -19,6 +19,7 @@ import Approved from "@/images/Approved.png";
 import Reject from "@/images/Reject.png";
 import Image from "next/image";
 import axios from "axios";
+import { Steps } from 'antd';
 
 const columns1 = [
     {
@@ -30,8 +31,12 @@ const columns1 = [
         label: "ASSET",
     },
     {
-        key: "detail",
-        label: "DETAIL",
+        key: "purpose",
+        label: "PURPOSE OF USAGE",
+    },
+    {
+        key: "device_spec",
+        label: "DEVICE SPECIFICATION",
     },
     {
         key: "qty",
@@ -82,6 +87,9 @@ function MainContent() {
     const searchParams = useSearchParams();
     const doc_no = searchParams.get('doc_no');
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    const [steps, setStep] = useState();
+    const [statusStep, setStatusStep] = useState("");
+
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
@@ -95,6 +103,25 @@ function MainContent() {
             }
             const data = response.data;
             setData(data);
+
+            const steps = data.Track_Doc.map((step, index) => {
+                let status;
+                if (step.status === 1) {
+                    status = index === data.step ? "current" : "finished";
+                } else if (step.status === 0) {
+                    status = "waiting";
+                } else if (step.status === 2) {
+                    status = "error";
+                    setStatusStep(status);
+                }
+
+                return {
+                    title: index === data.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
+                    description: step.name,
+                };
+            });
+            setStep(steps);
+
             // console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -117,6 +144,12 @@ function MainContent() {
             {data == null ? "" :
                 <main>
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
+                        <Steps
+                            current={data.status}
+                            status={statusStep == "" ? "process" : statusStep}
+                            items={steps}
+                            className="mt-5"
+                        />
                         <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                             <div className="pb-4">
                                 <section className="">
@@ -130,13 +163,13 @@ function MainContent() {
                                             <div>
                                                 Name:{""}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.firstname}
+                                                    {`${data.Table_ITC_0001[0].request_by.firstname} ${data.Table_ITC_0001[0].request_by.lastname}`}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Emp ID.:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.empId}
+                                                    {data.Table_ITC_0001[0].request_by.emp_id}
                                                 </Chip>
 
                                             </div>
@@ -147,40 +180,30 @@ function MainContent() {
                                             <div>
                                                 Company:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.company.name}
+                                                    {data.Table_ITC_0001[0].request_by.company.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Position:
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.position.name}
+                                                    {data.Table_ITC_0001[0].request_by.position.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Department/Section:{" "}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.department.name}
+                                                    {data.Table_ITC_0001[0].request_by.department.name}
                                                 </Chip>
                                             </div>
                                             <div>
                                                 Telephone/Mobile No.:{" "}
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {data.requestBy.tel}
+                                                    {data.Table_ITC_0001[0].request_by.tel}
                                                 </Chip>
                                             </div>
                                         </div>
                                     </div>
                                 </section>
-                            </div>
-                            <div className="pt-4">
-                                <h2 className="text-lg font-medium text-gray-900">Purpose Of Usage</h2>
-                                <Textarea
-                                    readOnly
-                                    placeholder="Please write in detail."
-                                    size="lg"
-                                    variant="bordered"
-                                    value={data.purpose}
-                                />
                             </div>
                         </div>
                         <Table aria-label="table asset">
@@ -188,7 +211,7 @@ function MainContent() {
                                 {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                             </TableHeader>
                             <TableBody items={data.Equipment} emptyContent={"No rows to display."}>
-                                {data.Equipment.map((item, index) => (
+                                {data.Table_ITC_0001.map((item, index) => (
                                     <TableRow key={item.id}>
                                         <TableCell className="text-base">
                                             {index + 1}
@@ -197,54 +220,23 @@ function MainContent() {
                                             {item.asset.name}
                                         </TableCell>
                                         <TableCell className="text-base">
-                                            {item.detail.length > 40 ?
-                                                `${item.detail.substring(0, 40)}...` : item.detail
+                                            {item.purpose.length > 40 ?
+                                                `${item.purpose.substring(0, 40)}...` : item.purpose
+                                            }
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.spec_detail.length > 40 ?
+                                                `${item.spec_detail.substring(0, 40)}...` : item.spec_detail
                                             }
                                         </TableCell>
                                         <TableCell className="text-base">
                                             {item.qty}
                                         </TableCell>
                                         <TableCell>
-                                            <ModalViewItem id={item.id} asset={item.asset.name} detail={item.detail} qty={item.qty} />
+                                            <ModalViewItem id={item.id} asset={item.asset.name} purpose={item.purpose} spec_detail={item.spec_detail} qty={item.qty} />
                                         </TableCell>
                                     </TableRow>
                                 ))}
-                            </TableBody>
-                        </Table>
-
-                        <Table aria-label="table approve" className="mx-auto">
-                            <TableHeader columns={columns2} className="text-center">
-                                {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
-                            </TableHeader>
-                            <TableBody items={data} emptyContent={"No rows to display."}>
-                                <TableRow key={data.id}>
-                                    {[...Array(5)].map((_, index) => (
-                                        <TableCell key={index}>
-                                            {data.Step[index] ?
-                                                (data.Step[index].status === 1 ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto"/> :
-                                                    data.Step[index].status === 2 ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto"/> : "") :
-                                                null
-                                            }
-                                        </TableCell>
-                                    ))}
-                                    <TableCell>
-                                        {data.status === "Approved" ? (
-                                            <Chip color="success" size="xs" variant="flat">
-                                                {data.status}
-                                            </Chip>
-                                        ) : data.status === "Wait Approve" ? (
-                                            <Chip color="warning" size="xs" variant="flat">
-                                                {data.status}
-                                            </Chip>
-                                        ) : data.status === "Rejected" ? (
-                                            <Chip color="danger" size="xs" variant="flat">
-                                                {data.status}
-                                            </Chip>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </TableCell>
-                                </TableRow>
                             </TableBody>
                         </Table>
                     </div>

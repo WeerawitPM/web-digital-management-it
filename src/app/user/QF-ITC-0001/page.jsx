@@ -126,7 +126,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/user/QF-ITC-0001/doc_no', query: { ref_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link href={{ pathname: '/user/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}

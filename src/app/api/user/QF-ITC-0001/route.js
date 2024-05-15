@@ -83,6 +83,7 @@ export async function POST(req) {
             const requestEquipment = await prisma.document_Head.create({
                 data: {
                     ref_no: requestId,
+                    status: 1,
                     document: { connect: { id: findDoc.id } },
                     end_date: null
                 },
