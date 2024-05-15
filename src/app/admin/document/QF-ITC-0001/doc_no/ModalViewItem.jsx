@@ -19,10 +19,10 @@ import {
     Textarea,
 } from '@chakra-ui/react'
 import { EyeIcon } from "@/components/EyeIcon";
+import Link from "next/link";
 
 export default function ModalViewItem(data) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-
     return (
         <>
             <Tooltip content="View" color="primary">
@@ -31,6 +31,7 @@ export default function ModalViewItem(data) {
                 </NextButton>
             </Tooltip>
             <Modal
+                isCentered
                 closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
@@ -74,15 +75,23 @@ export default function ModalViewItem(data) {
                             <FormLabel>Price</FormLabel>
                             <Input
                                 isReadOnly
-                                value={data.qty}
+                                value={data.price}
                             />
                         </FormControl>
                         <FormControl mt={4}>
-                            <FormLabel>Refer to Quotation No</FormLabel>
-                            <Input
-                                isReadOnly
-                                value={data.qty}
-                            />
+                            <FormLabel>Refer to Quotation No.</FormLabel>
+                            {data.ref_quotation.map((quotation, index) => (
+                                <div key={index}>
+                                    <Link
+                                        href={quotation.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-500"
+                                    >
+                                        {quotation.name}
+                                    </Link>
+                                </div>
+                            ))}
                         </FormControl>
                     </ModalBody>
 

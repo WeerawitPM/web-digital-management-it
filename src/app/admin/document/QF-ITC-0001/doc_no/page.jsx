@@ -295,8 +295,20 @@ function MainContent() {
                                             {item.qty}
                                         </TableCell>
                                         <TableCell>
-                                            <ModalViewItem id={item.id} asset={item.asset.name} purpose={item.purpose} spec_detail={item.spec_detail} qty={item.qty} />
-                                            <ModalEditItem />
+                                            <ModalViewItem
+                                                id={item.id}
+                                                asset={item.asset.name}
+                                                purpose={item.purpose}
+                                                spec_detail={item.spec_detail}
+                                                qty={item.qty}
+                                                price={item.price}
+                                                ref_quotation={item.Table_Ref_Quotation}
+                                            />
+                                            <ModalEditItem
+                                                id={item.id}
+                                                price={item.price}
+                                                ref_quotation={item.Table_Ref_Quotation}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 ))}
