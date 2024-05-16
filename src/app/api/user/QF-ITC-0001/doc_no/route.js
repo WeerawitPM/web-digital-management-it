@@ -30,10 +30,11 @@ export async function GET(req) {
                                 tel: true
                             }
                         },
-                        asset: true
+                        asset: true,
+                        Table_Ref_Quotation: true
                     }
                 },
-                Track_Doc: true
+                Track_Doc: true,
             }
         });
         prisma.$disconnect();

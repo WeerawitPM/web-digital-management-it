@@ -89,6 +89,7 @@ function MainContent() {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
+    const [totalPrice, setTotalPrice] = useState();
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -103,6 +104,9 @@ function MainContent() {
             }
             const data = response.data;
             setData(data);
+
+            const totalPrice = data?.Table_ITC_0001?.reduce((sum, item) => sum + item.price, 0) || 0;
+            setTotalPrice(totalPrice);
 
             const steps = data.Track_Doc.map((step, index) => {
                 let status;
@@ -120,8 +124,12 @@ function MainContent() {
                     description: step.name,
                 };
             });
-            setStep(steps);
-
+            
+            if (totalPrice >= 5000) {
+                setStep(steps);
+            } else {
+                setStep(steps.slice(0, -1));
+            }
             // console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -233,12 +241,25 @@ function MainContent() {
                                             {item.qty}
                                         </TableCell>
                                         <TableCell>
-                                            <ModalViewItem id={item.id} asset={item.asset.name} purpose={item.purpose} spec_detail={item.spec_detail} qty={item.qty} />
+                                            <ModalViewItem
+                                                id={item.id}
+                                                asset={item.asset.name}
+                                                purpose={item.purpose}
+                                                spec_detail={item.spec_detail}
+                                                qty={item.qty}
+                                                price={item.price}
+                                                ref_quotation={item.Table_Ref_Quotation}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
+                        <div className="text-center">
+                            <Chip color="success" size="lg" variant="flat">
+                                <div className="font-medium">Total Price: {totalPrice}</div>
+                            </Chip>
+                        </div>
                     </div>
                 </main>
             }

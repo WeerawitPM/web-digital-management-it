@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
     Button as NextButton,
-    Tooltip
+    Tooltip,
+    Link
 } from "@nextui-org/react";
 import {
     Modal,
@@ -31,6 +32,8 @@ export default function ModalViewItem(data) {
                 </NextButton>
             </Tooltip>
             <Modal
+                isCentered
+                closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
             >
@@ -40,7 +43,7 @@ export default function ModalViewItem(data) {
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <FormControl>
-                            <FormLabel>Select Asset</FormLabel>
+                            <FormLabel>Asset</FormLabel>
                             <Input
                                 isReadOnly
                                 value={data.asset}
@@ -68,6 +71,30 @@ export default function ModalViewItem(data) {
                                 isReadOnly
                                 value={data.qty}
                             />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Price</FormLabel>
+                            <Input
+                                isReadOnly
+                                value={data.price}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Refer to Quotation No.</FormLabel>
+                            {data.ref_quotation?.map((quotation, index) => (
+                                <div key={index}>
+                                    <Link
+                                        isExternal
+                                        showAnchorIcon
+                                        href={quotation.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        color="primary"
+                                    >
+                                        {quotation.name}
+                                    </Link>
+                                </div>
+                            ))}
                         </FormControl>
                     </ModalBody>
 

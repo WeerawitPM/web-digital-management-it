@@ -314,7 +314,8 @@ function MainContent() {
                         <div className="text-center">
                             <Chip color="success" size="lg" variant="flat">
                                 <div className="font-medium">Total Price: {totalPrice}</div>
-                            </Chip></div>
+                            </Chip>
+                        </div>
                         {data?.status == 1 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>

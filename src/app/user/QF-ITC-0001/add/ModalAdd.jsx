@@ -82,6 +82,8 @@ export default function ModalAdd() {
                 เพิ่มรายการร้องขอ
             </Button>
             <Modal
+                isCentered
+                closeOnOverlayClick={false}
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
                 isOpen={isOpen}

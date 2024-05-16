@@ -80,7 +80,7 @@ export default function ModalView(data) {
                         </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Refer to Quotation No.</FormLabel>
-                            {data.ref_quotation.map((quotation, index) => (
+                            {data.ref_quotation?.map((quotation, index) => (
                                 <div key={index}>
                                     <Link
                                         isExternal
