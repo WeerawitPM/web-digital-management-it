@@ -45,9 +45,6 @@ export async function PATCH(req) {
                 const name = response.data.name;
                 const path = response.data.path;
 
-                console.log(name);
-                console.log(path);
-
                 // ใช้ Prisma transaction เพื่อรวมการอัปเดตและการสร้างข้อมูลใน transaction เดียวกัน
                 const result = await prisma.$transaction([
                     prisma.table_ITC_0001.update({

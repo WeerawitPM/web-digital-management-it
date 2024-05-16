@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
-import { Button } from '@chakra-ui/react'
-import { AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import axios from "axios";
 
@@ -28,25 +26,6 @@ const columns = [
         key: "title",
         label: "TITLE",
     },
-    // {
-    //     key: "manager1",
-    //     label: "Manager1",
-    //     textCenter: "text-center"
-    // },
-    // {
-    //     key: "manager2",
-    //     label: "Manager2",
-    //     textCenter: "text-center"
-    // },
-    // {
-    //     key: "manager3",
-    //     label: "Manager3",
-    //     textCenter: "text-center"
-    // },
-    // {
-    //     key: "status",
-    //     label: "STATUS",
-    // },
 ];
 
 export default function Home() {
@@ -58,7 +37,7 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/admin/documents/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/admin/documents/QF-ITC-0001/attach_document'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);
@@ -88,13 +67,6 @@ export default function Home() {
                                 1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
                             </span>
                         </div>
-                        <div className="justify-end">
-                            <Link href="/user/QF-ITC-0001/add">
-                                <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
-                                    เพิ่มรายการร้องขอ
-                                </Button>
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </header>
@@ -113,7 +85,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/admin/documents/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link href={{ pathname: '/admin/documents/QF-ITC-0001/attach_document/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}

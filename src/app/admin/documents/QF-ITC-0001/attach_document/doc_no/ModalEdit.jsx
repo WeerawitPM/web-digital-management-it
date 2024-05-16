@@ -46,7 +46,7 @@ export default function ModalEdit(data) {
             formData.append("price", price);
             formData.append("document", document);
 
-            axios.patch('/api/admin/documents/QF-ITC-0001/doc_no/attach_document', formData, {
+            axios.patch('/api/admin/documents/QF-ITC-0001/attach_document/doc_no/action', formData, {
                 // headers: {
                 //     'Content-Type': 'application/json',
                 // }

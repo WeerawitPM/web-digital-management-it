@@ -23,7 +23,7 @@ export default function ModalDelete(data) {
     const toast = useToast();
 
     const handleConfirmDelete = () => {
-        axios.delete('/api/admin/documents/QF-ITC-0001/doc_no/attach_document', {
+        axios.delete('/api/admin/documents/QF-ITC-0001/attach_document/doc_no/action', {
             data: {
                 id: data?.id
             },

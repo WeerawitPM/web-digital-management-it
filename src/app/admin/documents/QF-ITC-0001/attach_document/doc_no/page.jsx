@@ -8,12 +8,10 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Tooltip,
     Chip,
     Textarea,
-    Button
 } from "@nextui-org/react";
-import { useToast } from "@chakra-ui/react";
+import { useToast, Button } from "@chakra-ui/react";
 import { Steps } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import ModalView from "./ModalView";
@@ -51,33 +49,6 @@ const columns1 = [
     },
 ];
 
-const columns2 = [
-    {
-        key: "user1",
-        label: "USER REQUEST",
-    },
-    {
-        key: "IT1",
-        label: "IT ATTACH DOCUMENT",
-    },
-    {
-        key: "user2",
-        label: "USER MANAGER APPROVE",
-    },
-    {
-        key: "IT2",
-        label: "IT APPROVE",
-    },
-    {
-        key: "IT3",
-        label: "IT MANAGER APPROVE",
-    },
-    {
-        key: "status",
-        label: "STATUS",
-    }
-];
-
 export default function Home() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
@@ -90,13 +61,12 @@ function MainContent() {
     const searchParams = useSearchParams();
     const doc_no = searchParams.get('doc_no');
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    const [file, setFile] = useState();
-    const [price, setPrice] = useState();
     const toast = useToast();
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
     const [trackStatus, setTrackStatus] = useState();
-    const totalPrice = data?.Table_ITC_0001?.reduce((sum, item) => sum + item.price, 0) || 0;
+    const [totalPrice, setTotalPrice] = useState();
+    const [remark, setRemark] = useState(null);
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -105,12 +75,15 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/admin/documents/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/admin/documents/QF-ITC-0001/attach_document/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
             const data = response.data;
             setData(data);
+
+            const totalPrice = data?.Table_ITC_0001?.reduce((sum, item) => sum + item.price, 0) || 0;
+            setTotalPrice(totalPrice);
             // console.log(data);
             const steps = data.Track_Doc.map((step, index) => {
                 let status;
@@ -132,63 +105,78 @@ function MainContent() {
                     description: step.name,
                 };
             });
-            setStep(steps);
+
+            if (totalPrice >= 5000) {
+                setStep(steps);
+            } else {
+                setStep(steps.slice(0, -1));
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
-    const handleConfirmSave = (status) => {
-        if (price === undefined) {
-            toast({
-                title: 'Warning',
-                description: "Please fill price.",
-                status: 'warning',
-                duration: 9000,
-                isClosable: true,
-            })
-        } else {
-            const formData = new FormData();
-            formData.append("id", data.id);
-            formData.append("step", data.step);
-            formData.append("price", price);
-            formData.append("file", file);
-            formData.append("status", status);
+    const saveData = (status) => {
+        const formData = new FormData();
+        formData.append("document_head_id", data?.ref_no);
+        formData.append("step", data?.status);
+        formData.append("status", status);
+        formData.append("remark", remark);
 
-            axios.patch('/api/admin/document/QF-ITC-0001/doc_no', formData, {
-                // headers: {
-                //     'Content-Type': 'application/json',
-                // }
-            })
-                .then(response => {
-                    if (response.data.status === "success") {
-                        toast({
-                            title: 'Success',
-                            description: "Document has been saved.",
-                            status: 'success',
-                            duration: 9000,
-                            isClosable: true,
-                        })
-                    } else {
-                        toast({
-                            title: 'Error',
-                            description: response.data.message,
-                            status: 'error',
-                            duration: 9000,
-                            isClosable: true,
-                        })
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+        axios.patch('/api/admin/documents/QF-ITC-0001/attach_document/doc_no', formData, {
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // }
+        })
+            .then(response => {
+                if (response.data.status === "success") {
+                    toast({
+                        title: 'Success',
+                        description: "Document has been saved.",
+                        status: 'success',
+                        duration: 9000,
+                        isClosable: true,
+                    })
+                    fetchData();
+                } else {
                     toast({
                         title: 'Error',
-                        description: "Something went wrong",
+                        description: response.data.message,
                         status: 'error',
                         duration: 9000,
                         isClosable: true,
                     })
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                toast({
+                    title: 'Error',
+                    description: "Something went wrong",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
                 })
+            })
+    }
+
+    const handleConfirmSave = (status) => {
+        if (status === 1) {
+            saveData(1);
+        }
+        else {
+            if (remark === undefined) {
+                toast({
+                    title: 'Warning',
+                    description: "Please fill remark.",
+                    status: 'warning',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+            else {
+                saveData(2);
+            }
         }
     }
 
@@ -309,12 +297,15 @@ function MainContent() {
                                                 price={item.price}
                                                 ref_quotation={item.Table_Ref_Quotation}
                                             />
-                                            <ModalEdit
-                                                id={item.id}
-                                                price={item.price}
-                                                ref_quotation={item.Table_Ref_Quotation}
-                                                fetchData={fetchData}
-                                            />
+                                            {data?.status == 1 && trackStatus == 0 ?
+                                                <ModalEdit
+                                                    id={item.id}
+                                                    price={item.price}
+                                                    ref_quotation={item.Table_Ref_Quotation}
+                                                    fetchData={fetchData}
+                                                />
+                                                : ""
+                                            }
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -324,18 +315,18 @@ function MainContent() {
                             <Chip color="success" size="lg" variant="flat">
                                 <div className="font-medium">Total Price: {totalPrice}</div>
                             </Chip></div>
-                        {data.status == 1 && trackStatus == 0 ?
+                        {data?.status == 1 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>
                                 <Textarea
                                     placeholder="Remark"
                                     variant="bordered"
                                     size="lg"
-                                    onChange={(e) => setPrice(e.target.value)}
+                                    onChange={(e) => setRemark(e.target.value)}
                                 />
-                                <div className="mx-auto text-center">
-                                    <Button color="success" className="text-white mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>
-                                    <Button color="danger" onClick={() => handleConfirmSave(2)}>Reject</Button>
+                                <div className="mx-auto text-center mt-2">
+                                    <Button colorScheme="green" className="mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>
+                                    <Button colorScheme="red" onClick={() => handleConfirmSave(2)}>Reject</Button>
                                 </div>
                             </div>
                             : ""}
