@@ -29,6 +29,7 @@ export default function ModalEdit(data) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
     const [price, setPrice] = useState(data.price);
+    const [document, setDocument] = useState();
 
     const handleConfirmSave = () => {
         if (!price) {
@@ -43,6 +44,7 @@ export default function ModalEdit(data) {
             const formData = new FormData();
             formData.append("id", data.id);
             formData.append("price", price);
+            formData.append("document", document);
 
             axios.patch('/api/admin/documents/QF-ITC-0001/doc_no/attach_document', formData, {
                 // headers: {
@@ -125,7 +127,7 @@ export default function ModalEdit(data) {
                                 onChange={({ target }) => {
                                     if (target.files) {
                                         const file = target.files[0];
-                                        setFile(file);
+                                        setDocument(file);
                                     }
                                 }}
                             />
