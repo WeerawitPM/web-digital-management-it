@@ -19,9 +19,9 @@ import {
     Textarea,
 } from '@chakra-ui/react'
 import { EyeIcon } from "@/components/EyeIcon";
-import Link from "next/link";
+import { Link } from "@nextui-org/react";
 
-export default function ModalViewItem(data) {
+export default function ModalView(data) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <>
@@ -83,10 +83,12 @@ export default function ModalViewItem(data) {
                             {data.ref_quotation.map((quotation, index) => (
                                 <div key={index}>
                                     <Link
+                                        isExternal
+                                        showAnchorIcon
                                         href={quotation.path}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-blue-500"
+                                        color="primary"
                                     >
                                         {quotation.name}
                                     </Link>

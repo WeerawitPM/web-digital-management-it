@@ -20,16 +20,18 @@ import {
     useToast
 } from '@chakra-ui/react'
 import { EditIcon } from "@/components/EditIcon";
+import { DeleteIcon } from "@/components/DeleteIcon";
 import axios from "axios";
-import Link from "next/link";
+import { Link } from "@nextui-org/react";
+import ModalDelete from "./ModalDelete";
 
-export default function ModalEditItem(data) {
+export default function ModalEdit(data) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
-    const [price, setPrice] = useState();
+    const [price, setPrice] = useState(data.price);
 
     const handleConfirmSave = () => {
-        if (price === undefined) {
+        if (!price) {
             toast({
                 title: 'Warning',
                 description: "Please fill price.",
@@ -42,7 +44,7 @@ export default function ModalEditItem(data) {
             formData.append("id", data.id);
             formData.append("price", price);
 
-            axios.patch('/api/admin/document/QF-ITC-0001/doc_no/attach_document', formData, {
+            axios.patch('/api/admin/documents/QF-ITC-0001/doc_no/attach_document', formData, {
                 // headers: {
                 //     'Content-Type': 'application/json',
                 // }
@@ -104,8 +106,9 @@ export default function ModalEditItem(data) {
                         <FormControl mt={4}>
                             <FormLabel>Price</FormLabel>
                             <Input
+                                type="number"
                                 placeholder="Price"
-                                defaultValue={data.price}
+                                defaultValue={data?.price}
                                 onChange={(e) => setPrice(e.target.value)}
                             />
                         </FormControl>
@@ -127,15 +130,18 @@ export default function ModalEditItem(data) {
                                 }}
                             />
                             {data.ref_quotation.map((quotation, index) => (
-                                <div key={index}>
+                                <div key={index} className="flex">
                                     <Link
+                                        isExternal
+                                        showAnchorIcon
                                         href={quotation.path}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-blue-500"
+                                        color="primary"
                                     >
                                         {quotation.name}
                                     </Link>
+                                    <ModalDelete id={quotation.id} fetchData={data.fetchData} />
                                 </div>
                             ))}
                         </FormControl>

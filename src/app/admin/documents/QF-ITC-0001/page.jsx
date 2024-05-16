@@ -5,9 +5,6 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip }
 import { Button } from '@chakra-ui/react'
 import { AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import Approved from "@/images/Approved.png";
-import Reject from "@/images/Reject.png";
-import Image from "next/image";
 import axios from "axios";
 
 const columns = [
@@ -61,7 +58,7 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/admin/document/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/admin/documents/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);
@@ -116,7 +113,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/admin/document/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link href={{ pathname: '/admin/documents/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}

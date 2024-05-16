@@ -16,12 +16,9 @@ import {
 import { useToast } from "@chakra-ui/react";
 import { Steps } from 'antd';
 import { useSearchParams } from 'next/navigation';
-import ModalViewItem from "./ModalViewItem";
-import Approved from "@/images/Approved.png";
-import Reject from "@/images/Reject.png";
-import Image from "next/image";
+import ModalView from "./ModalView";
 import axios from "axios";
-import ModalEditItem from "./ModalEditItem";
+import ModalEdit from "./ModalEdit";
 
 const columns1 = [
     {
@@ -43,6 +40,10 @@ const columns1 = [
     {
         key: "qty",
         label: "QTY",
+    },
+    {
+        key: "price",
+        label: "PRICE",
     },
     {
         key: "action",
@@ -95,6 +96,7 @@ function MainContent() {
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
     const [trackStatus, setTrackStatus] = useState();
+    const totalPrice = data?.Table_ITC_0001?.reduce((sum, item) => sum + item.price, 0) || 0;
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -103,7 +105,7 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/admin/document/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/admin/documents/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
@@ -273,7 +275,7 @@ function MainContent() {
                                 {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                             </TableHeader>
                             <TableBody items={data.Equipment} emptyContent={"No rows to display."}>
-                                {data.Table_ITC_0001.map((item, index) => (
+                                {data?.Table_ITC_0001?.map((item, index) => (
                                     <TableRow key={item.id}>
                                         <TableCell className="text-base">
                                             {index + 1}
@@ -294,8 +296,11 @@ function MainContent() {
                                         <TableCell className="text-base">
                                             {item.qty}
                                         </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.price}
+                                        </TableCell>
                                         <TableCell>
-                                            <ModalViewItem
+                                            <ModalView
                                                 id={item.id}
                                                 asset={item.asset.name}
                                                 purpose={item.purpose}
@@ -304,7 +309,7 @@ function MainContent() {
                                                 price={item.price}
                                                 ref_quotation={item.Table_Ref_Quotation}
                                             />
-                                            <ModalEditItem
+                                            <ModalEdit
                                                 id={item.id}
                                                 price={item.price}
                                                 ref_quotation={item.Table_Ref_Quotation}
@@ -315,7 +320,10 @@ function MainContent() {
                                 ))}
                             </TableBody>
                         </Table>
-                        <div>Price: {data.price}</div>
+                        <div className="text-center">
+                            <Chip color="success" size="lg" variant="flat">
+                                <div className="font-medium">Total Price: {totalPrice}</div>
+                            </Chip></div>
                         {data.status == 1 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>

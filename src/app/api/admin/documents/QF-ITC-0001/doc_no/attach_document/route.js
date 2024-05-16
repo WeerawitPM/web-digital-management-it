@@ -47,3 +47,44 @@ export async function PATCH(req) {
         }
     }
 }
+
+export async function DELETE(req) {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return Response.json({ status: "fail", message: "You are not logged in" });
+    } else {
+        const prisma = new PrismaClient();
+        try {
+            const { id } = await req.json();
+
+            // const file = await prisma.table_Ref_Quotation.findUnique({
+            //     where: {
+            //         id: id
+            //     },
+            //     select: {
+            //         path: true
+            //     }
+            // })
+
+            const deleteAttachDocument = await prisma.$transaction([
+                prisma.table_Ref_Quotation.delete({
+                    where: {
+                        id: id
+                    }
+                })
+            ]);
+
+            prisma.$disconnect();
+            return Response.json({ status: "success", message: deleteAttachDocument });
+        } catch (error) {
+            console.error('Error:', error);
+            prisma.$disconnect();
+            return Response.json({
+                status: "fail",
+                message: "Failed to delete company name",
+                error: error.message, // Include error message for debugging
+            });
+        }
+    }
+}
