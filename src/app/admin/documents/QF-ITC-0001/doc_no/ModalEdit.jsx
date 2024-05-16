@@ -29,7 +29,7 @@ export default function ModalEdit(data) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
     const [price, setPrice] = useState(data.price);
-    const [document, setDocument] = useState();
+    const [document, setDocument] = useState(null);
 
     const handleConfirmSave = () => {
         if (!price) {
@@ -83,6 +83,7 @@ export default function ModalEdit(data) {
                 })
                 .finally(() => {
                     onClose();
+                    setDocument(null);
                 })
         }
     }

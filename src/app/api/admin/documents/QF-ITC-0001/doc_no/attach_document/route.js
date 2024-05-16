@@ -16,7 +16,13 @@ export async function PATCH(req) {
             const price = parseFloat(data.get("price"));
             const document = data.get("document");
 
-            if (document === 'undefined' || undefined || null || "") {
+            const findDocument = await prisma.table_Ref_Quotation.findFirst({
+                where: {
+                    name: document?.name
+                }
+            })
+
+            if (document === null || document === "null" || document?.name === findDocument?.name) {
                 const result = await prisma.$transaction([
                     prisma.table_ITC_0001.update({
                         where: {
@@ -38,6 +44,9 @@ export async function PATCH(req) {
                 const response = await axios.post('http://localhost:3001/upload/document/QF-ITC-0001', uploadData);
                 const name = response.data.name;
                 const path = response.data.path;
+
+                console.log(name);
+                console.log(path);
 
                 // ใช้ Prisma transaction เพื่อรวมการอัปเดตและการสร้างข้อมูลใน transaction เดียวกัน
                 const result = await prisma.$transaction([
