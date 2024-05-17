@@ -4,12 +4,13 @@ import "./globals.css";
 // import 'bootstrap/dist/css/bootstrap.css'
 import { UIProviders } from "./UIproviders";
 import ReduxProvider from "@/lib/reduxProvider";
-import UserNavbar from "@/components/navbar/UserNavbar";
 import AnonymousNavbar from "@/components/navbar/AnonymousNavbar";
+import UserNavbar from "@/components/navbar/UserNavbar";
+import AdminNavbar from "@/components/navbar/AdminNavbar";
+import ManagerNavbar from "@/components/navbar/ManagerNavbar";
 import SessionProvider from "./SessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
-import AdminNavbar from "@/components/navbar/AdminNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,7 @@ export default async function RootLayout({ children }) {
             <div className="min-h-full">
               <SessionProvider session={session}>
                 {!session ? <AnonymousNavbar /> : (session.user.role === "user" ? <UserNavbar />
-                  : (session.user.role === "manager" ? <UserNavbar />
+                  : (session.user.role === "manager" ? <ManagerNavbar />
                     : (session.user.role === "admin" ? <AdminNavbar />
                       : <AnonymousNavbar />
                     )))}
