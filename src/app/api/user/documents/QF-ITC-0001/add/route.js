@@ -48,7 +48,7 @@ export async function POST(req) {
             const requestEquipment = await prisma.document_Head.create({
                 data: {
                     ref_no: requestId,
-                    status: 1,
+                    step: 1,
                     document: { connect: { id: findDoc.id } },
                     end_date: null
                 },
@@ -109,7 +109,7 @@ export async function POST(req) {
                         id: findTrackDoc.id, // Use the unique id here
                     },
                     data: {
-                        step: 1
+                        status: 1
                     }
                 });
             }

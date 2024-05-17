@@ -75,7 +75,10 @@ export default function Component() {
                                         </div>
                                     </div>
                                 </div>
-                                <Link href="/admin/documents/QF-ITC-0001/attach_document" className="font-medium ms-40">
+                                <Link
+                                    href="/admin/documents/QF-ITC-0001/attach_document"
+                                    className="font-medium ms-40"
+                                >
                                     <Button radius="full" color="primary" variant="flat">Detail</Button>
                                 </Link>
                             </div>
@@ -101,7 +104,10 @@ export default function Component() {
                                         </div>
                                     </div>
                                 </div>
-                                <Link href="/admin/documents/QF-ITC-0001/detail" className="font-medium ms-40">
+                                <Link
+                                    href="/admin/documents/QF-ITC-0001/attach_document"
+                                    className="font-medium ms-40"
+                                >
                                     <Button radius="full" color="success" variant="flat">Detail</Button>
                                 </Link>
                             </div>
@@ -127,7 +133,10 @@ export default function Component() {
                                         </div>
                                     </div>
                                 </div>
-                                <Link href="/admin/documents/QF-ITC-0001/detail" className="font-medium ms-40">
+                                <Link
+                                    href="/admin/documents/QF-ITC-0001/attach_document"
+                                    className="font-medium ms-40"
+                                >
                                     <Button radius="full" color="danger" variant="flat">Detail</Button>
                                 </Link>
                             </div>

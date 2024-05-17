@@ -86,8 +86,11 @@ export default function Component() {
                                         </div>
                                     </div>
                                 </div>
-                                <Link href={{ pathname: '/user/documents/QF-ITC-0001/detail', query: { status: 0 } }}>
-                                    <Button radius="full" color="primary" variant="flat" className="font-medium ms-40">Detail</Button>
+                                <Link
+                                    href={{ pathname: '/user/documents/QF-ITC-0001/detail', query: { status: 0 } }}
+                                    className="font-medium ms-40"
+                                >
+                                    <Button radius="full" color="primary" variant="flat">Detail</Button>
                                 </Link>
                             </div>
                         </div>
@@ -112,8 +115,11 @@ export default function Component() {
                                         </div>
                                     </div>
                                 </div>
-                                <Link href={{ pathname: '/user/documents/QF-ITC-0001/detail', query: { status: 1 } }}>
-                                    <Button radius="full" color="success" variant="flat" className="font-medium ms-40">Detail</Button>
+                                <Link
+                                    href={{ pathname: '/user/documents/QF-ITC-0001/detail', query: { status: 1 } }}
+                                    className="font-medium ms-40"
+                                >
+                                    <Button radius="full" color="success" variant="flat">Detail</Button>
                                 </Link>
                             </div>
                         </div>
@@ -138,8 +144,11 @@ export default function Component() {
                                         </div>
                                     </div>
                                 </div>
-                                <Link href={{ pathname: '/user/documents/QF-ITC-0001/detail', query: { status: 2 } }}>
-                                    <Button radius="full" color="danger" variant="flat" className="font-medium ms-40">Detail</Button>
+                                <Link
+                                    href={{ pathname: '/user/documents/QF-ITC-0001/detail', query: { status: 2 } }}
+                                    className="font-medium ms-40"
+                                >
+                                    <Button radius="full" color="danger" variant="flat">Detail</Button>
                                 </Link>
                             </div>
                         </div>

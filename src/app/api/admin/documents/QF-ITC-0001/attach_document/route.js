@@ -9,9 +9,10 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
+        const step = 1;
         const data = await prisma.document_Head.findMany({
             where: {
-                step: 1,
+                step: step,
             },
             include: {
                 Table_ITC_0001: {
@@ -25,7 +26,7 @@ export async function GET() {
                 },
                 Track_Doc: {
                     where: {
-                        step: 1
+                        step: step
                     },
                 }
             }
