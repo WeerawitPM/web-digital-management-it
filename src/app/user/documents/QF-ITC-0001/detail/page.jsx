@@ -2,13 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
-import { Button } from '@chakra-ui/react'
-import { AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import Approved from "@/images/Approved.png";
-import Reject from "@/images/Reject.png";
-import Image from "next/image";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 const columns = [
     {
@@ -27,21 +23,6 @@ const columns = [
         key: "request_by",
         label: "REQUEST BY",
     },
-    // {
-    //     key: "manager1",
-    //     label: "Manager1",
-    //     textCenter: "text-center"
-    // },
-    // {
-    //     key: "manager2",
-    //     label: "Manager2",
-    //     textCenter: "text-center"
-    // },
-    // {
-    //     key: "manager3",
-    //     label: "Manager3",
-    //     textCenter: "text-center"
-    // },
     {
         key: "status",
         label: "STATUS",
@@ -50,7 +31,9 @@ const columns = [
 
 export default function Home() {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    const [status, setStatus] = useState([]);
+    const [step, setStep] = useState([]);
+    const searchParams = useSearchParams();
+    const status = parseInt(searchParams.get('status')); // Get the 'status' query parameter
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -59,7 +42,7 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/user/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/user/documents/QF-ITC-0001/detail'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
 
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
@@ -68,9 +51,9 @@ export default function Home() {
                 // วนลูปผ่าน Track_Doc ของแต่ละ item
                 item.Track_Doc.map((trackItem) => {
                     // ตรวจสอบว่า status เป็น 1 หรือไม่ และ trackItem.step เท่ากับ status หรือไม่
-                    if (trackItem.step === item.status) {
+                    if (trackItem.step === item.step) {
                         // ใช้ spread operator (...) ในการเพิ่มข้อมูลใน state อย่างถูกต้อง
-                        setStatus(prevStatus => [...prevStatus, trackItem.name]);
+                        setStep(prevStatus => [...prevStatus, trackItem.name]);
                     }
                 });
             });
@@ -95,19 +78,10 @@ export default function Home() {
         <>
             <header className="bg-white shadow">
                 <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between flex-wrap">
-                        <div className="justify-start my-auto">
-                            <span className="font-semibold text-md text-gray-800 leading-tight">
-                                1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
-                            </span>
-                        </div>
-                        <div className="justify-end">
-                            <Link href="/user/QF-ITC-0001/add">
-                                <Button colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
-                                    เพิ่มรายการร้องขอ
-                                </Button>
-                            </Link>
-                        </div>
+                    <div className="justify-start my-auto">
+                        <span className="font-semibold text-md text-gray-800 leading-tight">
+                            1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
+                        </span>
                     </div>
                 </div>
             </header>
@@ -120,13 +94,13 @@ export default function Home() {
                             </TableHeader>
                             {data == null ? <TableBody emptyContent={"No rows to display."} /> :
                                 <TableBody items={data} emptyContent={"No rows to display."}>
-                                    {data.map((item, index) => (
+                                    {data.filter((item) => item.status === status).map((item, index) => (
                                         <TableRow key={item.key}>
                                             <TableCell>
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/user/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link href={{ pathname: '/user/documents/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
@@ -134,18 +108,9 @@ export default function Home() {
                                             <TableCell>
                                                 {item.Table_ITC_0001[0].request_by.username}
                                             </TableCell>
-                                            {/* {[...Array(3)].map((_, index) => (
-                                                <TableCell key={index}>
-                                                    {item.ApproveEquipment[index] ?
-                                                        (item.ApproveEquipment[index].status === "Approved" ? <Image width={25} height={25} src={Approved} alt="Image" className="mx-auto" /> :
-                                                            item.ApproveEquipment[index].status === "Rejected" ? <Image width={25} height={25} src={Reject} alt="Image" className="mx-auto" /> : "") :
-                                                        null
-                                                    }
-                                                </TableCell>
-                                            ))} */}
                                             <TableCell>
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {status[index]}
+                                                    {step[index]}
                                                 </Chip>
                                             </TableCell>
                                         </TableRow>

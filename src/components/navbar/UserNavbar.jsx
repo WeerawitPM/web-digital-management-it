@@ -12,8 +12,6 @@ import {
     Dropdown,
     DropdownMenu,
     Avatar,
-    Badge,
-    Button,
     NavbarMenuToggle,
     NavbarMenu,
     NavbarMenuItem
@@ -22,10 +20,14 @@ import {
 import CustomDropdownMenu from "../CustomDropdownMenu";
 import { menuRequest } from "../MenuRequest";
 import { useSession, signOut } from "next-auth/react";
+import { usePathname } from 'next/navigation'
 
 export default function UserNavbar() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = useSession();
+    const pathname = usePathname();
+    const home = pathname.startsWith('/user/');
+    const documents = pathname.startsWith('/user/documents');
 
     return (
         <Navbar maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
@@ -35,26 +37,13 @@ export default function UserNavbar() {
             />
             <NavbarMenu>
                 <NavbarMenuItem>
-                    <Link
-                        color="foreground"
-                        className="w-full"
-                        href="/user"
-                        size="lg"
-                    >
-                        หน้าแรก
-                    </Link>
+                    {home && (
+                        <Link href="/user" className="text-white">หน้าแรก</Link>
+                    )}
                 </NavbarMenuItem>
-                <NavbarMenuItem>
-                    <Link
-                        color="foreground"
-                        className="w-full"
-                        href="/user/report_repair"
-                        size="lg"
-                    >
-                        แจ้งซ่อม
-                    </Link>
-                </NavbarMenuItem>
-                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-foreground" size="lg" />
+                {documents && (
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" />
+                )}
             </NavbarMenu>
             <NavbarBrand>
                 <Link>
@@ -71,16 +60,13 @@ export default function UserNavbar() {
 
             <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
                 <NavbarItem>
-                    <Link href="/user" className="text-white">
-                        หน้าแรก
-                    </Link>
+                    {home && (
+                        <Link href="/user" className="text-white">หน้าแรก</Link>
+                    )}
                 </NavbarItem>
-                <NavbarItem>
-                    <Link href="/user/report_repair" className="text-white">
-                        แจ้งซ่อม
-                    </Link>
-                </NavbarItem>
-                <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" />
+                {documents && (
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" />
+                )}
             </NavbarContent>
 
             <NavbarContent as="div" justify="end">

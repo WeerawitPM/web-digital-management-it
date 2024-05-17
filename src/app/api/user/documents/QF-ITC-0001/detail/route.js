@@ -9,9 +9,14 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
+
         const data = await prisma.document_Head.findMany({
             where: {
-                step: 1,
+                Table_ITC_0001: {
+                    some: {
+                        request_by_id: session.user.id
+                    }
+                }
             },
             include: {
                 Table_ITC_0001: {
@@ -23,14 +28,12 @@ export async function GET() {
                         }
                     }
                 },
-                Track_Doc: {
-                    where: {
-                        step: 1
-                    },
-                }
+                Track_Doc: true
             }
         });
+
         prisma.$disconnect();
         return Response.json(data);
     }
 };
+

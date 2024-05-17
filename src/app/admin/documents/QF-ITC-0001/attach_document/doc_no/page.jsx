@@ -88,7 +88,7 @@ function MainContent() {
             const steps = data.Track_Doc.map((step, index) => {
                 let status;
                 if (step.status === 1) {
-                    status = index === data.status ? "current" : "finished";
+                    status = index === data.step ? "current" : "finished";
                 } else if (step.status === 0) {
                     status = "waiting";
                 } else if (step.status === 2) {
@@ -96,7 +96,7 @@ function MainContent() {
                     setStatusStep(status);
                 }
 
-                if (data.status == step.step) {
+                if (data.step == step.step) {
                     setTrackStatus(step.status);
                 }
 
@@ -119,7 +119,7 @@ function MainContent() {
     const saveData = (status) => {
         const formData = new FormData();
         formData.append("document_head_id", data?.ref_no);
-        formData.append("step", data?.status);
+        formData.append("step", data?.step);
         formData.append("status", status);
         formData.append("remark", remark);
 
@@ -197,7 +197,7 @@ function MainContent() {
                 <main>
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
                         <Steps
-                            current={data.status}
+                            current={data.step}
                             status={statusStep == "" ? "process" : statusStep}
                             items={steps}
                             className="mt-5"
@@ -297,7 +297,7 @@ function MainContent() {
                                                 price={item.price}
                                                 ref_quotation={item.Table_Ref_Quotation}
                                             />
-                                            {data?.status == 1 && trackStatus == 0 ?
+                                            {data?.step == 1 && trackStatus == 0 ?
                                                 <ModalEdit
                                                     id={item.id}
                                                     price={item.price}
@@ -316,7 +316,7 @@ function MainContent() {
                                 <div className="font-medium">Total Price: {totalPrice}</div>
                             </Chip>
                         </div>
-                        {data?.status == 1 && trackStatus == 0 ?
+                        {data?.step == 1 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>
                                 <Textarea

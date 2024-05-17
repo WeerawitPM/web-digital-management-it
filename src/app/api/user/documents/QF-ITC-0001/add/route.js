@@ -2,41 +2,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
 
-export async function GET() {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-        return Response.json({ status: "fail", message: "You are not logged in" });
-    } else {
-        const prisma = new PrismaClient();
-
-        const data = await prisma.document_Head.findMany({
-            where: {
-                Table_ITC_0001: {
-                    some: {
-                        request_by_id: session.user.id
-                    }
-                }
-            },
-            include: {
-                Table_ITC_0001: {
-                    select: {
-                        request_by: {
-                            select: {
-                                username: true
-                            }
-                        }
-                    }
-                },
-                Track_Doc: true
-            }
-        });
-
-        prisma.$disconnect();
-        return Response.json(data);
-    }
-};
-
 export async function POST(req) {
     const session = await getServerSession(authOptions);
 
@@ -144,7 +109,7 @@ export async function POST(req) {
                         id: findTrackDoc.id, // Use the unique id here
                     },
                     data: {
-                        status: 1
+                        step: 1
                     }
                 });
             }

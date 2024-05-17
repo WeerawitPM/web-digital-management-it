@@ -85,7 +85,7 @@ export async function PATCH(req) {
                         ref_no: document_head_id
                     },
                     data: {
-                        status: step
+                        step: step
                     }
                 })
             ]);

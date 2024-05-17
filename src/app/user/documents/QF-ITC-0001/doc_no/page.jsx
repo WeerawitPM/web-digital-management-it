@@ -10,14 +10,9 @@ import {
     TableCell,
     Tooltip,
     Chip,
-    Divider,
-    Textarea
 } from "@nextui-org/react";
 import { useSearchParams } from 'next/navigation';
 import ModalViewItem from "./ModalViewItem";
-import Approved from "@/images/Approved.png";
-import Reject from "@/images/Reject.png";
-import Image from "next/image";
 import axios from "axios";
 import { Steps } from 'antd';
 
@@ -43,36 +38,13 @@ const columns1 = [
         label: "QTY",
     },
     {
+        key: "price",
+        label: "PRICE",
+    },
+    {
         key: "action",
         label: "ACTION",
     },
-];
-
-const columns2 = [
-    {
-        key: "user1",
-        label: "USER REQUEST",
-    },
-    {
-        key: "IT1",
-        label: "IT ATTACH DOCUMENT",
-    },
-    {
-        key: "user2",
-        label: "USER MANAGER APPROVE",
-    },
-    {
-        key: "IT2",
-        label: "IT APPROVE",
-    },
-    {
-        key: "IT3",
-        label: "IT MANAGER APPROVE",
-    },
-    {
-        key: "status",
-        label: "STATUS",
-    }
 ];
 
 export default function Home() {
@@ -98,7 +70,7 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/user/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/user/documents/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
@@ -124,7 +96,7 @@ function MainContent() {
                     description: step.name,
                 };
             });
-            
+
             if (totalPrice >= 5000) {
                 setStep(steps);
             } else {
@@ -153,7 +125,7 @@ function MainContent() {
                 <main>
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
                         <Steps
-                            current={data.status}
+                            current={data.step}
                             status={statusStep == "" ? "process" : statusStep}
                             items={steps}
                             className="mt-5"
@@ -239,6 +211,9 @@ function MainContent() {
                                         </TableCell>
                                         <TableCell className="text-base">
                                             {item.qty}
+                                        </TableCell>
+                                        <TableCell className="text-base">
+                                            {item.price}
                                         </TableCell>
                                         <TableCell>
                                             <ModalViewItem

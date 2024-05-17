@@ -161,6 +161,7 @@ model Document_Head {
   document       Document?        @relation(fields: [document_id], references: [id])
   start_date     DateTime         @default(now())
   end_date       DateTime?
+  step           Int              @default(0)
   status         Int              @default(0)
   status_flag    Int              @default(0)
   Table_ITC_0001 Table_ITC_0001[]
