@@ -9,7 +9,11 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
-        const data = await prisma.document_Head.findMany();
+        const data = await prisma.document_Head.findMany({
+            include: {
+                Track_Doc: true
+            }
+        });
 
         prisma.$disconnect();
 
@@ -24,10 +28,18 @@ export async function GET() {
         data.forEach(request => {
             // เช็คสถานะและเพิ่มจำนวนของแต่ละสถานะ
             if (request.step === 1) {
-                step["waitAttach"]++;
-            } else if (request.step === 3) {
+                request.Track_Doc.forEach(item => {
+                    if (item.step === 1) {
+                        if (item.status != 2) {
+                            step["waitAttach"]++;
+                        }
+                    }
+                })
+            }
+            if (request.step === 3) {
                 step["waitApprove"]++;
-            } else if (request.status === 2) {
+            }
+            if (request.status === 2) {
                 step["rejected"]++;
             }
         });

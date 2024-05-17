@@ -9,7 +9,7 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
-        const step = 1;
+        const step = 3;
         const data = await prisma.document_Head.findMany({
             where: {
                 step: step,

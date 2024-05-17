@@ -37,7 +37,7 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/admin/documents/QF-ITC-0001/attach_document'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/admin/documents/QF-ITC-0001/approve'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);
@@ -85,7 +85,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/admin/documents/QF-ITC-0001/attach_document/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link href={{ pathname: '/admin/documents/QF-ITC-0001/approve/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}

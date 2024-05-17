@@ -16,7 +16,6 @@ import { Steps } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import ModalView from "./ModalView";
 import axios from "axios";
-import ModalEdit from "./ModalEdit";
 
 const columns1 = [
     {
@@ -75,7 +74,7 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/admin/documents/QF-ITC-0001/attach_document/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/admin/documents/QF-ITC-0001/approve/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
@@ -123,7 +122,7 @@ function MainContent() {
         formData.append("status", status);
         formData.append("remark", remark);
 
-        axios.patch('/api/admin/documents/QF-ITC-0001/attach_document/doc_no', formData, {
+        axios.patch('/api/admin/documents/QF-ITC-0001/approve/doc_no', formData, {
             // headers: {
             //     'Content-Type': 'application/json',
             // }
@@ -297,15 +296,6 @@ function MainContent() {
                                                 price={item.price}
                                                 ref_quotation={item.Table_Ref_Quotation}
                                             />
-                                            {data?.step == 1 && trackStatus == 0 ?
-                                                <ModalEdit
-                                                    id={item.id}
-                                                    price={item.price}
-                                                    ref_quotation={item.Table_Ref_Quotation}
-                                                    fetchData={fetchData}
-                                                />
-                                                : ""
-                                            }
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -316,7 +306,7 @@ function MainContent() {
                                 <div className="font-medium">Total Price: {totalPrice}</div>
                             </Chip>
                         </div>
-                        {data?.step == 1 && trackStatus == 0 ?
+                        {data?.step === 3 && trackStatus === 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>
                                 <Textarea
