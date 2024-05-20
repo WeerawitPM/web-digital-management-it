@@ -76,7 +76,7 @@ export default function Component() {
                                     </div>
                                 </div>
                                 <Link
-                                    href={{ pathname: '/manager/documents/QF-ITC-0001/detail', query: { status: 0 } }}
+                                    href={`/manager/documents/QF-ITC-0001/detail/${0}`}
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="primary" variant="flat">Detail</Button>
@@ -105,7 +105,7 @@ export default function Component() {
                                     </div>
                                 </div>
                                 <Link
-                                    href={{ pathname: '/manager/documents/QF-ITC-0001/detail', query: { status: 1 } }}
+                                    href={`/manager/documents/QF-ITC-0001/detail/${1}`}
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="success" variant="flat">Detail</Button>
@@ -134,7 +134,7 @@ export default function Component() {
                                     </div>
                                 </div>
                                 <Link
-                                    href={{ pathname: '/manager/documents/QF-ITC-0001/detail', query: { status: 2 } }}
+                                    href={`/manager/documents/QF-ITC-0001/detail/${2}`}
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="danger" variant="flat">Detail</Button>

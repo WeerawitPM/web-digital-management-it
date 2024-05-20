@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
 import Link from "next/link";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
 
 const columns = [
     {
@@ -29,11 +28,9 @@ const columns = [
     },
 ];
 
-export default function Home() {
+export default function Home({ params }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    const [step, setStep] = useState([]);
-    const searchParams = useSearchParams();
-    const status = parseInt(searchParams.get('status')); // Get the 'status' query parameter
+    const status = params.id;
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -42,22 +39,9 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/manager/documents/QF-ITC-0001/detail'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/manager/documents/QF-ITC-0001/detail?status=' + status); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
-
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
-
-            data.map((item) => {
-                // วนลูปผ่าน Track_Doc ของแต่ละ item
-                item.Track_Doc.map((trackItem) => {
-                    // ตรวจสอบว่า status เป็น 1 หรือไม่ และ trackItem.step เท่ากับ status หรือไม่
-                    if (trackItem.step === item.step) {
-                        // ใช้ spread operator (...) ในการเพิ่มข้อมูลใน state อย่างถูกต้อง
-                        setStep(prevStatus => [...prevStatus, trackItem.name]);
-                    }
-                });
-            });
-
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -94,13 +78,17 @@ export default function Home() {
                             </TableHeader>
                             {data == null ? <TableBody emptyContent={"No rows to display."} /> :
                                 <TableBody items={data} emptyContent={"No rows to display."}>
-                                    {data.filter((item) => item.Track_Doc[2].status === status).map((item, index) => (
+                                    {data.map((item, index) => (
                                         <TableRow key={item.key}>
                                             <TableCell>
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/manager/documents/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link
+                                                    href={`/manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
+                                                    className="text-blue-500">
+                                                    {item.ref_no}
+                                                </Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
@@ -110,7 +98,7 @@ export default function Home() {
                                             </TableCell>
                                             <TableCell>
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {step[index]}
+                                                    {item.Track_Doc.find(doc => doc.step === item.step)?.name || 'No matching step'}
                                                 </Chip>
                                             </TableCell>
                                         </TableRow>

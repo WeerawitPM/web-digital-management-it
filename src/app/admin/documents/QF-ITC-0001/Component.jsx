@@ -134,7 +134,7 @@ export default function Component() {
                                     </div>
                                 </div>
                                 <Link
-                                    href="/admin/documents/QF-ITC-0001/attach_document"
+                                    href="/admin/documents/QF-ITC-0001/reject"
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="danger" variant="flat">Detail</Button>
