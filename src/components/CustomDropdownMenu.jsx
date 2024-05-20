@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { ChevronDown } from "./Icons";
 
-const CustomDropdownMenu = ({ title, menus, className, size }) => {
+const CustomDropdownMenu = (params) => {
   return (
     <Dropdown>
       <NavbarItem>
@@ -19,10 +19,10 @@ const CustomDropdownMenu = ({ title, menus, className, size }) => {
             isExternal
             showAnchorIcon
             anchorIcon={<ChevronDown fill="currentColor" size={16} />}
-            className={className}
-            size={size}
+            className={params.className}
+            size={params.size}
           >
-            {title}
+            {params.title}
           </Link>
         </DropdownTrigger>
       </NavbarItem>
@@ -33,8 +33,8 @@ const CustomDropdownMenu = ({ title, menus, className, size }) => {
           base: "gap-4",
         }}
       >
-        {menus.map((item, index) => (
-          <DropdownItem key={index} description={item.description} startContent={item.startContent} href={item.href}>
+        {params.menus.map((item, index) => (
+          <DropdownItem key={index} description={item.description} startContent={item.startContent} href={"/" + params.role + item.href}>
             <div className="text-blue-500">{index + 1}.{item.title}</div>
           </DropdownItem>
         ))}
