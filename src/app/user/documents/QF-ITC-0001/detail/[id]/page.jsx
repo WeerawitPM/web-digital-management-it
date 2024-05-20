@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
 import Link from "next/link";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
 
 const columns = [
     {
@@ -29,11 +28,10 @@ const columns = [
     },
 ];
 
-export default function Home() {
+export default function Home({ params }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     const [step, setStep] = useState([]);
-    const searchParams = useSearchParams();
-    const status = parseInt(searchParams.get('status')); // Get the 'status' query parameter
+    const status = parseInt(params.id); // Get the 'status' query parameter
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -100,7 +98,9 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/user/documents/QF-ITC-0001/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link
+                                                    href={`/user/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
+                                                    className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}

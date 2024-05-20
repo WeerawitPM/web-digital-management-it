@@ -47,17 +47,15 @@ const columns1 = [
     },
 ];
 
-export default function Home() {
+export default function Home({ params }) {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <MainContent />
+            <MainContent doc_no={params.id} />
         </Suspense>
     );
 }
 
-function MainContent() {
-    const searchParams = useSearchParams();
-    const doc_no = searchParams.get('doc_no');
+function MainContent({doc_no}) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
