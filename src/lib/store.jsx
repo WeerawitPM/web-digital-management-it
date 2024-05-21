@@ -9,24 +9,29 @@ const rootReducer = combineReducers({
 
 const saveToLocalStorage = (store) => (next) => (action) => {
   const result = next(action);
-  try {
-    const serializedState = JSON.stringify(store.getState());
-    localStorage.setItem('reduxState', serializedState);
-  } catch (e) {
-    console.log(e);
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const serializedState = JSON.stringify(store.getState());
+      localStorage.setItem('reduxState', serializedState);
+    } catch (e) {
+      console.log(e);
+    }
   }
   return result;
 };
 
 const loadFromLocalStorage = () => {
-  try {
-    const serializedState = localStorage.getItem('reduxState');
-    if (serializedState === null) return undefined;
-    return JSON.parse(serializedState);
-  } catch (e) {
-    console.log(e);
-    return undefined;
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const serializedState = localStorage.getItem('reduxState');
+      if (serializedState === null) return undefined;
+      return JSON.parse(serializedState);
+    } catch (e) {
+      console.log(e);
+      return undefined;
+    }
   }
+  return undefined;
 };
 
 export default function initializeStore() {
