@@ -13,7 +13,6 @@ import {
     Textarea
 } from "@nextui-org/react";
 import { Button, useToast } from "@chakra-ui/react";
-import { useSearchParams } from 'next/navigation';
 import ModalViewItem from "./ModalViewItem";
 import axios from "axios";
 import { Steps } from 'antd';
@@ -93,7 +92,7 @@ function MainContent({ doc_no }) {
             const steps = trackDoc.map((step, index) => {
                 let status;
                 if (step.status === 1) {
-                    status = index === trackDoc.step ? "current" : "finished";
+                    status = index === data.step ? "current" : "finished";
                 } else if (step.status === 0) {
                     status = "waiting";
                 } else if (step.status === 2) {
@@ -104,14 +103,15 @@ function MainContent({ doc_no }) {
                 if (data.step == step.step) {
                     setTrackStatus(step.status);
                 }
-                
+
                 return {
                     title: index === trackDoc.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
                     description: step.name,
                 };
             });
+
             setStep(steps);
-            
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -123,8 +123,9 @@ function MainContent({ doc_no }) {
         formData.append("step", data?.step);
         formData.append("status", status);
         formData.append("remark", remark);
+        formData.append("price", totalPrice);
 
-        axios.patch('/api/manager/documents/QF-ITC-0001/doc_no', formData, {
+        axios.patch('/api/it-manager/documents/QF-ITC-0001/doc_no', formData, {
             // headers: {
             //     'Content-Type': 'application/json',
             // }
@@ -308,7 +309,7 @@ function MainContent({ doc_no }) {
                                 <div className="font-medium">Total Price: {totalPrice}</div>
                             </Chip>
                         </div>
-                        {data?.step == 2 && trackStatus == 0 ?
+                        {data?.step == 4 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>
                                 <Textarea

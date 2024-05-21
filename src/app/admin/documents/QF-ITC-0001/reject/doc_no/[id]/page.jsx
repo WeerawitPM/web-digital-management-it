@@ -11,7 +11,6 @@ import {
     Chip,
     Textarea,
 } from "@nextui-org/react";
-import { useToast, Button } from "@chakra-ui/react";
 import { Steps } from 'antd';
 import ModalView from "./ModalView";
 import axios from "axios";
@@ -57,12 +56,9 @@ export default function Home({ params }) {
 
 function MainContent({ doc_no }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    const toast = useToast();
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
-    const [trackStatus, setTrackStatus] = useState();
     const [totalPrice, setTotalPrice] = useState();
-    const [remark, setRemark] = useState(null);
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -80,11 +76,18 @@ function MainContent({ doc_no }) {
 
             const totalPrice = data?.Table_ITC_0001?.reduce((sum, item) => sum + item.price, 0) || 0;
             setTotalPrice(totalPrice);
-            // console.log(data);
-            const steps = data.Track_Doc.map((step, index) => {
+            
+            let trackDoc;
+            if (totalPrice >= 5000) {
+                trackDoc = data.Track_Doc
+            } else {
+                trackDoc = data.Track_Doc.slice(0, -1)
+            }
+
+            const steps = trackDoc.map((step, index) => {
                 let status;
                 if (step.status === 1) {
-                    status = index === data.step ? "current" : "finished";
+                    status = index === trackDoc.step ? "current" : "finished";
                 } else if (step.status === 0) {
                     status = "waiting";
                 } else if (step.status === 2) {
@@ -92,89 +95,16 @@ function MainContent({ doc_no }) {
                     setStatusStep(status);
                 }
 
-                if (data.step == step.step) {
-                    setTrackStatus(step.status);
-                }
-
                 return {
-                    title: index === data.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
+                    title: index === trackDoc.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
                     description: step.name,
                 };
             });
-
-            if (totalPrice >= 5000) {
-                setStep(steps);
-            } else {
-                setStep(steps.slice(0, -1));
-            }
+            setStep(steps);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
-
-    const saveData = (status) => {
-        const formData = new FormData();
-        formData.append("document_head_id", data?.ref_no);
-        formData.append("step", data?.step);
-        formData.append("status", status);
-        formData.append("remark", remark);
-
-        axios.patch('/api/admin/documents/QF-ITC-0001/approve/doc_no', formData, {
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // }
-        })
-            .then(response => {
-                if (response.data.status === "success") {
-                    toast({
-                        title: 'Success',
-                        description: "Document has been saved.",
-                        status: 'success',
-                        duration: 9000,
-                        isClosable: true,
-                    })
-                    fetchData();
-                } else {
-                    toast({
-                        title: 'Error',
-                        description: response.data.message,
-                        status: 'error',
-                        duration: 9000,
-                        isClosable: true,
-                    })
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                toast({
-                    title: 'Error',
-                    description: "Something went wrong",
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
-                })
-            })
-    }
-
-    const handleConfirmSave = (status) => {
-        if (status === 1) {
-            saveData(1);
-        }
-        else {
-            if (remark === null || remark === undefined || remark === "") {
-                toast({
-                    title: 'Warning',
-                    description: "Please fill remark.",
-                    status: 'warning',
-                    duration: 9000,
-                    isClosable: true,
-                })
-            }
-            else {
-                saveData(2);
-            }
-        }
-    }
 
     return (
         <>

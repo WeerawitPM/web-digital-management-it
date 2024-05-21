@@ -83,11 +83,18 @@ function MainContent() {
 
             const totalPrice = data?.Table_ITC_0001?.reduce((sum, item) => sum + item.price, 0) || 0;
             setTotalPrice(totalPrice);
-            // console.log(data);
-            const steps = data.Track_Doc.map((step, index) => {
+            
+            let trackDoc;
+            if (totalPrice >= 5000) {
+                trackDoc = data.Track_Doc
+            } else {
+                trackDoc = data.Track_Doc.slice(0, -1)
+            }
+
+            const steps = trackDoc.map((step, index) => {
                 let status;
                 if (step.status === 1) {
-                    status = index === data.step ? "current" : "finished";
+                    status = index === trackDoc.step ? "current" : "finished";
                 } else if (step.status === 0) {
                     status = "waiting";
                 } else if (step.status === 2) {
@@ -98,18 +105,13 @@ function MainContent() {
                 if (data.step == step.step) {
                     setTrackStatus(step.status);
                 }
-
+                
                 return {
-                    title: index === data.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
+                    title: index === trackDoc.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
                     description: step.name,
                 };
             });
-
-            if (totalPrice >= 5000) {
-                setStep(steps);
-            } else {
-                setStep(steps.slice(0, -1));
-            }
+            setStep(steps);
         } catch (error) {
             console.error('Error fetching data:', error);
         }

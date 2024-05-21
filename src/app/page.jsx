@@ -8,7 +8,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   if (session) {
-    console.log(session)
+    // console.log(session)
     if (session.user.status == "Active") {
       switch (session.user.role) {
         case "admin": redirect("/admin");

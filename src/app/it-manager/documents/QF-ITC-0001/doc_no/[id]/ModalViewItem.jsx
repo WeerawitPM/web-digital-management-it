@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
     Button as NextButton,
-    Tooltip
+    Tooltip,
+    Link
 } from "@nextui-org/react";
 import {
     Modal,
@@ -19,23 +20,9 @@ import {
     Textarea,
 } from '@chakra-ui/react'
 import { EyeIcon } from "@/components/EyeIcon";
-import { useSelector } from 'react-redux'
 
-export default function ModalView({ id }) {
+export default function ModalViewItem(data) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const equipmentListData = useSelector((state) => state.equipment.data);
-    const [name, setName] = useState(null);
-    const [detail, setDetail] = useState(null);
-    const [qty, setQty] = useState(null);
-
-    useEffect(() => {
-        const selectedAsset = equipmentListData.find(item => item.id === id);
-        if (selectedAsset) {
-            setName(selectedAsset.name);
-            setDetail(selectedAsset.detail);
-            setQty(selectedAsset.qty)
-        }
-    }, [id, equipmentListData]);
 
     return (
         <>
@@ -56,27 +43,58 @@ export default function ModalView({ id }) {
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <FormControl>
-                            <FormLabel>Select Asset</FormLabel>
+                            <FormLabel>Asset</FormLabel>
                             <Input
                                 isReadOnly
-                                value={name}
+                                value={data.asset}
                             />
                         </FormControl>
-
+                        <FormControl mt={4}>
+                            <FormLabel>Purpose of Usage</FormLabel>
+                            <Textarea
+                                placeholder='Purpose of Usage'
+                                isReadOnly
+                                value={data.purpose}
+                            />
+                        </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Device Specification/Software version </FormLabel>
                             <Textarea
                                 placeholder='Device Specification/Software version'
                                 isReadOnly
-                                value={detail}
+                                value={data.spec_detail}
                             />
                         </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Quantity</FormLabel>
                             <Input
                                 isReadOnly
-                                value={qty}
+                                value={data.qty}
                             />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Price</FormLabel>
+                            <Input
+                                isReadOnly
+                                value={data.price}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Refer to Quotation No.</FormLabel>
+                            {data.ref_quotation?.map((quotation, index) => (
+                                <div key={index}>
+                                    <Link
+                                        isExternal
+                                        showAnchorIcon
+                                        href={quotation.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        color="primary"
+                                    >
+                                        {quotation.name}
+                                    </Link>
+                                </div>
+                            ))}
                         </FormControl>
                     </ModalBody>
 

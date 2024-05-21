@@ -22,7 +22,7 @@ import { menuRequest } from "../MenuRequest";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from 'next/navigation'
 
-export default function UserNavbar() {
+export default function UserNavbar({ role }) {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = useSession();
     const pathname = usePathname();
@@ -42,7 +42,7 @@ export default function UserNavbar() {
                     )}
                 </NavbarMenuItem>
                 {documents && (
-                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" />
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
                 )}
             </NavbarMenu>
             <NavbarBrand>
@@ -65,7 +65,7 @@ export default function UserNavbar() {
                     )}
                 </NavbarItem>
                 {documents && (
-                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" />
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
                 )}
             </NavbarContent>
 

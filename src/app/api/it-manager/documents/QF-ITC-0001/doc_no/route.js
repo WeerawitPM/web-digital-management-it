@@ -15,6 +15,7 @@ export async function PATCH(req) {
             let step = parseInt(data.get("step"));
             const status = parseInt(data.get("status"));
             const remark = data.get("remark");
+            const price = parseFloat(data.get("price"));
 
             const findTrack = await prisma.track_Doc.findFirst({
                 where: {
@@ -25,29 +26,55 @@ export async function PATCH(req) {
 
             if (findTrack) {
                 if (status === 1) {
-                    step = step + 1;
-                    const result = prisma.$transaction([
-                        prisma.track_Doc.update({
-                            where: {
-                                id: findTrack.id
-                            },
-                            data: {
-                                status: status,
-                                remark: remark,
-                                user: { connect: { id: session.user.id } }
-                            }
-                        }),
-                        prisma.document_Head.update({
-                            where: {
-                                ref_no: document_head_id
-                            },
-                            data: {
-                                step: step
-                            }
-                        })
-                    ]);
-                    prisma.$disconnect();
-                    return Response.json({ status: "success", message: result });
+                    if (price >= 5000) {
+                        step = step + 1;
+                        const result = prisma.$transaction([
+                            prisma.track_Doc.update({
+                                where: {
+                                    id: findTrack.id
+                                },
+                                data: {
+                                    status: status,
+                                    remark: remark,
+                                    user: { connect: { id: session.user.id } }
+                                }
+                            }),
+                            prisma.document_Head.update({
+                                where: {
+                                    ref_no: document_head_id
+                                },
+                                data: {
+                                    step: step,
+                                }
+                            })
+                        ]);
+                        prisma.$disconnect();
+                        return Response.json({ status: "success", message: result });
+                    } else {
+                        const result = prisma.$transaction([
+                            prisma.track_Doc.update({
+                                where: {
+                                    id: findTrack.id
+                                },
+                                data: {
+                                    status: status,
+                                    remark: remark,
+                                    user: { connect: { id: session.user.id } }
+                                }
+                            }),
+                            prisma.document_Head.update({
+                                where: {
+                                    ref_no: document_head_id
+                                },
+                                data: {
+                                    step: step,
+                                    status: status
+                                }
+                            })
+                        ]);
+                        prisma.$disconnect();
+                        return Response.json({ status: "success", message: result });
+                    }
                 } else {
                     const result = prisma.$transaction([
                         prisma.track_Doc.update({
@@ -74,6 +101,7 @@ export async function PATCH(req) {
                     return Response.json({ status: "success", message: result });
                 }
             }
+
         } catch (error) {
             console.error('Error:', error);
             prisma.$disconnect();

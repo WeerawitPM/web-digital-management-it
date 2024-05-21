@@ -31,6 +31,14 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL(`/${user.role}`, request.url))
   }
 
+  if (pathname.startsWith('/it-manager') && (!user || user.status == "Not Active")) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
+  if (pathname.startsWith('/it-manager') && (user.role != "it-manager")) {
+    return NextResponse.redirect(new URL(`/${user.role}`, request.url))
+  }
+
   if (pathname.startsWith('/admin') && (!user || user.role == "Not Active")) {
     return NextResponse.redirect(new URL('/', request.url))
   }

@@ -26,8 +26,8 @@ export default function ManagerNavbar({ role }) {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = useSession();
     const pathname = usePathname();
-    const home = pathname.startsWith('/manager/');
-    const documents = pathname.startsWith('/manager/documents');
+    const home = pathname.startsWith(`/${role}/`);
+    const documents = pathname.startsWith(`/${role}/documents`);
 
     return (
         <Navbar maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
@@ -38,7 +38,7 @@ export default function ManagerNavbar({ role }) {
             <NavbarMenu>
                 <NavbarMenuItem>
                     {home && (
-                        <Link href="/manager" className="text-white">หน้าแรก</Link>
+                        <Link href={`/${role}`} className="text-white">หน้าแรก</Link>
                     )}
                 </NavbarMenuItem>
                 {documents && (
@@ -61,11 +61,11 @@ export default function ManagerNavbar({ role }) {
             <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
                 <NavbarItem>
                     {home && (
-                        <Link href="/manager" className="text-white">หน้าแรก</Link>
+                        <Link href={`/${role}`} className="text-white">หน้าแรก</Link>
                     )}
                 </NavbarItem>
                 {documents && (
-                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role}/>
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
                 )}
             </NavbarContent>
 
