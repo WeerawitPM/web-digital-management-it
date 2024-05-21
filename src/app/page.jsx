@@ -13,6 +13,7 @@ export default async function Home() {
       switch (session.user.role) {
         case "admin": redirect("/admin");
         case "manager": redirect("/manager");
+        case "it-manager": redirect("/it-manager");
         case "user": redirect("/user");
         default:
           break;

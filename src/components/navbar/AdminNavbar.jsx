@@ -19,39 +19,52 @@ import {
     NavbarMenuItem
 } from "@nextui-org/react";
 // import { NotificationIcon } from "../components/Icons";
+import CustomDropdownMenu from "@/components/CustomDropdownMenu";
+import { menuRequest } from "@/components/MenuRequest";
 import { useSession, signOut } from "next-auth/react";
+import { usePathname } from 'next/navigation'
 
-export default function AdminNavbar() {
+export default function AdminNavbar({ role }) {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = useSession();
+    const pathname = usePathname();
+    const home = pathname.startsWith(`/${role}/`);
+    const manage = pathname.startsWith(`/${role}/manage`);
+    const documents = pathname.startsWith(`/${role}/documents`);
 
     return (
         <Navbar maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
-            <NavbarMenuToggle
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                className="sm:hidden text-white"
-            />
+            {home && (
+                <NavbarMenuToggle
+                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    className="sm:hidden text-white"
+                />
+            )}
             <NavbarMenu>
                 <NavbarMenuItem>
                     <Link
                         color="foreground"
-                        className="w-full"
-                        href="/admin"
+                        href={`/${role}`}
                         size="lg"
                     >
                         หน้าแรก
                     </Link>
                 </NavbarMenuItem>
-                <NavbarMenuItem>
-                    <Link
-                        color="foreground"
-                        className="w-full"
-                        href="/admin/manage/company"
-                        size="lg"
-                    >
-                        จัดการระบบ
-                    </Link>
-                </NavbarMenuItem>
+                {manage && (
+                    <NavbarMenuItem>
+                        <Link
+                            color="foreground"
+                            className="w-full"
+                            href={`/${role}/manage/company`}
+                            size="lg"
+                        >
+                            จัดการระบบ
+                        </Link>
+                    </NavbarMenuItem>
+                )}
+                {documents && (
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-foreground" size="md" role={role} />
+                )}
             </NavbarMenu>
             <NavbarBrand>
                 <Link>
@@ -67,16 +80,19 @@ export default function AdminNavbar() {
             </NavbarBrand>
 
             <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
-                <NavbarItem>
-                    <Link href="/admin" className="text-white">
-                        หน้าแรก
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link href="/admin/manage/company" className="text-white">
-                        จัดการระบบ
-                    </Link>
-                </NavbarItem>
+                {home && (
+                    <NavbarItem>
+                        <Link href={`/${role}`} className="text-white">หน้าแรก</Link>
+                    </NavbarItem>
+                )}
+                {manage && (
+                    <NavbarItem>
+                        <Link href={`/${role}/manage/company`} className="text-white">จัดการระบบ</Link>
+                    </NavbarItem>
+                )}
+                {documents && (
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
+                )}
             </NavbarContent>
 
             <NavbarContent as="div" justify="end">
@@ -95,7 +111,7 @@ export default function AdminNavbar() {
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
                         <DropdownItem key="profile" className="h-14 gap-2">
                             <p className="font-semibold">Signed in as</p>
-                            <p className="font-semibold">{session.user.email}</p>
+                            <p className="font-semibold">{session?.user?.email}</p>
                         </DropdownItem>
                         <DropdownItem key="settings">Profile</DropdownItem>
                         <DropdownItem key="logout" color="danger" className="text-danger" onClick={() => signOut({ callbackUrl: '/' })} onPress={() => signOut({ callbackUrl: '/' })}>

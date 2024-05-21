@@ -13,6 +13,8 @@ async function main() {
         data: [
             { name: 'user' },
             { name: 'manager' },
+            { name: 'it-manager' },
+            { name: 'super-manager' },
             { name: 'admin' },
         ],
     });

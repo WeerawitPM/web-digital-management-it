@@ -26,23 +26,23 @@ export default function UserNavbar({ role }) {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = useSession();
     const pathname = usePathname();
-    const home = pathname.startsWith('/user/');
-    const documents = pathname.startsWith('/user/documents');
+    const home = pathname.startsWith(`/${role}/`);
+    const documents = pathname.startsWith(`/${role}/documents`);
 
     return (
         <Navbar maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
-            <NavbarMenuToggle
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                className="sm:hidden text-white"
-            />
+            {home && (
+                <NavbarMenuToggle
+                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    className="sm:hidden text-white"
+                />
+            )}
             <NavbarMenu>
                 <NavbarMenuItem>
-                    {home && (
-                        <Link href="/user" className="text-white">หน้าแรก</Link>
-                    )}
+                    <Link href={`/${role}`} color="foreground">หน้าแรก</Link>
                 </NavbarMenuItem>
                 {documents && (
-                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-black" size="md" role={role} />
                 )}
             </NavbarMenu>
             <NavbarBrand>
@@ -59,11 +59,11 @@ export default function UserNavbar({ role }) {
             </NavbarBrand>
 
             <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
-                <NavbarItem>
-                    {home && (
-                        <Link href="/user" className="text-white">หน้าแรก</Link>
-                    )}
-                </NavbarItem>
+                {home && (
+                    <NavbarItem>
+                        <Link href={`/${role}`} className="text-white">หน้าแรก</Link>
+                    </NavbarItem>
+                )}
                 {documents && (
                     <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
                 )}
@@ -85,7 +85,7 @@ export default function UserNavbar({ role }) {
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
                         <DropdownItem key="profile" className="h-14 gap-2">
                             <p className="font-semibold">Signed in as</p>
-                            <p className="font-semibold">{session.user.email}</p>
+                            <p className="font-semibold">{session?.user?.email}</p>
                         </DropdownItem>
                         <DropdownItem key="settings">Profile</DropdownItem>
                         <DropdownItem key="logout" color="danger" className="text-danger" onClick={() => signOut({ callbackUrl: '/' })} onPress={() => signOut({ callbackUrl: '/' })}>

@@ -31,18 +31,18 @@ export default function ManagerNavbar({ role }) {
 
     return (
         <Navbar maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
-            <NavbarMenuToggle
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                className="sm:hidden text-white"
-            />
+            {home && (
+                <NavbarMenuToggle
+                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    className="sm:hidden text-white"
+                />
+            )}
             <NavbarMenu>
                 <NavbarMenuItem>
-                    {home && (
-                        <Link href={`/${role}`} className="text-white">หน้าแรก</Link>
-                    )}
+                    <Link href={`/${role}`} color="foreground">หน้าแรก</Link>
                 </NavbarMenuItem>
                 {documents && (
-                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-foreground" size="md" role={role} />
                 )}
             </NavbarMenu>
             <NavbarBrand>

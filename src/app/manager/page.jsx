@@ -1,7 +1,7 @@
-import Component from "./Component";
+import HomeComponent from "@/components/HomeComponent";
 
 export default async function Dashboard() {
     return (
-        <Component />
+        <HomeComponent role="manager"/>
     );
 }
