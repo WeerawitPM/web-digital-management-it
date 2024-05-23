@@ -12,34 +12,17 @@ export async function GET(req) {
         const url = new URL(req.url);
         const searchParam = new URLSearchParams(url.searchParams);
         const status = parseInt(searchParam.get("status"));
-        const step = 2;
+        const step = 5;
 
-        const manager = await prisma.user.findUnique({
-            where: {
-                id: session.user?.id
-            },
-            select: {
-                company_id: true,
-                department_id: true
-            }
-        })
         const data = await prisma.document_Head.findMany({
             where: {
                 step: step,
-                Table_ITC_0001: {
-                    some: {
-                        request_by: {
-                            company_id: manager.company_id,
-                            department_id: manager.department_id
-                        }
-                    }
-                },
                 Track_Doc: {
                     some: {
                         step: step,
                         status: status
                     }
-                },
+                }
             },
             include: {
                 Table_ITC_0001: {

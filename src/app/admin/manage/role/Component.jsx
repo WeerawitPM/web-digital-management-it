@@ -16,7 +16,7 @@ const columns = [
     },
     {
         key: "name",
-        label: "role NAME",
+        label: "ROLE NAME",
     },
     {
         key: "action",

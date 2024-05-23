@@ -14,6 +14,7 @@ export default async function Home() {
         case "admin": redirect("/admin");
         case "manager": redirect("/manager");
         case "it-manager": redirect("/it-manager");
+        case "super-manager": redirect("/super-manager");
         case "user": redirect("/user");
         default:
           break;

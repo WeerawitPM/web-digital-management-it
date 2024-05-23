@@ -2,14 +2,12 @@
 
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { Button, Divider } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import hourglass from "@/images/hourglass.png";
 import rejected from "@/images/rejected.png";
 import stamp from "@/images/stamp.png";
 import axios from "axios";
 import Link from "next/link";
-import { Button as ChakraButton } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
 
 export default function Component() {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
@@ -17,16 +15,11 @@ export default function Component() {
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
-        // ตั้ง interval ให้เรียก fetchData ทุกๆ 10 วินาที
-        const intervalId = setInterval(fetchData, 10000);
-
-        // เคลียร์ interval เมื่อ component จะ unmount
-        return () => clearInterval(intervalId);
     }, []);
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/user/documents/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/super-manager/documents/QF-ITC-0001'); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             // console.log(data);                       
@@ -50,19 +43,10 @@ export default function Component() {
         <>
             <header className="bg-white shadow">
                 <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between flex-wrap">
-                        <div className="justify-start my-auto">
-                            <span className="font-semibold text-md text-gray-800 leading-tight">
-                                1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
-                            </span>
-                        </div>
-                        <div className="justify-end">
-                            <Link href="/user/documents/QF-ITC-0001/add">
-                                <ChakraButton colorScheme="blue" leftIcon={<AddIcon />} size='sm'>
-                                    เพิ่มรายการร้องขอ
-                                </ChakraButton>
-                            </Link>
-                        </div>
+                    <div className="justify-start my-auto">
+                        <span className="font-semibold text-md text-gray-800 leading-tight">
+                            1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
+                        </span>
                     </div>
                 </div>
             </header>
@@ -92,7 +76,7 @@ export default function Component() {
                                     </div>
                                 </div>
                                 <Link
-                                    href={`/user/documents/QF-ITC-0001/detail/${0}`}
+                                    href={`/super-manager/documents/QF-ITC-0001/detail/${0}`}
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="primary" variant="flat">Detail</Button>
@@ -112,7 +96,7 @@ export default function Component() {
                                         />
                                     </div>
                                     <div>
-                                        <div className="text-gray-400 text-lg">คำร้องขอได้รับการอนุมัติ</div>
+                                        <div className="text-gray-400 text-lg">คำร้องขอที่อนุมัติ</div>
                                         <div className="text-4xl font-bold text-gray-900">
                                             {
                                                 data ? data?.approved : "0"
@@ -121,7 +105,7 @@ export default function Component() {
                                     </div>
                                 </div>
                                 <Link
-                                    href={`/user/documents/QF-ITC-0001/detail/${1}`}
+                                    href={`/super-manager/documents/QF-ITC-0001/detail/${1}`}
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="success" variant="flat">Detail</Button>
@@ -141,7 +125,7 @@ export default function Component() {
                                         />
                                     </div>
                                     <div>
-                                        <div className="text-gray-400 text-lg">คำร้องขอถูกปฏิเสธ</div>
+                                        <div className="text-gray-400 text-lg">คำร้องขอที่ปฏิเสธ</div>
                                         <div className="text-4xl font-bold text-gray-900">
                                             {
                                                 data ? data?.rejected : "0"
@@ -150,7 +134,7 @@ export default function Component() {
                                     </div>
                                 </div>
                                 <Link
-                                    href={`/user/documents/QF-ITC-0001/detail/${2}`}
+                                    href={`/super-manager/documents/QF-ITC-0001/detail/${2}`}
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="danger" variant="flat">Detail</Button>

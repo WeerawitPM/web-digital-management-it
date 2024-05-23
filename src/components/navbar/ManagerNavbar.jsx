@@ -48,11 +48,13 @@ export default function ManagerNavbar({ role }) {
             <NavbarBrand>
                 <Link>
                     <Image
-                        src="https://vcsgroupthai.com/wp-content/uploads/2023/09/Screenshot-2023-07-14-164438-depositphotos-bgremover.png"
+                        src="/images/logo.png"
                         alt="Vercel Logo"
                         width={62}
                         height={45}
+                        quality={100}
                         priority
+                        unoptimized
                     />
                     <p className="font-bold text-vcs-white text-xl"><span className="text-vcs-red ms-2">IT</span> Center</p>
                 </Link>

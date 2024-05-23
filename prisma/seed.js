@@ -36,6 +36,8 @@ async function main() {
             { name: 'O2' },
             { name: 'O3' },
             { name: 'O4' },
+            { name: 'M1' },
+            { name: 'M2' },
         ],
     });
     await prisma.asset_Type.createMany({

@@ -30,38 +30,22 @@ const columns = [
 
 export default function Home({ params }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    const [step, setStep] = useState([]);
-    const status = parseInt(params.id); // Get the 'status' query parameter
+    const status = params.id;
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
-        // ตั้ง interval ให้เรียก fetchData ทุกๆ 10 วินาที
-        const intervalId = setInterval(fetchData, 10000);
-
-        // เคลียร์ interval เมื่อ component จะ unmount
-        return () => clearInterval(intervalId);
     }, []);
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/user/documents/QF-ITC-0001/detail');
+            const response = await axios.get('/api/super-manager/documents/QF-ITC-0001/detail?status=' + status); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
-
-            setData(data);
-
-            const filteredData = data.filter(item => item.status === status);
-            const stepsArray = filteredData.map(item => {
-                const trackItem = item.Track_Doc.find(track => track.step === item.step);
-                return trackItem ? trackItem.name : '';
-            });
-            setStep(stepsArray);
-
+            setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
-
 
     // Global error handling
     axios.interceptors.response.use(
@@ -94,15 +78,17 @@ export default function Home({ params }) {
                             </TableHeader>
                             {data == null ? <TableBody emptyContent={"No rows to display."} /> :
                                 <TableBody items={data} emptyContent={"No rows to display."}>
-                                    {data.filter((item) => item.status === status).map((item, index) => (
+                                    {data.map((item, index) => (
                                         <TableRow key={item.key}>
                                             <TableCell>
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
                                                 <Link
-                                                    href={`/user/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
-                                                    className="text-blue-500">{item.ref_no}</Link>
+                                                    href={`/super-manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
+                                                    className="text-blue-500">
+                                                    {item.ref_no}
+                                                </Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
@@ -112,7 +98,7 @@ export default function Home({ params }) {
                                             </TableCell>
                                             <TableCell>
                                                 <Chip color="primary" size="xs" variant="flat">
-                                                    {step[index]}
+                                                    {item.Track_Doc.find(doc => doc.step === item.step)?.name || 'No matching step'}
                                                 </Chip>
                                             </TableCell>
                                         </TableRow>

@@ -30,7 +30,7 @@ export default async function RootLayout({ children }) {
             <div className="min-h-full">
               <SessionProvider session={session}>
                 {!session ? <AnonymousNavbar /> : (session?.user?.role === "user" ? <UserNavbar role={session?.user?.role} />
-                  : (session?.user?.role === "manager" || session?.user?.role === "it-manager" ? <ManagerNavbar role={session?.user?.role} />
+                  : (session?.user?.role === "manager" || session?.user?.role === "it-manager" || session?.user?.role === "super-manager" ? <ManagerNavbar role={session?.user?.role} />
                     : (session?.user?.role === "admin" ? <AdminNavbar role={session?.user?.role} />
                       : <AnonymousNavbar />
                     )))}

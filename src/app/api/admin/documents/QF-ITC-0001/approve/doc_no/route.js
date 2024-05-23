@@ -55,6 +55,7 @@ export async function PATCH(req) {
             let step = parseInt(data.get("step"));
             const status = parseInt(data.get("status"));
             const remark = data.get("remark");
+            const price = parseFloat(data.get("price"));
 
             const findTrack = await prisma.track_Doc.findFirst({
                 where: {
@@ -86,7 +87,8 @@ export async function PATCH(req) {
                             ref_no: document_head_id
                         },
                         data: {
-                            step: step
+                            step: step,
+                            price: price
                         }
                     })
                 ]);
@@ -110,7 +112,8 @@ export async function PATCH(req) {
                         },
                         data: {
                             step: step,
-                            status: status
+                            status: status,
+                            price: price
                         }
                     })
                 ]);

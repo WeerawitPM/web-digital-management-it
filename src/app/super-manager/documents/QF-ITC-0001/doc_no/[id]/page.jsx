@@ -8,14 +8,14 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    Tooltip,
     Chip,
-    Textarea,
+    Textarea
 } from "@nextui-org/react";
-import { useToast, Button } from "@chakra-ui/react";
-import { Steps } from 'antd';
-import { useSearchParams } from 'next/navigation';
-import ModalView from "./ModalView";
+import { Button, useToast } from "@chakra-ui/react";
+import ModalViewItem from "./ModalViewItem";
 import axios from "axios";
+import { Steps } from 'antd';
 
 const columns1 = [
     {
@@ -31,7 +31,7 @@ const columns1 = [
         label: "PURPOSE OF USAGE",
     },
     {
-        key: "device",
+        key: "device_spec",
         label: "DEVICE SPECIFICATION",
     },
     {
@@ -48,24 +48,22 @@ const columns1 = [
     },
 ];
 
-export default function Home() {
+export default function Home({ params }) {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <MainContent />
+            <MainContent doc_no={params.id} />
         </Suspense>
     );
 }
 
-function MainContent() {
-    const searchParams = useSearchParams();
-    const doc_no = searchParams.get('doc_no');
+function MainContent({ doc_no }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    const toast = useToast();
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
-    const [trackStatus, setTrackStatus] = useState();
     const [totalPrice, setTotalPrice] = useState();
+    const [trackStatus, setTrackStatus] = useState();
     const [remark, setRemark] = useState(null);
+    const toast = useToast();
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -74,7 +72,7 @@ function MainContent() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/admin/documents/QF-ITC-0001/approve/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/user/documents/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
@@ -83,7 +81,7 @@ function MainContent() {
 
             const totalPrice = data?.Table_ITC_0001?.reduce((sum, item) => sum + item.price, 0) || 0;
             setTotalPrice(totalPrice);
-            
+
             let trackDoc;
             if (totalPrice >= 5000) {
                 trackDoc = data.Track_Doc
@@ -94,7 +92,7 @@ function MainContent() {
             const steps = trackDoc.map((step, index) => {
                 let status;
                 if (step.status === 1) {
-                    status = index === trackDoc.step ? "current" : "finished";
+                    status = index === data.step ? "current" : "finished";
                 } else if (step.status === 0) {
                     status = "waiting";
                 } else if (step.status === 2) {
@@ -105,13 +103,15 @@ function MainContent() {
                 if (data.step == step.step) {
                     setTrackStatus(step.status);
                 }
-                
+
                 return {
                     title: index === trackDoc.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
                     description: step.name,
                 };
             });
+
             setStep(steps);
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -125,7 +125,7 @@ function MainContent() {
         formData.append("remark", remark);
         formData.append("price", totalPrice);
 
-        axios.patch('/api/admin/documents/QF-ITC-0001/approve/doc_no', formData, {
+        axios.patch('/api/super-manager/documents/QF-ITC-0001/doc_no', formData, {
             // headers: {
             //     'Content-Type': 'application/json',
             // }
@@ -167,7 +167,7 @@ function MainContent() {
             saveData(1);
         }
         else {
-            if (remark === null || remark === undefined || remark === "") {
+            if (remark === undefined) {
                 toast({
                     title: 'Warning',
                     description: "Please fill remark.",
@@ -265,7 +265,7 @@ function MainContent() {
                                 {(column) => <TableColumn key={column.key} className="text-sm">{column.label}</TableColumn>}
                             </TableHeader>
                             <TableBody items={data.Equipment} emptyContent={"No rows to display."}>
-                                {data?.Table_ITC_0001?.map((item, index) => (
+                                {data.Table_ITC_0001.map((item, index) => (
                                     <TableRow key={item.id}>
                                         <TableCell className="text-base">
                                             {index + 1}
@@ -290,7 +290,7 @@ function MainContent() {
                                             {item.price}
                                         </TableCell>
                                         <TableCell>
-                                            <ModalView
+                                            <ModalViewItem
                                                 id={item.id}
                                                 asset={item.asset.name}
                                                 purpose={item.purpose}
@@ -309,7 +309,7 @@ function MainContent() {
                                 <div className="font-medium">Total Price: {totalPrice}</div>
                             </Chip>
                         </div>
-                        {data?.step === 3 && trackStatus === 0 ?
+                        {data?.step == 5 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>
                                 <Textarea
