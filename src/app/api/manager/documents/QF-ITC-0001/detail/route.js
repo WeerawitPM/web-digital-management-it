@@ -23,9 +23,45 @@ export async function GET(req) {
                 department_id: true
             }
         })
+
+        if (status === 0) {
+            const data = await prisma.document_Head.findMany({
+                where: {
+                    status: status,
+                    Table_ITC_0001: {
+                        some: {
+                            request_by: {
+                                company_id: manager.company_id,
+                                department_id: manager.department_id
+                            }
+                        }
+                    },
+                    Track_Doc: {
+                        some: {
+                            step: step,
+                            status: status
+                        }
+                    },
+                },
+                include: {
+                    Table_ITC_0001: {
+                        select: {
+                            request_by: {
+                                select: {
+                                    username: true
+                                }
+                            }
+                        }
+                    },
+                    Track_Doc: true
+                }
+            });
+            prisma.$disconnect();
+            return Response.json(data);
+        }
+
         const data = await prisma.document_Head.findMany({
             where: {
-                step: step,
                 Table_ITC_0001: {
                     some: {
                         request_by: {

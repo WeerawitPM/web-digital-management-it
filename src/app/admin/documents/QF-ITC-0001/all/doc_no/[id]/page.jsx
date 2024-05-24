@@ -9,11 +9,8 @@ import {
     TableRow,
     TableCell,
     Chip,
-    Textarea,
 } from "@nextui-org/react";
-import { useToast, Button } from "@chakra-ui/react";
 import { Steps } from 'antd';
-import { useSearchParams } from 'next/navigation';
 import ModalView from "./ModalView";
 import axios from "axios";
 
@@ -48,24 +45,19 @@ const columns1 = [
     },
 ];
 
-export default function Home() {
+export default function Home({ params }) {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <MainContent />
+            <MainContent doc_no={params.id} />
         </Suspense>
     );
 }
 
-function MainContent() {
-    const searchParams = useSearchParams();
-    const doc_no = searchParams.get('doc_no');
+function MainContent({ doc_no }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    const toast = useToast();
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
-    const [trackStatus, setTrackStatus] = useState();
     const [totalPrice, setTotalPrice] = useState();
-    const [remark, setRemark] = useState(null);
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -102,10 +94,6 @@ function MainContent() {
                     setStatusStep(status);
                 }
 
-                if (data.step == step.step) {
-                    setTrackStatus(step.status);
-                }
-
                 return {
                     title: index === trackDoc.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
                     description: step.name,
@@ -116,71 +104,6 @@ function MainContent() {
             console.error('Error fetching data:', error);
         }
     };
-
-    const saveData = (status) => {
-        const formData = new FormData();
-        formData.append("document_head_id", data?.ref_no);
-        formData.append("step", data?.step);
-        formData.append("status", status);
-        formData.append("remark", remark);
-        formData.append("price", totalPrice);
-
-        axios.patch('/api/admin/documents/QF-ITC-0001/approve/doc_no', formData, {
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // }
-        })
-            .then(response => {
-                if (response.data.status === "success") {
-                    toast({
-                        title: 'Success',
-                        description: "Document has been saved.",
-                        status: 'success',
-                        duration: 9000,
-                        isClosable: true,
-                    })
-                    fetchData();
-                } else {
-                    toast({
-                        title: 'Error',
-                        description: response.data.message,
-                        status: 'error',
-                        duration: 9000,
-                        isClosable: true,
-                    })
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                toast({
-                    title: 'Error',
-                    description: "Something went wrong",
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
-                })
-            })
-    }
-
-    const handleConfirmSave = (status) => {
-        if (status === 1) {
-            saveData(1);
-        }
-        else {
-            if (remark === null || remark === undefined || remark === "") {
-                toast({
-                    title: 'Warning',
-                    description: "Please fill remark.",
-                    status: 'warning',
-                    duration: 9000,
-                    isClosable: true,
-                })
-            }
-            else {
-                saveData(2);
-            }
-        }
-    }
 
     return (
         <>
@@ -318,21 +241,6 @@ function MainContent() {
                                     </Chip>
                                 </div>
                             ))}
-                        {data?.step === 3 && trackStatus === 0 ?
-                            <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
-                                <div className=" font-medium">Remark</div>
-                                <Textarea
-                                    placeholder="Remark"
-                                    variant="bordered"
-                                    size="lg"
-                                    onChange={(e) => setRemark(e.target.value)}
-                                />
-                                <div className="mx-auto text-center mt-2">
-                                    <Button colorScheme="green" className="mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>
-                                    <Button colorScheme="red" onClick={() => handleConfirmSave(2)}>Reject</Button>
-                                </div>
-                            </div>
-                            : ""}
                     </div>
                 </main>
             }

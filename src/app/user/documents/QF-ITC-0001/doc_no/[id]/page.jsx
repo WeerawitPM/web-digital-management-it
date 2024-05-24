@@ -235,13 +235,15 @@ function MainContent({ doc_no }) {
                                 <div className="font-medium">Total Price: {totalPrice}</div>
                             </Chip>
                         </div>
-                        {data?.Track_Doc[data.step]?.remark !== null && data?.Track_Doc[data.step]?.remark !== "null" && (
-                            <div className="text-center">
-                                <Chip color="danger" size="lg" variant="flat">
-                                    Remark : {data.Track_Doc[data.step].remark}
-                                </Chip>
-                            </div>
-                        )}
+                        {data.Track_Doc
+                            .filter(index => index?.remark && index.remark !== "null" && index.remark.trim() !== "")
+                            .map((index) => (
+                                <div key={index.step} className="text-center">
+                                    <Chip color="danger" size="lg" variant="flat">
+                                        Remark : {index.remark}
+                                    </Chip>
+                                </div>
+                            ))}
                     </div>
                 </main>
             }

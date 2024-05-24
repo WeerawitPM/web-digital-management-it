@@ -130,7 +130,7 @@ export default function Component() {
                                         />
                                     </div>
                                     <div>
-                                        <div className="text-gray-400 text-lg">คำร้องขอถูกปฏิเสธ</div>
+                                        <div className="text-gray-400 text-lg">คำร้องขอที่ปฏิเสธ</div>
                                         <div className="text-4xl font-bold text-gray-900">
                                             {
                                                 data ? data?.rejected : "0"
@@ -146,9 +146,38 @@ export default function Component() {
                                 </Link>
                             </div>
                         </div>
+                        <div className="p-5 bg-white rounded shadow-md">
+                            <div className="flex flex-col">
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex items-center justify-center w-12 h-12 rounded-full">
+                                        <Image
+                                            src={stamp}
+                                            alt="1"
+                                            width={100}
+                                            height={100}
+                                            priority
+                                        />
+                                    </div>
+                                    <div>
+                                        <div className="text-gray-400 text-lg">คำขอทั้งหมด</div>
+                                        <div className="text-4xl font-bold text-gray-900">
+                                            {
+                                                data ? data?.allDocuments : "0"
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <Link
+                                    href="/admin/documents/QF-ITC-0001/all"
+                                    className="font-medium ms-40"
+                                >
+                                    <Button radius="full" color="warning" variant="flat">Detail</Button>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <Divider />
+                {/* <Divider /> */}
             </main>
         </>
     );

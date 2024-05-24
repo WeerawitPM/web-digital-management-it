@@ -21,11 +21,13 @@ export async function GET() {
         const step = {
             "waitAttach": 0,
             "waitApprove": 0,
-            "rejected": 0
+            "rejected": 0,
+            "allDocuments": 0
         };
 
         // วนลูปผ่านข้อมูลแต่ละรายการและเพิ่มจำนวนของแต่ละสถานะ
         data.forEach(request => {
+            step["allDocuments"]++
             // เช็คสถานะและเพิ่มจำนวนของแต่ละสถานะ
             if (request.step === 1) {
                 request.Track_Doc.forEach(item => {
@@ -37,7 +39,9 @@ export async function GET() {
                 })
             }
             if (request.step === 3) {
-                step["waitApprove"]++;
+                if (request.status === 0) {
+                    step["waitApprove"]++;
+                }
             }
             if (request.status === 2) {
                 request.Track_Doc.forEach(item => {
