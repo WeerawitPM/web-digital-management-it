@@ -16,6 +16,7 @@ export async function GET() {
                 Track_Doc: {
                     some: {
                         user_id: session?.user?.id,
+                        status: status
                     }
                 }
             },

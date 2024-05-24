@@ -55,7 +55,7 @@ export default function Home({ params }) {
     );
 }
 
-function MainContent({doc_no}) {
+function MainContent({ doc_no }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
@@ -102,7 +102,7 @@ function MainContent({doc_no}) {
                 };
             });
             setStep(steps);
-            
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -235,6 +235,13 @@ function MainContent({doc_no}) {
                                 <div className="font-medium">Total Price: {totalPrice}</div>
                             </Chip>
                         </div>
+                        {data?.Track_Doc[data.step]?.remark !== null && data?.Track_Doc[data.step]?.remark !== "null" && (
+                            <div className="text-center">
+                                <Chip color="danger" size="lg" variant="flat">
+                                    Remark : {data.Track_Doc[data.step].remark}
+                                </Chip>
+                            </div>
+                        )}
                     </div>
                 </main>
             }

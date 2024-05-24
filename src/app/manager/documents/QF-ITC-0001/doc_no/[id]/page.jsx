@@ -104,14 +104,14 @@ function MainContent({ doc_no }) {
                 if (data.step == step.step) {
                     setTrackStatus(step.status);
                 }
-                
+
                 return {
                     title: index === trackDoc.step ? "In Process" : status === "waiting" ? "Waiting" : status === "error" ? "Not Approve" : "Finished",
                     description: step.name,
                 };
             });
             setStep(steps);
-            
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -308,6 +308,13 @@ function MainContent({ doc_no }) {
                                 <div className="font-medium">Total Price: {totalPrice}</div>
                             </Chip>
                         </div>
+                        {data?.Track_Doc[data.step]?.remark !== null && data?.Track_Doc[data.step]?.remark !== "null" && (
+                            <div className="text-center">
+                                <Chip color="danger" size="lg" variant="flat">
+                                    Remark : {data.Track_Doc[data.step].remark}
+                                </Chip>
+                            </div>
+                        )}
                         {data?.step == 2 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>

@@ -40,7 +40,13 @@ export async function GET() {
                 step["waitApprove"]++;
             }
             if (request.status === 2) {
-                step["rejected"]++;
+                request.Track_Doc.forEach(item => {
+                    if (item.user_id === session?.user?.id) {
+                        if (item.status === 2) {
+                            step["rejected"]++;
+                        }
+                    }
+                })
             }
         });
 
