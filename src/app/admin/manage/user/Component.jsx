@@ -56,6 +56,11 @@ export default function Component() {
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
+        // ตั้ง interval ให้เรียก fetchData ทุกๆ 10 วินาที
+        const intervalId = setInterval(fetchData, 10000);
+
+        // เคลียร์ interval เมื่อ component จะ unmount
+        return () => clearInterval(intervalId);
     }, []);
 
     const fetchData = async () => {
