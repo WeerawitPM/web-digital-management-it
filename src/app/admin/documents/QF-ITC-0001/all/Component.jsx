@@ -1,62 +1,81 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Spinner, Input } from "@nextui-org/react";
 import Link from "next/link";
 import axios from "axios";
+import { SearchIcon } from "@chakra-ui/icons";
 
 const columns = [
-    {
-        key: "id",
-        label: "#",
-    },
-    {
-        key: "doc_no",
-        label: "DOC NO.",
-    },
-    {
-        key: "request_date",
-        label: "REQUEST DATE",
-    },
-    {
-        key: "request_by",
-        label: "REQUEST BY",
-    },
-    {
-        key: "title",
-        label: "TITLE",
-    },
+    { key: "id", label: "#" },
+    { key: "doc_no", label: "DOC NO." },
+    { key: "request_date", label: "REQUEST DATE" },
+    { key: "request_by", label: "REQUEST BY" },
+    { key: "title", label: "TITLE" },
 ];
 
 export default function Component() {
-    const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    
-    useEffect(() => {
-        // เรียกใช้งาน API เพื่อดึงข้อมูล
-        fetchData();
-    }, []);
+    const [isLoading, setIsLoading] = useState(true);
+    const [sortDescriptor, setSortDescriptor] = useState({ column: 'id', direction: 'ascending' });
+    const [items, setItems] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(""); // เก็บค่าที่ใช้ในการค้นหา
+    const [filteredData, setFilteredData] = useState(null); // เก็บข้อมูลที่ผ่านการกรอง
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/admin/documents/QF-ITC-0001/all'); // เรียกใช้งาน API ที่เส้นทาง '/api'
-            const data = response.data;
-            setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
-            // console.log(data);
+            let res = await axios.get('/api/admin/documents/QF-ITC-0001/all');
+            let json = await res.data;
+            setItems(json);
+            setIsLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
+            setIsLoading(false);
         }
     };
 
-    // Global error handling
-    axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        (error) => {
-            console.error('Error fetching data:', error);
-            return Promise.reject(error);
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const sortItems = (items, sortDescriptor) => {
+        return items.sort((a, b) => {
+            let first = a[sortDescriptor.column];
+            let second = b[sortDescriptor.column];
+            let cmp = (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
+
+            if (sortDescriptor.direction === "descending") {
+                cmp *= -1;
+            }
+
+            return cmp;
+        });
+    };
+
+    const handleSortChange = (descriptor) => {
+        setSortDescriptor(descriptor);
+        setItems(sortItems([...items], descriptor));
+    };
+
+    useEffect(() => {
+        // เมื่อมีการเปลี่ยนแปลงในคำค้นหา กรองข้อมูลและปรับปรุงข้อมูลที่แสดงในตาราง
+        if (items) {
+            const filtered = items.filter(item => {
+                const doc_no = item.ref_no.toLowerCase();
+                const requestDate = new Date(item.start_date).toLocaleDateString('th-TH').toLowerCase();
+                const requestBy = item.Table_ITC_0001[0].request_by.username.toLowerCase();
+                const title = item.Track_Doc
+                    .filter(track => track.step === item.step)
+                    .map(track => track.name)
+                    .join(" ")
+                    .toLowerCase();
+                return doc_no.includes(searchTerm.toLowerCase())
+                    || requestDate.includes(searchTerm.toLowerCase())
+                    || requestBy.includes(searchTerm.toLowerCase())
+                    || title.includes(searchTerm.toLowerCase());
+            });
+            setFilteredData(filtered);
         }
-    );
+    }, [searchTerm, items]);
 
     return (
         <>
@@ -74,46 +93,72 @@ export default function Component() {
             <main>
                 <div className="py-12">
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                        <Table aria-label="Example table with dynamic content">
+                        <div className="mb-5">
+                            <Input
+                                isClearable
+                                radius="full"
+                                variant="bordered"
+                                placeholder="Type to search..."
+                                size="lg"
+                                startContent={
+                                    <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+                                }
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onClear={() => setSearchTerm("")}
+                            />
+                        </div>
+                        <Table
+                            aria-label="Example table with dynamic content"
+                            sortDescriptor={sortDescriptor}
+                            onSortChange={handleSortChange}
+                        >
                             <TableHeader columns={columns}>
-                                {(column) => <TableColumn key={column.key} className={column.textCenter}>{column.label}</TableColumn>}
+                                {(column) => <TableColumn key={column.key} allowsSorting>{column.label}</TableColumn>}
                             </TableHeader>
-                            {data == null ? <TableBody emptyContent={"No rows to display."} /> :
-                                <TableBody items={data} emptyContent={"No rows to display."}>
-                                    {data.map((item, index) => (
-                                        <TableRow key={item.key}>
-                                            <TableCell>
-                                                {index + 1}
-                                            </TableCell>
-                                            <TableCell>
-                                                <Link href={`/admin/documents/QF-ITC-0001/all/doc_no/${item.ref_no}`} className="text-blue-500">{item.ref_no}</Link>
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.Table_ITC_0001[0].request_by.username}
-                                            </TableCell>
-                                            <TableCell>
-                                                {/* <Chip color="primary" size="xs" variant="flat">
-                                                    {item.Track_Doc[0].name}
-                                                </Chip> */}
-                                                {item.Track_Doc
-                                                    .filter(index => index?.step === item.step)
-                                                    .map((index) => (
-                                                        <Chip color="primary" size="xs" variant="flat">
-                                                            {index.name}
+                            <TableBody
+                                emptyContent={"No rows to display."}
+                                items={filteredData || items}
+                                isLoading={isLoading}
+                                loadingContent={<Spinner label="Loading..." />}
+                            >
+                                {(filteredData || items)?.map((item, index) => (
+                                    <TableRow key={item.id}>
+                                        <TableCell>{item.sequenceNumber}</TableCell>
+                                        <TableCell>
+                                            <Link href={`/admin/documents/QF-ITC-0001/all/doc_no/${item.ref_no}`} className="text-blue-500">
+                                                {item.ref_no}
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
+                                        </TableCell>
+                                        <TableCell>{item.Table_ITC_0001[0].request_by.username}</TableCell>
+                                        <TableCell>
+                                            {item.status === 1 ?
+                                                item.Track_Doc
+                                                    .filter(track => track.step === item.step)
+                                                    .map((track) => (
+                                                        <Chip key={track.name} color="success" size="xs" variant="flat">
+                                                            {track.name}
                                                         </Chip>
-                                                    ))}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            }
+                                                    ))
+                                                : item.Track_Doc
+                                                    .filter(track => track.step === item.step)
+                                                    .map((track) => (
+                                                        <Chip key={track.name} color={track.status === 2 ? "danger" : "primary"} size="xs" variant="flat">
+                                                            {track.name}
+                                                        </Chip>
+                                                    ))
+                                            }
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
                         </Table>
                     </div>
                 </div>
             </main>
         </>
-    )
+    );
 }

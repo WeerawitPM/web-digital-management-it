@@ -23,7 +23,14 @@ export async function GET() {
                 Track_Doc: true
             }
         });
-        prisma.$disconnect();
-        return Response.json(data);
+        await prisma.$disconnect();
+
+        // Add sequential numbering to each item
+        const numberedData = data.map((item, index) => ({
+            ...item,
+            sequenceNumber: index + 1
+        }));
+
+        return Response.json(numberedData);
     }
 };
