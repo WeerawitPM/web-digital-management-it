@@ -6,26 +6,11 @@ import Link from "next/link";
 import axios from "axios";
 
 const columns = [
-    {
-        key: "id",
-        label: "#",
-    },
-    {
-        key: "doc_no",
-        label: "DOC NO.",
-    },
-    {
-        key: "request_date",
-        label: "REQUEST DATE",
-    },
-    {
-        key: "request_by",
-        label: "REQUEST BY",
-    },
-    {
-        key: "title",
-        label: "TITLE",
-    },
+    { key: "id", label: "#", },
+    { key: "doc_no", label: "DOC NO.", },
+    { key: "request_date", label: "REQUEST DATE", },
+    { key: "request_by", label: "REQUEST BY", },
+    { key: "title", label: "TITLE", },
 ];
 
 export default function Home() {
@@ -85,7 +70,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={{ pathname: '/admin/documents/QF-ITC-0001/approve/doc_no', query: { doc_no: item.ref_no } }} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link href={`'/admin/documents/QF-ITC-0001/approve/doc_no/${item.ref_no}`} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}

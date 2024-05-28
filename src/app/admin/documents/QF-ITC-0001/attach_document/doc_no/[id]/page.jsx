@@ -5,9 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import axios from "axios";
 import Component from "./Component";
 
-export default function Home() {
-    const searchParams = useSearchParams();
-    const doc_no = searchParams.get('doc_no');
+export default function Home({ params }) {
+    const doc_no = params.id;
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");

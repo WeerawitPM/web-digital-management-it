@@ -1,16 +1,10 @@
 import React from "react";
-import { Chip } from "@nextui-org/react";
 import { Steps } from 'antd';
 import ModalView from "./ModalView";
 import ProfileInformation from "@/components/ProfileInformation";
 import TableAsset from "@/components/TableAsset";
 
-export default function Component(params) {
-    const data = params.data;
-    const steps = params.steps;
-    const statusStep = params.statusStep;
-    const totalPrice = params.totalPrice;
-
+export default function Component({ data, steps, statusStep, totalPrice }) {
     return (
         <>
             <header className="bg-white shadow">
@@ -39,5 +33,5 @@ export default function Component(params) {
                 </main>
             }
         </>
-    )
+    );
 }

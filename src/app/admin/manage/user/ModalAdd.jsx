@@ -16,8 +16,8 @@ import {
 } from '@chakra-ui/react'
 import { AddIcon } from "@chakra-ui/icons";
 import { Button as NextButton, Input, image } from "@nextui-org/react";
-import { EyeFilledIcon } from "@/components/EyeFilledIcon";
-import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "@/components/icon/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "@/components/icon/EyeSlashFilledIcon";
 import { useForm } from "react-hook-form"; //ง่ายต่อการดึงข้อมูลจากฟอร์ม
 import axios from "axios";
 

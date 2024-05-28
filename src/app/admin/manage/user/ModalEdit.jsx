@@ -19,9 +19,9 @@ import {
     useToast,
     Select
 } from '@chakra-ui/react'
-import { EditIcon } from "@/components/EditIcon";
-import { EyeFilledIcon } from "@/components/EyeFilledIcon";
-import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
+import { EditIcon } from "@/components/icon/EditIcon";
+import { EyeFilledIcon } from "@/components/icon/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "@/components/icon/EyeSlashFilledIcon";
 import axios from "axios";
 import { useForm } from "react-hook-form"; //ง่ายต่อการดึงข้อมูลจากฟอร์ม
 import Image from "next/image";

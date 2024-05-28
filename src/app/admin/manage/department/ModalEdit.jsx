@@ -18,7 +18,7 @@ import {
     useDisclosure,
     useToast
 } from '@chakra-ui/react'
-import { EditIcon } from "@/components/EditIcon";
+import { EditIcon } from "@/components/icon/EditIcon";
 import axios from "axios";
 
 export default function ModalEdit({ id, name, onDataUpdate }) {

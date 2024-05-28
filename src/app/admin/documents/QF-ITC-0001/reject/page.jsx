@@ -6,26 +6,11 @@ import Link from "next/link";
 import axios from "axios";
 
 const columns = [
-    {
-        key: "id",
-        label: "#",
-    },
-    {
-        key: "doc_no",
-        label: "DOC NO.",
-    },
-    {
-        key: "request_date",
-        label: "REQUEST DATE",
-    },
-    {
-        key: "request_by",
-        label: "REQUEST BY",
-    },
-    {
-        key: "title",
-        label: "TITLE",
-    },
+    { key: "id", label: "#", },
+    { key: "doc_no", label: "DOC NO.", },
+    { key: "request_date", label: "REQUEST DATE", },
+    { key: "request_by", label: "REQUEST BY", },
+    { key: "title", label: "TITLE", },
 ];
 
 export default function Home() {

@@ -1,7 +1,7 @@
 import {
   Stack,
   TimeHistory
-} from "./Icons";
+} from "./icon/Icons";
 
 export const menuRegister = [
   {

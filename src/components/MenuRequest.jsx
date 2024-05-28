@@ -6,7 +6,7 @@ import {
     Email,
     FolderDownload,
     Server,
-} from "../components/Icons";
+} from "./icon/Icons";
 
 export const menuRequest = [
     {

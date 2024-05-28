@@ -8,7 +8,7 @@ import {
   RollBack,
   Server,
   Stack,
-} from "./Icons";
+} from "./icon/Icons";
 
 export const menuPlan = [
   {

@@ -7,7 +7,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { ChevronDown } from "./Icons";
+import { ChevronDown } from "./icon/Icons";
 
 const CustomDropdownMenu = (params) => {
   return (

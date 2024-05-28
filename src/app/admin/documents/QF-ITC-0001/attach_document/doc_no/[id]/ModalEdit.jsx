@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Button as NextButton,
     Tooltip
@@ -16,11 +16,9 @@ import {
     FormLabel,
     Button,
     useDisclosure,
-    Textarea,
     useToast
 } from '@chakra-ui/react'
-import { EditIcon } from "@/components/EditIcon";
-import { DeleteIcon } from "@/components/DeleteIcon";
+import { EditIcon } from "@/components/icon/EditIcon";
 import axios from "axios";
 import { Link } from "@nextui-org/react";
 import ModalDelete from "./ModalDelete";

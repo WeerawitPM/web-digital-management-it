@@ -15,7 +15,7 @@ import {
     useDisclosure,
     useToast
 } from '@chakra-ui/react'
-import { DeleteIcon } from "@/components/DeleteIcon";
+import { DeleteIcon } from "@/components/icon/DeleteIcon";
 import axios from "axios";
 
 export default function ModalDelete(data) {
