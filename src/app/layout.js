@@ -1,5 +1,5 @@
 
-import { Inter } from "next/font/google";
+import { Prompt } from "next/font/google";
 import "./globals.css";
 // import 'bootstrap/dist/css/bootstrap.css'
 import { UIProviders } from "./UIproviders";
@@ -12,7 +12,7 @@ import SessionProvider from "./SessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 
-const inter = Inter({ subsets: ["latin"] });
+const prompt = Prompt({ subsets: ["thai"], weight: "400" });
 
 export const metadata = {
   title: "Create Next App",
@@ -24,7 +24,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={prompt.className}>
         <ReduxProvider>
           <UIProviders>
             <div className="min-h-full">

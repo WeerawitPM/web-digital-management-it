@@ -43,3 +43,18 @@ body {
 .text-vcs-white {
   color: #D9D9D9;
 }
+
+@media print {
+  .a4 {
+      width: 210mm;
+      height: 297mm;
+      box-shadow: none;
+      margin: 0;
+      padding: 0;
+      border: none;
+  }
+}
+.a4 {
+  width: 210mm;
+  height: 297mm;
+}

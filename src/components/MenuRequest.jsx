@@ -66,7 +66,7 @@ export const menuRequest = [
         href: "/documents/QF-ITC-0001",
     },
     {
-        description: "ใบขอเบิกอุปกรณ์ไอที",
+        description: "ใบคำร้องขออุปกรณ์",
         startContent: (
             <FolderDownload
                 className="text-primary"
