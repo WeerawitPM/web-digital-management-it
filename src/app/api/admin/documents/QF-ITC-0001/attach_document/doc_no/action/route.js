@@ -71,7 +71,7 @@ export async function PATCH(req) {
             prisma.$disconnect();
             return Response.json({
                 status: "fail",
-                message: "Failed to update user",
+                message: "Failed to upload document",
                 error: error.message, // Include error message for debugging
             });
         }

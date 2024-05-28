@@ -15,6 +15,7 @@ import { useToast, Button } from "@chakra-ui/react";
 import { Steps } from 'antd';
 import ModalView from "./ModalView";
 import axios from "axios";
+import ModalEdit from "./ModalEdit";
 
 const columns1 = [
     { key: "id", label: "#", },
@@ -41,9 +42,8 @@ export default function Component(params) {
         formData.append("step", data?.step);
         formData.append("status", status);
         formData.append("remark", remark);
-        formData.append("price", totalPrice);
 
-        axios.patch('/api/admin/documents/QF-ITC-0001/approve/doc_no', formData, {
+        axios.patch('/api/admin/documents/QF-ITC-0001/attach_document/doc_no', formData, {
             // headers: {
             //     'Content-Type': 'application/json',
             // }
@@ -113,7 +113,7 @@ export default function Component(params) {
                     </div>
                 </div>
             </header>
-            {data == null ? "" :
+            {data === null ? "" :
                 <main>
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
                         <Steps
@@ -217,6 +217,15 @@ export default function Component(params) {
                                                 price={item.price}
                                                 ref_quotation={item.Table_Ref_Quotation}
                                             />
+                                            {data?.step == 1 && trackStatus == 0 ?
+                                                <ModalEdit
+                                                    id={item.id}
+                                                    price={item.price}
+                                                    ref_quotation={item.Table_Ref_Quotation}
+                                                    fetchData={params.fetchData}
+                                                />
+                                                : ""
+                                            }
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -236,7 +245,7 @@ export default function Component(params) {
                                     </Chip>
                                 </div>
                             ))}
-                        {data?.step === 3 && trackStatus === 0 ?
+                        {data?.step == 1 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
                                 <div className=" font-medium">Remark</div>
                                 <Textarea

@@ -65,6 +65,6 @@ export default function Home() {
     }
 
     return (
-        <Component data={data} steps={steps} statusStep={statusStep} trackStatus={trackStatus} totalPrice={totalPrice} />
+        <Component data={data} steps={steps} statusStep={statusStep} trackStatus={trackStatus} totalPrice={totalPrice} fetchData={fetchData} />
     );
 };
