@@ -6,26 +6,11 @@ import Link from "next/link";
 import axios from "axios";
 
 const columns = [
-    {
-        key: "id",
-        label: "#",
-    },
-    {
-        key: "doc_no",
-        label: "DOC NO.",
-    },
-    {
-        key: "request_date",
-        label: "REQUEST DATE",
-    },
-    {
-        key: "request_by",
-        label: "REQUEST BY",
-    },
-    {
-        key: "status",
-        label: "STATUS",
-    },
+    { key: "id", label: "#", },
+    { key: "doc_no", label: "DOC NO.", },
+    { key: "request_date", label: "REQUEST DATE", },
+    { key: "request_by", label: "REQUEST BY", },
+    { key: "status", label: "STATUS", },
 ];
 
 export default function Home({ params }) {
@@ -105,7 +90,7 @@ export default function Home({ params }) {
                                             </TableRow>
                                         ))
                                     ) : (
-                                        data.filter(item => item.step === 2).map((item, index) => (
+                                        data.filter(item => item.step === 4).map((item, index) => (
                                             <TableRow key={item.key}>
                                                 <TableCell>
                                                     {index + 1}

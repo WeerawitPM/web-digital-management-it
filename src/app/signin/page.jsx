@@ -6,7 +6,6 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import {
     Card,
     CardBody,
-    Stack,
     Heading,
     CardFooter,
     useToast

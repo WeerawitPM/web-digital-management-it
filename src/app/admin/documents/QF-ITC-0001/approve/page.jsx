@@ -70,7 +70,7 @@ export default function Home() {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={`'/admin/documents/QF-ITC-0001/approve/doc_no/${item.ref_no}`} className="text-blue-500">{item.ref_no}</Link>
+                                                <Link href={`/admin/documents/QF-ITC-0001/approve/doc_no/${item.ref_no}`} className="text-blue-500">{item.ref_no}</Link>
                                             </TableCell>
                                             <TableCell>
                                                 {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}

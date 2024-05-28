@@ -90,7 +90,7 @@ export default function Home({ params }) {
                                             </TableRow>
                                         ))
                                     ) : (
-                                        data.filter(item => item.step === 2).map((item, index) => (
+                                        data.filter(item => item.step === 5).map((item, index) => (
                                             <TableRow key={item.key}>
                                                 <TableCell>
                                                     {index + 1}
