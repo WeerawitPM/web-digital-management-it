@@ -27,31 +27,77 @@ export async function PATCH(req) {
             if (findTrack) {
                 if (status === 1) {
                     if (price >= 5000) {
-                        step = step + 1;
-                        const result = prisma.$transaction([
-                            prisma.track_Doc.update({
-                                where: {
-                                    id: findTrack.id
-                                },
-                                data: {
-                                    status: status,
-                                    remark: remark,
-                                    user: { connect: { id: session.user.id } }
-                                }
-                            }),
-                            prisma.document_Head.update({
-                                where: {
-                                    ref_no: document_head_id
-                                },
-                                data: {
-                                    step: step,
-                                }
-                            })
-                        ]);
-                        prisma.$disconnect();
-                        return Response.json({ status: "success", message: result });
+                        try {
+                            step = step + 1;
+                            const result = await prisma.$transaction([
+                                prisma.track_Doc.update({
+                                    where: {
+                                        id: findTrack.id
+                                    },
+                                    data: {
+                                        status: status,
+                                        remark: remark,
+                                        user: { connect: { id: session.user.id } },
+                                        end_date: new Date(Date.now())
+                                    }
+                                }),
+                                prisma.document_Head.update({
+                                    where: {
+                                        ref_no: document_head_id
+                                    },
+                                    data: {
+                                        step: step,
+                                    }
+                                })
+                            ]);
+                            await prisma.$disconnect();
+                            return Response.json({ status: "success", message: result });
+                        } catch (error) {
+                            await prisma.$disconnect();
+                            return Response.json({
+                                status: "fail",
+                                message: "Failed to update document",
+                                error: error.message, // Include error message for debugging
+                            });
+                        }
                     } else {
-                        const result = prisma.$transaction([
+                        try {
+                            const result = await prisma.$transaction([
+                                prisma.track_Doc.update({
+                                    where: {
+                                        id: findTrack.id
+                                    },
+                                    data: {
+                                        status: status,
+                                        remark: remark,
+                                        user: { connect: { id: session.user.id } },
+                                        end_date: new Date(Date.now())
+                                    }
+                                }),
+                                prisma.document_Head.update({
+                                    where: {
+                                        ref_no: document_head_id
+                                    },
+                                    data: {
+                                        step: step,
+                                        status: status
+                                    }
+                                })
+                            ]);
+                            await prisma.$disconnect();
+                            return Response.json({ status: "success", message: result });
+                        } catch (error) {
+                            await prisma.$disconnect();
+                            return Response.json({
+                                status: "fail",
+                                message: "Failed to update document",
+                                error: error.message, // Include error message for debugging
+                            });
+                        }
+                    }
+                } else {
+                    try {
+                        const result = await prisma.$transaction([
                             prisma.track_Doc.update({
                                 where: {
                                     id: findTrack.id
@@ -59,7 +105,8 @@ export async function PATCH(req) {
                                 data: {
                                     status: status,
                                     remark: remark,
-                                    user: { connect: { id: session.user.id } }
+                                    user: { connect: { id: session.user.id } },
+                                    end_date: new Date(Date.now())
                                 }
                             }),
                             prisma.document_Head.update({
@@ -72,39 +119,22 @@ export async function PATCH(req) {
                                 }
                             })
                         ]);
-                        prisma.$disconnect();
+                        await prisma.$disconnect();
                         return Response.json({ status: "success", message: result });
+                    } catch (error) {
+                        await prisma.$disconnect();
+                        return Response.json({
+                            status: "fail",
+                            message: "Failed to update document",
+                            error: error.message, // Include error message for debugging
+                        });
                     }
-                } else {
-                    const result = prisma.$transaction([
-                        prisma.track_Doc.update({
-                            where: {
-                                id: findTrack.id
-                            },
-                            data: {
-                                status: status,
-                                remark: remark,
-                                user: { connect: { id: session.user.id } }
-                            }
-                        }),
-                        prisma.document_Head.update({
-                            where: {
-                                ref_no: document_head_id
-                            },
-                            data: {
-                                step: step,
-                                status: status
-                            }
-                        })
-                    ]);
-                    prisma.$disconnect();
-                    return Response.json({ status: "success", message: result });
                 }
             }
 
         } catch (error) {
             console.error('Error:', error);
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to update document",

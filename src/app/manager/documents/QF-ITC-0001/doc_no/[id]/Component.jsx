@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react";
-import { Textarea } from "@nextui-org/react";
+import { Textarea, Input } from "@nextui-org/react";
 import { Button, useToast } from "@chakra-ui/react";
 import ModalViewItem from "./ModalViewItem";
 import axios from "axios";
@@ -11,6 +11,7 @@ import TableAsset from "@/components/TableAsset";
 
 export default function Component({ data, steps, statusStep, totalPrice, trackStatus, fetchData }) {
     const [remark, setRemark] = useState(null);
+    const [refRo, setRefRo] = useState(null);
     const toast = useToast();
 
     const saveData = (status) => {
@@ -19,6 +20,7 @@ export default function Component({ data, steps, statusStep, totalPrice, trackSt
         formData.append("step", data?.step);
         formData.append("status", status);
         formData.append("remark", remark);
+        formData.append("ref_ro", refRo);
 
         axios.patch('/api/manager/documents/QF-ITC-0001/doc_no', formData, {
             // headers: {
@@ -59,7 +61,18 @@ export default function Component({ data, steps, statusStep, totalPrice, trackSt
 
     const handleConfirmSave = (status) => {
         if (status === 1) {
-            saveData(1);
+            if (refRo === null || refRo === undefined || refRo === "") {
+                toast({
+                    title: 'Warning',
+                    description: "Please fill Refer to R/O.No.",
+                    status: 'warning',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+            else {
+                saveData(1);
+            }
         }
         else {
             if (remark === null || remark === undefined || remark === "") {
@@ -103,6 +116,13 @@ export default function Component({ data, steps, statusStep, totalPrice, trackSt
                         <TableAsset data={data} totalPrice={totalPrice} ModalView={ModalViewItem} />
                         {data?.step == 2 && trackStatus == 0 ?
                             <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
+                                <div>Refer to R/O.No.</div>
+                                <Input
+                                    placeholder="Refer to R/O.No."
+                                    variant="bordered"
+                                    size="lg"
+                                    onChange={(e) => setRefRo(e.target.value)}
+                                />
                                 <div className=" font-medium">Remark</div>
                                 <Textarea
                                     placeholder="Remark"
