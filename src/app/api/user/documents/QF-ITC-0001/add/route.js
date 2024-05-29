@@ -109,12 +109,13 @@ export async function POST(req) {
                         id: findTrackDoc.id, // Use the unique id here
                     },
                     data: {
-                        status: 1
+                        status: 1,
+                        user_id: session.user.id
                     }
                 });
             }
 
-            prisma.$disconnect();
+            await prisma.$disconnect();
 
             return Response.json({
                 status: "success",

@@ -68,7 +68,7 @@ export default function Component() {
 
     return (
         <main>
-            <div class="p-4 sm:ml-64">
+            <div className="p-4 sm:ml-64">
                 <ModalAdd fetchData={fetchData} />
                 <div className="mb-5">
                     <Input

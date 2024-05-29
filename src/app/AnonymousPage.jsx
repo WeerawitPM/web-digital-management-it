@@ -18,7 +18,7 @@ export default function AnonymousPage() {
           <div className="flex flex-col">
             <div className="flex flex-row flex-wrap justify-center items-center">
               <div className="flex flex-1">
-                <div class="flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
                   <h1 className="text-5xl text-center font-bold">Welcome to <span className="text-vcs-red">IT</span> Center</h1>
                   <h1 className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text Lorem Ipsum has been the industrys standard dummy text</h1>
                   <div className="flex flex-row mx-auto gap-2">
@@ -51,7 +51,7 @@ export default function AnonymousPage() {
               >
               </Player>
               <div className="flex flex-1 md:order-last">
-                <div class="flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
                   <h1 className="text-5xl text-center font-bold">IT Center คืออะไร?</h1>
                   <h1 className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text</h1>
                 </div>
