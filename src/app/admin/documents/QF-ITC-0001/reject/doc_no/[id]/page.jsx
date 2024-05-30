@@ -58,6 +58,6 @@ export default function Home({ params }) {
     };
 
     return (
-        <Component data={data} steps={steps} statusStep={statusStep} totalPrice={totalPrice} />
+        <Component data={data} steps={steps} statusStep={statusStep} totalPrice={totalPrice} doc_no={doc_no} />
     );
 }

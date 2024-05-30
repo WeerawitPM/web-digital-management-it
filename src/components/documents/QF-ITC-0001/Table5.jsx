@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Table5({ ITStaff, ITManager, SuperManager }) {
     return (
-        <table className="table-auto border-collapse border border-black border-t-0 w-full text-sm">
+        <table className="table-auto border-collapse border border-black border-t-0 text-sm w-full">
             <tbody>
                 <tr>
                     <td className='border-x-1 border-black font-bold text-center'>
@@ -13,8 +13,8 @@ export default function Table5({ ITStaff, ITManager, SuperManager }) {
                                 height={80}
                                 width={80}
                                 className='mx-auto my-2'
-                                unoptimized
-                            />}
+                            />
+                        }
                         <div>{ITStaff?.end_date && new Date(ITStaff.end_date).toLocaleDateString('th-TH')}</div>
                         <div>IT STAFF</div>
                     </td>
@@ -26,7 +26,6 @@ export default function Table5({ ITStaff, ITManager, SuperManager }) {
                                 height={80}
                                 width={80}
                                 className='mx-auto my-2'
-                                unoptimized
                             />
                         }
                         <div>{ITManager?.end_date && new Date(ITManager.end_date).toLocaleDateString('th-TH')}</div>
@@ -40,7 +39,6 @@ export default function Table5({ ITStaff, ITManager, SuperManager }) {
                                 height={80}
                                 width={80}
                                 className='mx-auto my-2'
-                                unoptimized
                             />
                         }
                         <div>{SuperManager?.end_date && new Date(SuperManager.end_date).toLocaleDateString('th-TH')}</div>

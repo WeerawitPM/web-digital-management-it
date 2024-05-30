@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Component from "@/components/documents/QF-ITC-0001";
+import Component from "@/components/documents/QF-ITC-0001/QF-ITC-0001";
 
 export default function Home({ params }) {
     const doc_no = params.id
@@ -26,6 +26,6 @@ export default function Home({ params }) {
     };
 
     return (
-        <Component data={data} />
+        <Component data={data} doc_no={doc_no} />
     );
 }

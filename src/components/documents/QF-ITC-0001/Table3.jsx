@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Table3({ requestBy, requestFor, data, userManager, refRo }) {
     return (
-        <table className="table-auto border-collapse border border-black w-full text-sm mt-1">
+        <table className="table-auto border-collapse border border-black text-sm mt-1 w-full">
             <thead>
                 <tr>
                     <th className='border border-black' colSpan="6">Request Description</th>
@@ -99,7 +99,6 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                                 height={80}
                                 width={80}
                                 className='mx-auto my-2'
-                                unoptimized
                             />
                         }
                         <div>{data?.start_date && new Date(data.start_date).toLocaleDateString('th-TH')}</div>
@@ -113,7 +112,6 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                                 width={80}
                                 height={80}
                                 className='mx-auto my-2'
-                                unoptimized
                             />}
                         <div>{userManager?.end_date && new Date(userManager.end_date).toLocaleDateString('th-TH')}</div>
                         <div>APPROVER</div>

@@ -9,6 +9,7 @@ import axios from "axios";
 import ModalEdit from "./ModalEdit";
 import ProfileInformation from "@/components/ProfileInformation";
 import TableAsset from "@/components/TableAsset";
+import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
 
 export default function Component(params) {
     const data = params.data; // เก็บข้อมูลที่ได้จาก API
@@ -19,6 +20,7 @@ export default function Component(params) {
     const totalPrice = params.totalPrice;
     const [remark, setRemark] = useState(null);
     const fetchData = params.fetchData;
+    const doc_no = params.doc_no;
 
     const saveData = (status) => {
         const formData = new FormData();
@@ -86,17 +88,7 @@ export default function Component(params) {
 
     return (
         <>
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between flex-wrap">
-                        <div className="justify-start">
-                            <span className="font-semibold text-md text-gray-800 leading-tight">
-                                แบบฟอร์มใบร้องขออุปกรณ์สารสนเทศ
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <HeaderDoc doc_no={doc_no} />
             {data === null ? "" :
                 <main>
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">

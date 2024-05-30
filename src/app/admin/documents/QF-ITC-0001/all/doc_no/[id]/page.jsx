@@ -17,7 +17,7 @@ export default function Home({ params }) {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/admin/documents/QF-ITC-0001/approve/doc_no?doc_no=${doc_no}`);
+            const response = await axios.get(`/api/user/documents/QF-ITC-0001/doc_no?doc_no=${doc_no}`);
             if (response.status !== 200) {
                 throw new Error('Failed to fetch data');
             }
@@ -56,6 +56,6 @@ export default function Home({ params }) {
         }
     };
     return (
-        <Component data={data} steps={steps} statusStep={statusStep} totalPrice={totalPrice}/>
+        <Component data={data} steps={steps} statusStep={statusStep} totalPrice={totalPrice} doc_no={doc_no} />
     );
 }

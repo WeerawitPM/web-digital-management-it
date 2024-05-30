@@ -3,7 +3,7 @@ export default function Table1() {
         <table className="table-auto border-collapse border border-black w-full text-sm">
             <thead>
                 <tr>
-                    <th className='border border-black' colSpan="3">VCS Group.</th>
+                    <th className='border border-black text-base' colSpan="3">VCS Group.</th>
                 </tr>
             </thead>
             <tbody>
