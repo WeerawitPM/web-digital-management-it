@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import {
     Navbar,
@@ -12,8 +12,6 @@ import {
     Dropdown,
     DropdownMenu,
     Avatar,
-    Badge,
-    Button,
     NavbarMenuToggle,
     NavbarMenu,
     NavbarMenuItem
@@ -23,17 +21,22 @@ import CustomDropdownMenu from "@/components/CustomDropdownMenu";
 import { menuRequest } from "@/components/documents/QF-ITC-0001/MenuRequest";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from 'next/navigation'
+import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
+import { Switch } from "@nextui-org/react";
+import { MoonIcon } from "@/components/icon/MoonIcon";
+import { SunIcon } from "@/components/icon/SunIcon";
 
 export default function AdminNavbar({ role }) {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { data: session } = useSession();
     const pathname = usePathname();
     const home = pathname.startsWith(`/${role}/`);
     const manage = pathname.startsWith(`/${role}/manage`);
     const documents = pathname.startsWith(`/${role}/documents`);
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     return (
-        <Navbar maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
+        <Navbar maxWidth="xl" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
             {home && (
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -69,7 +72,7 @@ export default function AdminNavbar({ role }) {
             <NavbarBrand>
                 <Link>
                     <Image
-                        src="/images/logo.png"
+                        src={theme === 'dark' ? "/images/logo.png" : "/images/logo2.png"}
                         alt="Vercel Logo"
                         width={62}
                         height={45}
@@ -77,7 +80,7 @@ export default function AdminNavbar({ role }) {
                         priority
                         unoptimized
                     />
-                    <p className="font-bold text-vcs-white text-xl"><span className="text-vcs-red ms-2">IT</span> Center</p>
+                    <p className="font-bold text-xl text-foreground"><span className="text-vcs-red ms-2">IT</span> Center</p>
                 </Link>
             </NavbarBrand>
 
@@ -98,6 +101,20 @@ export default function AdminNavbar({ role }) {
             </NavbarContent>
 
             <NavbarContent as="div" justify="end">
+                <Switch
+                    size="lg"
+                    color="secondary"
+                    isSelected={theme === 'dark'}
+                    onChange={toggleTheme}
+                    thumbIcon={({ isSelected, className }) =>
+                        isSelected ? (
+                            <MoonIcon className={className} />
+                        ) : (
+                            <SunIcon className={className} />
+                        )
+                    }
+                >
+                </Switch>
                 <Dropdown placement="bottom-end">
                     <DropdownTrigger>
                         <Avatar

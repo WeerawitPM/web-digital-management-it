@@ -22,7 +22,7 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" className="light" suppressContentEditableWarning>
+    <html lang="en" suppressContentEditableWarning>
       <body className={prompt.className}>
         <ReduxProvider>
           <UIProviders>
