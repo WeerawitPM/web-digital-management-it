@@ -17,7 +17,7 @@ export default function HomeComponent({ role }) {
                     <div className="d-flex text-center">
                         <Card align='center' className="w-[250px]">
                             <CardBody>
-                                <Image src={system} width={200} height={200} unoptimized className="mb-5" />
+                                <Image src={system} width={200} height={200} unoptimized className="mb-5" alt='image' />
                                 <Link href={`/${role}/manage/company`}>
                                     <Button radius="sm" color="primary" variant="flat" className="font-medium w-[200px] text-base">Go to page</Button>
                                 </Link>
@@ -29,7 +29,7 @@ export default function HomeComponent({ role }) {
                 <div className="d-flex text-center">
                     <Card align='center' className="w-[250px]">
                         <CardBody>
-                            <Image src={asset} width={200} height={200} unoptimized className="mb-5" />
+                            <Image src={asset} width={200} height={200} unoptimized className="mb-5" alt='image' />
                             <Link href={`/${role}/documents/QF-ITC-0001`}>
                                 <Button radius="sm" color="primary" variant="flat" className="font-medium w-[200px] text-base">Go to page</Button>
                             </Link>
@@ -40,7 +40,7 @@ export default function HomeComponent({ role }) {
                 <div className="d-flex text-center">
                     <Card align='center' className="w-[250px]">
                         <CardBody>
-                            <Image src={mechanic} width={200} height={200} unoptimized className="mb-5" />
+                            <Image src={mechanic} width={200} height={200} unoptimized className="mb-5" alt='image' />
                             <Link href={`/${role}/documents/QF-ITC-0001`}>
                                 <Button radius="sm" color="primary" variant="flat" className="font-medium w-[200px] text-base">Go to page</Button>
                             </Link>

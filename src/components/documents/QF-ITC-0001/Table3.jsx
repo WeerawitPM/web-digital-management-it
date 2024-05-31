@@ -11,21 +11,31 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
             <tbody>
                 <tr>
                     <td className='border border-black font-bold'>
-                        {requestFor?.map((item) => (
-                            <div className="flex font-bold">Request for : <span className='font-normal'>&nbsp;{item?.asset?.asset_type?.name}</span></div>
+                        {requestFor?.map((item, index) => (
+                            <div
+                                key={item.id || index}
+                                className="flex font-bold">
+                                Request for : <span className='font-normal'>&nbsp;{item?.asset?.asset_type?.name}</span>
+                            </div>
                         ))}
                     </td>
                     <td className='border border-black' colSpan="3">
                         <div className='flex flex-col'>
-                            {requestFor?.map((item) => (
-                                <div className="flex font-bold">item : <span className='font-normal'>&nbsp;{item?.asset?.name}</span></div>
+                            {requestFor?.map((item, index) => (
+                                <div
+                                    key={item.id || index}
+                                    className="flex font-bold">item : <span className='font-normal'>&nbsp;{item?.asset?.name}</span>
+                                </div>
                             ))}
                         </div>
                     </td>
                     <td className='border border-black'>
                         <div className='flex flex-col'>
-                            {requestFor?.map((item) => (
-                                <div className="flex font-bold">Quantity : <span className='font-normal'>&nbsp;{item?.qty}</span></div>
+                            {requestFor?.map((item, index) => (
+                                <div
+                                    key={item.id || index}
+                                    className="flex font-bold">Quantity : <span className='font-normal'>&nbsp;{item?.qty}</span>
+                                </div>
                             ))}
                         </div>
                     </td>
@@ -35,8 +45,8 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                         <br /> (Please write in Detail)
                     </td>
                     <td className='border border-black' colSpan="5">
-                        {requestFor?.map((item) => (
-                            <div>- {item?.purpose}</div>
+                        {requestFor?.map((item, index) => (
+                            <div key={item.id || index}>- {item?.purpose}</div>
                         ))}
                     </td>
                 </tr>
@@ -45,8 +55,8 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                         <br /> Software Version :
                     </td>
                     <td className='border border-black' colSpan="5">
-                        {requestFor?.map((item) => (
-                            <div>- {item?.spec_detail}</div>
+                        {requestFor?.map((item, index) => (
+                            <div key={item.id || index}>- {item?.spec_detail}</div>
                         ))}
                     </td>
                 </tr>
@@ -76,10 +86,8 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                         <div> {refRo}</div>
                     </td>
                     <td className='border border-black font-bold' colSpan="3">
-                        <div className='flex'>
-                            Date Required (Approximately) :<div className='font-normal'>
-                                &nbsp;{data?.start_date && new Date(data.start_date).toLocaleDateString('th-TH')}
-                            </div>
+                        <div className='flex' key="date">
+                            Date Required (Approximately) :<div className='font-normal'>&nbsp;{data?.start_date && new Date(data.start_date).toLocaleDateString('th-TH')}</div>
                         </div>
                     </td>
                 </tr>
@@ -88,7 +96,7 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                         {data?.Track_Doc
                             .filter(index => index?.remark && index.remark !== "null" && index.remark.trim() !== "")
                             .map((index) => (
-                                <span className='font-normal'>&nbsp;{index.remark}</span>
+                                <span key={index} className='font-normal'>&nbsp;{index.remark}</span>
                             ))}
                     </td>
                     <td className='border border-black font-bold text-center'>

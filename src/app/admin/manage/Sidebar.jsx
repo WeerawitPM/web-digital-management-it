@@ -64,31 +64,31 @@ export function SidebarComponent({ name }) {
                     <ul className="space-y-2 font-medium">
                         <li>
                             <Link href="/admin/manage/company" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <Image src="/images/sidebar/office.png" width={30} height={30} unoptimized />
+                                <Image src="/images/sidebar/office.png" width={30} height={30} alt='image' unoptimized />
                                 <span className="ms-3">จัดการชื่อบริษัท</span>
                             </Link>
                         </li>
                         <li>
                             <Link href="/admin/manage/department" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <Image src="/images/sidebar/department.png" width={30} height={30} unoptimized />
+                                <Image src="/images/sidebar/department.png" width={30} height={30} alt='image' unoptimized />
                                 <span className="flex-1 ms-3 whitespace-nowrap">จัดการแผนก</span>
                             </Link>
                         </li>
                         <li>
                             <Link href="/admin/manage/position" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <Image src="/images/sidebar/supervisor.png" width={30} height={30} unoptimized />
+                                <Image src="/images/sidebar/supervisor.png" width={30} height={30} alt='image' unoptimized />
                                 <span className="flex-1 ms-3 whitespace-nowrap">จัดการตำแหน่งงาน</span>
                             </Link>
                         </li>
                         <li>
                             <Link href="/admin/manage/user" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <Image src="/images/sidebar/friends.png" width={30} height={30} unoptimized />
+                                <Image src="/images/sidebar/friends.png" width={30} height={30} alt='image' unoptimized />
                                 <span className="flex-1 ms-3 whitespace-nowrap">จัดการสมาชิก</span>
                             </Link>
                         </li>
                         <li>
                             <Link href="/admin/manage/role" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <Image src="/images/sidebar/role.png" width={30} height={30} unoptimized />
+                                <Image src="/images/sidebar/role.png" width={30} height={30} alt='image' unoptimized />
                                 <span className="flex-1 ms-3 whitespace-nowrap">จัดการบทบาท</span>
                             </Link>
                         </li>
