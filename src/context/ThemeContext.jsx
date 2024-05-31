@@ -1,23 +1,30 @@
-"use client"
+"use client";
 import { createContext, useState, useEffect } from 'react';
 
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState('light');
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             setTheme(savedTheme);
         }
-    }, [theme]);
+        setLoaded(true);
+    }, []);
 
     const toggleTheme = () => {
         const newTheme = theme === 'light' ? 'dark' : 'light';
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
     };
+
+    if (!loaded) {
+        // Avoid rendering children until the theme is loaded
+        return null;
+    }
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

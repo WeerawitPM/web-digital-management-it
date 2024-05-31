@@ -1,7 +1,5 @@
-
 import { Prompt } from "next/font/google";
 import "./globals.css";
-// import 'bootstrap/dist/css/bootstrap.css'
 import { UIProviders } from "@/context/UIproviders";
 import ReduxProvider from "@/lib/reduxProvider";
 import AnonymousNavbar from "@/components/navbar/AnonymousNavbar";
@@ -24,7 +22,7 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en">
+    <html lang="en" className="light" suppressContentEditableWarning>
       <body className={prompt.className}>
         <ReduxProvider>
           <UIProviders>
