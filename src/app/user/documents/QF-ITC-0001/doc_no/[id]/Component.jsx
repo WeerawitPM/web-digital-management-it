@@ -1,7 +1,7 @@
 import React from "react";
 import { Steps } from 'antd';
 import ProfileInformation from "@/components/ProfileInformation";
-import TableAsset from "@/components/TableAsset";
+import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import ModalViewItem from "./ModalViewItem";
 
 export default function Component({ data, steps, statusStep, totalPrice }) {

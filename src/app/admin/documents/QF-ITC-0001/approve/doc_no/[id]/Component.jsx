@@ -15,7 +15,7 @@ import { useToast, Button } from "@chakra-ui/react";
 import { Steps } from 'antd';
 import ModalView from "./ModalView";
 import axios from "axios";
-import TableAsset from "@/components/TableAsset";
+import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import ProfileInformation from "@/components/ProfileInformation";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
 

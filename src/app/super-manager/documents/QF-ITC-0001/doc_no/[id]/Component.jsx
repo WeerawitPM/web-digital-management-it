@@ -7,7 +7,7 @@ import ModalViewItem from "./ModalViewItem";
 import axios from "axios";
 import { Steps } from 'antd';
 import ProfileInformation from "@/components/ProfileInformation";
-import TableAsset from "@/components/TableAsset";
+import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
 
 export default function Component({ data, steps, statusStep, totalPrice, trackStatus, fetchData, doc_no }) {

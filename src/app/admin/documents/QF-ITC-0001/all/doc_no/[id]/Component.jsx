@@ -2,7 +2,7 @@ import React from "react";
 import { Steps } from 'antd';
 import ModalView from "./ModalView";
 import ProfileInformation from "@/components/ProfileInformation";
-import TableAsset from "@/components/TableAsset";
+import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
 
 export default function Component(params) {

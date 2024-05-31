@@ -8,7 +8,7 @@ import ModalView from "./ModalView";
 import axios from "axios";
 import ModalEdit from "./ModalEdit";
 import ProfileInformation from "@/components/ProfileInformation";
-import TableAsset from "@/components/TableAsset";
+import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
 
 export default function Component(params) {
