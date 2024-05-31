@@ -2,15 +2,16 @@
 import { Prompt } from "next/font/google";
 import "./globals.css";
 // import 'bootstrap/dist/css/bootstrap.css'
-import { UIProviders } from "./UIproviders";
+import { UIProviders } from "@/context/UIproviders";
 import ReduxProvider from "@/lib/reduxProvider";
 import AnonymousNavbar from "@/components/navbar/AnonymousNavbar";
 import UserNavbar from "@/components/navbar/UserNavbar";
 import AdminNavbar from "@/components/navbar/AdminNavbar";
 import ManagerNavbar from "@/components/navbar/ManagerNavbar";
-import SessionProvider from "./SessionProvider";
+import SessionProvider from "@/context/SessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const prompt = Prompt({ subsets: ["thai"], weight: "400" });
 
@@ -27,7 +28,7 @@ export default async function RootLayout({ children }) {
       <body className={prompt.className}>
         <ReduxProvider>
           <UIProviders>
-            <div className="min-h-full">
+            <ThemeProvider>
               <SessionProvider session={session}>
                 {!session ? <AnonymousNavbar /> : (session?.user?.role === "user" ? <UserNavbar role={session?.user?.role} />
                   : (session?.user?.role === "manager" || session?.user?.role === "it-manager" || session?.user?.role === "super-manager" ? <ManagerNavbar role={session?.user?.role} />
@@ -36,7 +37,7 @@ export default async function RootLayout({ children }) {
                     )))}
                 {children}
               </SessionProvider>
-            </div>
+            </ThemeProvider>
           </UIProviders>
         </ReduxProvider>
       </body>

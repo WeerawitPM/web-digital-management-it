@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import {
     Navbar,
@@ -8,14 +8,20 @@ import {
     Link,
     Button,
 } from "@nextui-org/react";
+import { Switch } from "@nextui-org/react";
+import { MoonIcon } from "@/components/icon/MoonIcon";
+import { SunIcon } from "@/components/icon/SunIcon";
+import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
 
 export default function AnonymousNavbar() {
+    const { theme, toggleTheme } = useContext(ThemeContext);
+
     return (
-        <Navbar isBordered maxWidth="xl" className="bg-vcs-blue">
+        <Navbar isBordered maxWidth="xl">
             <NavbarBrand>
                 <Link>
                     <Image
-                        src="/images/logo.png"
+                        src={theme === 'dark' ? "/images/logo.png" : "/images/logo2.png"}
                         alt="Vercel Logo"
                         width={62}
                         height={45}
@@ -23,13 +29,27 @@ export default function AnonymousNavbar() {
                         priority
                         unoptimized
                     />
-                    <p className="font-bold text-vcs-white text-xl"><span className="text-vcs-red ms-2">IT</span> Center</p>
+                    <div className="font-bold text-xl text-foreground"><span className="text-vcs-red ms-2">IT</span> Center</div>
                 </Link>
             </NavbarBrand>
 
             <NavbarContent as="div" justify="end">
+                <Switch
+                    size="lg"
+                    color="secondary"
+                    isSelected={theme === 'dark'}
+                    onChange={toggleTheme}
+                    thumbIcon={({ isSelected, className }) =>
+                        isSelected ? (
+                            <MoonIcon className={className} />
+                        ) : (
+                            <SunIcon className={className} />
+                        )
+                    }
+                >
+                </Switch>
                 <Link href="/signin">
-                    <Button auto size="small" className="text-white" variant="bordered">
+                    <Button auto size="small" variant="bordered" color="default">
                         Signin
                     </Button>
                 </Link>
