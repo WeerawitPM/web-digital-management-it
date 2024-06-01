@@ -4,28 +4,14 @@ import React, { useState, useEffect } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
 import Link from "next/link";
 import axios from "axios";
+import HeaderMain from "@/components/documents/QF-ITC-0001/HeaderMain";
 
 const columns = [
-    {
-        key: "id",
-        label: "#",
-    },
-    {
-        key: "doc_no",
-        label: "DOC NO.",
-    },
-    {
-        key: "request_date",
-        label: "REQUEST DATE",
-    },
-    {
-        key: "request_by",
-        label: "REQUEST BY",
-    },
-    {
-        key: "title",
-        label: "TITLE",
-    },
+    { key: "id", label: "#", },
+    { key: "doc_no", label: "DOC NO.", },
+    { key: "request_date", label: "REQUEST DATE", },
+    { key: "request_by", label: "REQUEST BY", },
+    { key: "title", label: "TITLE", },
 ];
 
 export default function Home() {
@@ -59,18 +45,8 @@ export default function Home() {
 
     return (
         <>
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between flex-wrap">
-                        <div className="justify-start my-auto">
-                            <span className="font-semibold text-md text-gray-800 leading-tight">
-                                1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            <main>
+            <HeaderMain title="1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ | รอแนบใบเสนอราคา" />
+            <main className="min-h-screen">
                 <div className="py-12">
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                         <Table aria-label="Example table with dynamic content">

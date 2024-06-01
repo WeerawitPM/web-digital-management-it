@@ -1,6 +1,6 @@
 export default function Table1() {
     return (
-        <table className="table-auto border-collapse border border-black w-full text-sm">
+        <table className="table-auto border-collapse border border-black w-full text-sm text-black">
             <thead>
                 <tr>
                     <th className='border border-black text-base' colSpan="3">VCS Group.</th>

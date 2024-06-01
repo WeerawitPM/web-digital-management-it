@@ -10,18 +10,9 @@ import ModalAdd from "./ModalAdd";
 import { SearchIcon } from "@chakra-ui/icons";
 
 const columns = [
-    {
-        key: "id",
-        label: "#",
-    },
-    {
-        key: "name",
-        label: "COMPANY NAME",
-    },
-    {
-        key: "action",
-        label: "ACTION",
-    },
+    { key: "id", label: "#", },
+    { key: "name", label: "COMPANY NAME", },
+    { key: "action", label: "ACTION", },
 ];
 
 export default function Component() {
@@ -67,8 +58,7 @@ export default function Component() {
     }, [searchTerm, data]);
 
     return (
-        <main>
-            <div className="p-4 sm:ml-64">
+        <main className="p-4 sm:ml-64">
                 <ModalAdd fetchData={fetchData} />
                 <div className="mb-5">
                     <Input
@@ -111,7 +101,6 @@ export default function Component() {
                         </TableBody>
                     }
                 </Table>
-            </div>
         </main>
     )
 }

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Table5({ ITStaff, ITManager, SuperManager }) {
     return (
-        <table className="table-auto border-collapse border border-black border-t-0 text-sm w-full">
+        <table className="table-auto border-collapse border border-black border-t-0 text-sm w-full text-black">
             <tbody>
                 <tr>
                     <td className='border-x-1 border-black font-bold text-center'>

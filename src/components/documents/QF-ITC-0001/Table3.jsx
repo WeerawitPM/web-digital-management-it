@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Table3({ requestBy, requestFor, data, userManager, refRo }) {
     return (
-        <table className="table-auto border-collapse border border-black text-sm mt-1 w-full">
+        <table className="table-auto border-collapse border border-black text-sm mt-1 w-full text-black">
             <thead>
                 <tr>
                     <th className='border border-black' colSpan="6">Request Description</th>

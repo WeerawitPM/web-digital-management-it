@@ -40,7 +40,7 @@ export default function AdminNavbar({ role }) {
             {home && (
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                    className="sm:hidden text-white"
+                    className="sm:hidden text-foreground"
                 />
             )}
             <NavbarMenu>
@@ -87,16 +87,16 @@ export default function AdminNavbar({ role }) {
             <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
                 {home && (
                     <NavbarItem>
-                        <Link href={`/${role}`} className="text-white">หน้าแรก</Link>
+                        <Link href={`/${role}`} className="text-foreground">หน้าแรก</Link>
                     </NavbarItem>
                 )}
                 {manage && (
                     <NavbarItem>
-                        <Link href={`/${role}/manage/company`} className="text-white">จัดการระบบ</Link>
+                        <Link href={`/${role}/manage/company`} className="text-foreground">จัดการระบบ</Link>
                     </NavbarItem>
                 )}
                 {documents && (
-                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-foreground" size="md" role={role} />
                 )}
             </NavbarContent>
 

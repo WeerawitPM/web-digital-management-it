@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Button } from '@chakra-ui/react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -7,6 +7,8 @@ import Table2 from './Table2';
 import Table3 from './Table3';
 import Table4 from './Table4';
 import Table5 from './Table5';
+import { Navbar, NavbarContent } from '@nextui-org/react';
+import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
 
 export default function Component({ data, doc_no }) {
     const requestBy = data?.Track_Doc[0]?.user;
@@ -18,6 +20,7 @@ export default function Component({ data, doc_no }) {
     const SuperManager = data?.Track_Doc[5];
     let processPOManager
     const componentRef = useRef(null);
+    const { theme } = useContext(ThemeContext);
 
     if (data?.price >= 5000) {
         processPOManager = SuperManager;
@@ -50,21 +53,15 @@ export default function Component({ data, doc_no }) {
 
     return (
         <>
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between flex-wrap">
-                        <div className="flex justify-start">
-                            <div className="font-semibold text-md text-gray-800 my-auto">
-                                ใบร้องขออุปกรณ์สารสนเทศ {doc_no}
-                            </div>
-                        </div>
-                        <div className="justify-end">
-                            <Button size="md" onClick={exportToPDF}>Export to PDF.</Button>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            <div className="bg-gray-100 flex justify-center items-center min-h-screen">
+            <Navbar position="static" isBordered maxWidth="xl">
+                <NavbarContent justify="start">
+                    ใบร้องขออุปกรณ์สารสนเทศ {doc_no}
+                </NavbarContent>
+                <NavbarContent justify="end">
+                    <Button size="md" onClick={exportToPDF}>Export to PDF.</Button>
+                </NavbarContent>
+            </Navbar>
+            <div className={`${theme === "dark" ? "" : "bg-gray-100"} flex justify-center items-center min-h-screen`}>
                 <div className="a4 bg-white shadow-lg p-8 my-5" ref={componentRef}>
                     <Table1 />
                     <Table2 requestBy={requestBy} />

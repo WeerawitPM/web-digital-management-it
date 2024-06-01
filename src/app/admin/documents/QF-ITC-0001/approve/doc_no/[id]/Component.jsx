@@ -1,23 +1,14 @@
 'use client'
 
 import React, { useState } from "react";
-import {
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell,
-    Chip,
-    Textarea,
-} from "@nextui-org/react";
+import { Textarea, Card, CardBody } from "@nextui-org/react";
 import { useToast, Button } from "@chakra-ui/react";
-import { Steps } from 'antd';
 import ModalView from "./ModalView";
 import axios from "axios";
 import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import ProfileInformation from "@/components/ProfileInformation";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
+import StepsComponent from "@/components/documents/QF-ITC-0001/Steps";
 
 export default function Component(params) {
     const data = params.data; // เก็บข้อมูลที่ได้จาก API
@@ -98,35 +89,32 @@ export default function Component(params) {
     return (
         <>
             <HeaderDoc doc_no={doc_no} />
-            {data == null ? "" :
-                <main>
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
-                        <Steps
-                            current={data.step}
-                            status={statusStep == "" ? "process" : statusStep}
-                            items={steps}
-                            className="mt-5"
-                        />
+            <main className="max-h-full max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-5">
+                {data == null ? "" :
+                    <>
+                        <StepsComponent current={data.step} status={statusStep} items={steps} />
                         <ProfileInformation data={data} />
                         <TableAsset data={data} totalPrice={totalPrice} trackStatus={trackStatus} ModalView={ModalView} />
                         {data?.step === 3 && trackStatus === 0 ?
-                            <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
-                                <div className=" font-medium">Remark</div>
-                                <Textarea
-                                    placeholder="Remark"
-                                    variant="bordered"
-                                    size="lg"
-                                    onChange={(e) => setRemark(e.target.value)}
-                                />
-                                <div className="mx-auto text-center mt-2">
-                                    <Button colorScheme="green" className="mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>
-                                    <Button colorScheme="red" onClick={() => handleConfirmSave(2)}>Reject</Button>
-                                </div>
-                            </div>
+                            <Card className="p-4 sm:p-8 sm:rounded-lg w-75">
+                                <CardBody>
+                                    <div className=" font-medium">Remark</div>
+                                    <Textarea
+                                        placeholder="Remark"
+                                        variant="bordered"
+                                        size="lg"
+                                        onChange={(e) => setRemark(e.target.value)}
+                                    />
+                                    <div className="mx-auto text-center mt-2">
+                                        <Button colorScheme="green" className="mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>
+                                        <Button colorScheme="red" onClick={() => handleConfirmSave(2)}>Reject</Button>
+                                    </div>
+                                </CardBody>
+                            </Card>
                             : ""}
-                    </div>
-                </main>
-            }
+                    </>
+                }
+            </main>
         </>
     )
 }

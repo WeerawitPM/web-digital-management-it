@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { Button, Divider } from "@nextui-org/react";
+import { Button, Card } from "@nextui-org/react";
 import hourglass from "@/images/hourglass.png";
 import rejected from "@/images/rejected.png";
 import stamp from "@/images/stamp.png";
 import axios from "axios";
 import Link from "next/link";
+import { Navbar } from "@nextui-org/react";
+import HeaderMain from "@/components/documents/QF-ITC-0001/HeaderMain";
 
 export default function Component() {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
@@ -46,20 +48,12 @@ export default function Component() {
 
     return (
         <>
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="justify-start my-auto">
-                        <span className="font-semibold text-md text-gray-800 leading-tight">
-                            1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
-                        </span>
-                    </div>
-                </div>
-            </header>
-            <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-12">
+            <HeaderMain title="1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ" />
+            <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-12 min-h-screen">
                 <div className="flex flex-col gap-4">
                     <h1 className="font-bold">สถานะคำร้องขออุปกรณ์</h1>
                     <div className="flex flex-row flex-wrap justify-center items-center gap-5">
-                        <div className="p-5 bg-white rounded shadow-md">
+                        <Card className="p-5 rounded shadow-md">
                             <div className="flex flex-col">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex items-center justify-center w-12 h-12 rounded-full">
@@ -73,7 +67,7 @@ export default function Component() {
                                     </div>
                                     <div>
                                         <div className="text-gray-400 text-lg">รอแนบใบเสนอราคา</div>
-                                        <div className="text-4xl font-bold text-gray-900">
+                                        <div className="text-4xl font-bold text-foreground">
                                             {
                                                 data ? data?.waitAttach : "0"
                                             }
@@ -87,8 +81,8 @@ export default function Component() {
                                     <Button radius="full" color="primary" variant="flat">Detail</Button>
                                 </Link>
                             </div>
-                        </div>
-                        <div className="p-5 bg-white rounded shadow-md">
+                        </Card>
+                        <Card className="p-5 rounded shadow-md">
                             <div className="flex flex-col">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex items-center justify-center w-12 h-12 rounded-full">
@@ -102,7 +96,7 @@ export default function Component() {
                                     </div>
                                     <div>
                                         <div className="text-gray-400 text-lg">รอการอนุมัติ</div>
-                                        <div className="text-4xl font-bold text-gray-900">
+                                        <div className="text-4xl font-bold text-foreground">
                                             {
                                                 data ? data?.waitApprove : "0"
                                             }
@@ -116,8 +110,8 @@ export default function Component() {
                                     <Button radius="full" color="success" variant="flat">Detail</Button>
                                 </Link>
                             </div>
-                        </div>
-                        <div className="p-5 bg-white rounded shadow-md">
+                        </Card>
+                        <Card className="p-5 rounded shadow-md">
                             <div className="flex flex-col">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex items-center justify-center w-12 h-12 rounded-full">
@@ -131,7 +125,7 @@ export default function Component() {
                                     </div>
                                     <div>
                                         <div className="text-gray-400 text-lg">คำร้องขอที่ปฏิเสธ</div>
-                                        <div className="text-4xl font-bold text-gray-900">
+                                        <div className="text-4xl font-bold text-foreground">
                                             {
                                                 data ? data?.rejected : "0"
                                             }
@@ -145,8 +139,8 @@ export default function Component() {
                                     <Button radius="full" color="danger" variant="flat">Detail</Button>
                                 </Link>
                             </div>
-                        </div>
-                        <div className="p-5 bg-white rounded shadow-md">
+                        </Card>
+                        <Card className="p-5 rounded shadow-md">
                             <div className="flex flex-col">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex items-center justify-center w-12 h-12 rounded-full">
@@ -160,7 +154,7 @@ export default function Component() {
                                     </div>
                                     <div>
                                         <div className="text-gray-400 text-lg">คำขอทั้งหมด</div>
-                                        <div className="text-4xl font-bold text-gray-900">
+                                        <div className="text-4xl font-bold text-foreground">
                                             {
                                                 data ? data?.allDocuments : "0"
                                             }
@@ -174,7 +168,7 @@ export default function Component() {
                                     <Button radius="full" color="warning" variant="flat">Detail</Button>
                                 </Link>
                             </div>
-                        </div>
+                        </Card>
                     </div>
                 </div>
                 {/* <Divider /> */}

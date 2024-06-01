@@ -3,9 +3,9 @@ import Component from "./Component";
 
 export default function Home() {
     return (
-        <>
-            <SidebarComponent name="จัดการตำแหน่งงาน"/>
+        <main className="min-h-screen">
+            <SidebarComponent name="จัดการตำแหน่งงาน" />
             <Component />
-        </>
+        </main>
     );
 }
