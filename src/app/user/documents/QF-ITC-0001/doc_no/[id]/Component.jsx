@@ -1,37 +1,23 @@
 import React from "react";
-import { Steps } from 'antd';
 import ProfileInformation from "@/components/ProfileInformation";
 import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import ModalViewItem from "./ModalViewItem";
+import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
+import StepsComponent from "@/components/documents/QF-ITC-0001/Steps";
 
-export default function Component({ data, steps, statusStep, totalPrice }) {
+export default function Component({ data, steps, statusStep, totalPrice, doc_no }) {
     return (
         <>
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between flex-wrap">
-                        <div className="justify-start">
-                            <span className="font-semibold text-md text-gray-800 leading-tight">
-                                แบบฟอร์มใบร้องขออุปกรณ์สารสนเทศ
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            {data == null ? "" :
-                <main>
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
-                        <Steps
-                            current={data.step}
-                            status={statusStep == "" ? "process" : statusStep}
-                            items={steps}
-                            className="mt-5"
-                        />
+            <HeaderDoc doc_no={doc_no} />
+            <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 min-h-screen py-5">
+                {data === null ? "" :
+                    <>
+                        <StepsComponent current={data.step} status={statusStep} items={steps} />
                         <ProfileInformation data={data} />
                         <TableAsset data={data} totalPrice={totalPrice} ModalView={ModalViewItem} />
-                    </div>
-                </main>
-            }
+                    </>
+                }
+            </main>
         </>
     );
 }

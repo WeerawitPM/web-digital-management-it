@@ -8,7 +8,6 @@ import rejected from "@/images/rejected.png";
 import stamp from "@/images/stamp.png";
 import axios from "axios";
 import Link from "next/link";
-import { Navbar } from "@nextui-org/react";
 import HeaderMain from "@/components/documents/QF-ITC-0001/HeaderMain";
 
 export default function Component() {
@@ -48,7 +47,7 @@ export default function Component() {
 
     return (
         <>
-            <HeaderMain title="1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ" />
+            <HeaderMain title="1. QF-ITC-0001 ใบร้องขออุปกรณ์สารสนเทศ" />
             <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-12 min-h-screen">
                 <div className="flex flex-col gap-4">
                     <h1 className="font-bold">สถานะคำร้องขออุปกรณ์</h1>

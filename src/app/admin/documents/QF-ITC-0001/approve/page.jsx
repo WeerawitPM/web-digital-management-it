@@ -45,7 +45,7 @@ export default function Home() {
 
     return (
         <>
-            <HeaderMain title="1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ | รอการอนุมัติ" />
+            <HeaderMain title="| รอการอนุมัติ" />
             <main className="min-h-screen py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <Table aria-label="Example table with dynamic content">
                     <TableHeader columns={columns}>

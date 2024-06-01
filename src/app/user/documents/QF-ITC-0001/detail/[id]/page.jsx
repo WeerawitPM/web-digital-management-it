@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
 import Link from "next/link";
 import axios from "axios";
+import HeaderMain from "@/components/documents/QF-ITC-0001/HeaderMain";
 
 const columns = [
     { key: "id", label: "#", },
@@ -61,52 +62,46 @@ export default function Home({ params }) {
 
     return (
         <>
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="justify-start my-auto">
-                        <span className="font-semibold text-md text-gray-800 leading-tight">
-                            1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ
-                        </span>
-                    </div>
-                </div>
-            </header>
-            <main>
-                <div className="py-12">
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                        <Table aria-label="Example table with dynamic content">
-                            <TableHeader columns={columns}>
-                                {(column) => <TableColumn key={column.key} className={column.textCenter}>{column.label}</TableColumn>}
-                            </TableHeader>
-                            {data == null ? <TableBody emptyContent={"No rows to display."} /> :
-                                <TableBody items={data} emptyContent={"No rows to display."}>
-                                    {data.filter((item) => item.status === status).map((item, index) => (
-                                        <TableRow key={item.key}>
-                                            <TableCell>
-                                                {index + 1}
-                                            </TableCell>
-                                            <TableCell>
-                                                <Link
-                                                    href={`/user/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
-                                                    className="text-blue-500">{item.ref_no}</Link>
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.Table_ITC_0001[0].request_by.username}
-                                            </TableCell>
-                                            <TableCell>
-                                                <Chip color="primary" size="xs" variant="flat">
-                                                    {step[index]}
-                                                </Chip>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            }
-                        </Table>
-                    </div>
-                </div>
+            <HeaderMain
+                title={
+                    status === 0 ? "| รอการอนุมัติ"
+                        : status === 1 ? "| คำร้องขอได้รับการอนุมัติ"
+                            : "| คำร้องขอถูกปฏิเสธ"
+                }
+            />
+            <main className="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 min-h-screen">
+                <Table aria-label="Example table with dynamic content">
+                    <TableHeader columns={columns}>
+                        {(column) => <TableColumn key={column.key} className={column.textCenter}>{column.label}</TableColumn>}
+                    </TableHeader>
+                    {data == null ? <TableBody emptyContent={"No rows to display."} /> :
+                        <TableBody items={data} emptyContent={"No rows to display."}>
+                            {data.filter((item) => item.status === status).map((item, index) => (
+                                <TableRow key={item.key}>
+                                    <TableCell>
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Link
+                                            href={`/user/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
+                                            className="text-blue-500">{item.ref_no}</Link>
+                                    </TableCell>
+                                    <TableCell>
+                                        {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
+                                    </TableCell>
+                                    <TableCell>
+                                        {item.Table_ITC_0001[0].request_by.username}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Chip color="primary" size="xs" variant="flat">
+                                            {step[index]}
+                                        </Chip>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    }
+                </Table>
             </main>
         </>
     )

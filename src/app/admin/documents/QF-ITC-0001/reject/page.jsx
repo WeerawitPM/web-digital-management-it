@@ -45,7 +45,7 @@ export default function Home() {
 
     return (
         <>
-            <HeaderMain title="1.QF-ITC-0001 ใบร้องขออุปกรณ์สารสนเทศ | คำขอที่ปฏิเสธ" />
+            <HeaderMain title="| คำขอที่ปฏิเสธ" />
             <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-12 min-h-screen">
                 <Table aria-label="Example table with dynamic content">
                     <TableHeader columns={columns}>

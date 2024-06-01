@@ -14,7 +14,8 @@ import {
     Avatar,
     NavbarMenuToggle,
     NavbarMenu,
-    NavbarMenuItem
+    NavbarMenuItem,
+    Switch
 } from "@nextui-org/react";
 // import { NotificationIcon } from "../components/Icons";
 import CustomDropdownMenu from "@/components/CustomDropdownMenu";
@@ -22,7 +23,6 @@ import { menuRequest } from "@/components/documents/QF-ITC-0001/MenuRequest";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from 'next/navigation'
 import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
-import { Switch } from "@nextui-org/react";
 import { MoonIcon } from "@/components/icon/MoonIcon";
 import { SunIcon } from "@/components/icon/SunIcon";
 

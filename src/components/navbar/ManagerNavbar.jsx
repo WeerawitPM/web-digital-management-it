@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import {
     Navbar,
@@ -14,13 +14,17 @@ import {
     Avatar,
     NavbarMenuToggle,
     NavbarMenu,
-    NavbarMenuItem
+    NavbarMenuItem,
+    Switch
 } from "@nextui-org/react";
 // import { NotificationIcon } from "../components/Icons";
 import CustomDropdownMenu from "../CustomDropdownMenu";
 import { menuRequest } from "../documents/QF-ITC-0001/MenuRequest";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from 'next/navigation'
+import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
+import { MoonIcon } from "@/components/icon/MoonIcon";
+import { SunIcon } from "@/components/icon/SunIcon";
 
 export default function ManagerNavbar({ role }) {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -28,13 +32,14 @@ export default function ManagerNavbar({ role }) {
     const pathname = usePathname();
     const home = pathname.startsWith(`/${role}/`);
     const documents = pathname.startsWith(`/${role}/documents`);
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     return (
-        <Navbar maxWidth="xl" className="bg-vcs-blue" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
+        <Navbar maxWidth="xl" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
             {home && (
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                    className="sm:hidden text-white"
+                    className="sm:hidden text-foreground"
                 />
             )}
             <NavbarMenu>
@@ -48,7 +53,7 @@ export default function ManagerNavbar({ role }) {
             <NavbarBrand>
                 <Link>
                     <Image
-                        src="/images/logo.png"
+                        src={theme === 'dark' ? "/images/logo.png" : "/images/logo2.png"}
                         alt="Vercel Logo"
                         width={62}
                         height={45}
@@ -56,22 +61,36 @@ export default function ManagerNavbar({ role }) {
                         priority
                         unoptimized
                     />
-                    <p className="font-bold text-vcs-white text-xl"><span className="text-vcs-red ms-2">IT</span> Center</p>
+                    <p className="font-bold text-foreground text-xl"><span className="text-vcs-red ms-2">IT</span> Center</p>
                 </Link>
             </NavbarBrand>
 
             <NavbarContent className="hidden sm:flex gap-4" as="div" justify="center">
                 <NavbarItem>
                     {home && (
-                        <Link href={`/${role}`} className="text-white">หน้าแรก</Link>
+                        <Link href={`/${role}`} className="text-foreground">หน้าแรก</Link>
                     )}
                 </NavbarItem>
                 {documents && (
-                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-white" size="md" role={role} />
+                    <CustomDropdownMenu title="แบบฟอร์มร้องขอ" menus={menuRequest} className="text-foreground" size="md" role={role} />
                 )}
             </NavbarContent>
 
             <NavbarContent as="div" justify="end">
+                <Switch
+                    size="lg"
+                    color="secondary"
+                    isSelected={theme === 'dark'}
+                    onChange={toggleTheme}
+                    thumbIcon={({ isSelected, className }) =>
+                        isSelected ? (
+                            <MoonIcon className={className} />
+                        ) : (
+                            <SunIcon className={className} />
+                        )
+                    }
+                >
+                </Switch>
                 <Dropdown placement="bottom-end">
                     <DropdownTrigger>
                         <Avatar

@@ -17,7 +17,7 @@ export default function AnonymousNavbar() {
     const { theme, toggleTheme } = useContext(ThemeContext);
 
     return (
-        <Navbar isBordered maxWidth="xl">
+        <Navbar maxWidth="xl" isBordered isBlurred={false}>
             <NavbarBrand>
                 <Link>
                     <Image

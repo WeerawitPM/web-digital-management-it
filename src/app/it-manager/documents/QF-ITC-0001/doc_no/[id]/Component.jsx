@@ -1,14 +1,14 @@
 'use client'
 
 import React, { useState } from "react";
-import { Textarea } from "@nextui-org/react";
+import { Card, Textarea } from "@nextui-org/react";
 import { Button, useToast } from "@chakra-ui/react";
 import ModalViewItem from "./ModalViewItem";
 import axios from "axios";
-import { Steps } from 'antd';
 import ProfileInformation from "@/components/ProfileInformation";
 import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
+import StepsComponent from "@/components/documents/QF-ITC-0001/Steps";
 
 export default function Component({ data, steps, statusStep, totalPrice, trackStatus, fetchData, doc_no }) {
     const [remark, setRemark] = useState(null);
@@ -82,20 +82,15 @@ export default function Component({ data, steps, statusStep, totalPrice, trackSt
     return (
         <>
             <HeaderDoc doc_no={doc_no} />
-            {data === null ? "" :
-                <main>
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 mb-5">
-                        <Steps
-                            current={data.step}
-                            status={statusStep == "" ? "process" : statusStep}
-                            items={steps}
-                            className="mt-5"
-                        />
+            <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 min-h-screen py-5">
+                {data === null ? "" :
+                    <>
+                        <StepsComponent current={data.step} status={statusStep} items={steps} />
                         <ProfileInformation data={data} />
                         <TableAsset data={data} totalPrice={totalPrice} ModalView={ModalViewItem} />
                         {data?.step == 4 && trackStatus == 0 ?
-                            <div className="p-4 sm:p-8 bg-white border shadow-sm sm:rounded-lg w-75 mt-5">
-                                <div className=" font-medium">Remark</div>
+                            <Card className="p-4 sm:p-8 sm:rounded-lg w-75">
+                                <div className="font-medium">Remark</div>
                                 <Textarea
                                     placeholder="Remark"
                                     variant="bordered"
@@ -106,11 +101,11 @@ export default function Component({ data, steps, statusStep, totalPrice, trackSt
                                     <Button colorScheme="green" className="mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>
                                     <Button colorScheme="red" onClick={() => handleConfirmSave(2)}>Reject</Button>
                                 </div>
-                            </div>
+                            </Card>
                             : ""}
-                    </div>
-                </main>
-            }
+                    </>
+                }
+            </main>
         </>
     );
 }

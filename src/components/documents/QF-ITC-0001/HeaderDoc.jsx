@@ -8,7 +8,7 @@ export default function HeaderDoc({ doc_no }) {
 
     return (
         <Navbar position="static" isBordered maxWidth="xl">
-            <NavbarContent justify="start">
+            <NavbarContent justify="start" className="font-bold">
                 ใบร้องขออุปกรณ์สารสนเทศ {doc_no}
             </NavbarContent>
             <NavbarContent justify="end">

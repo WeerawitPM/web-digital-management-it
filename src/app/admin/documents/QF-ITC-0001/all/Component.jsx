@@ -80,7 +80,7 @@ export default function Component() {
 
     return (
         <>
-            <HeaderMain title="1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ | ทุกสถานะ" />
+            <HeaderMain title="| ทุกสถานะ" />
             <main className="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 min-h-screen">
                 <div className="mb-5">
                     <Input

@@ -45,7 +45,7 @@ export default function Home() {
 
     return (
         <>
-            <HeaderMain title="1.QF-TC-0001 ใบร้องขออุปกรณ์สารสนเทศ | รอแนบใบเสนอราคา" />
+            <HeaderMain title="| รอแนบใบเสนอราคา" />
             <main className="min-h-screen">
                 <div className="py-12">
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
