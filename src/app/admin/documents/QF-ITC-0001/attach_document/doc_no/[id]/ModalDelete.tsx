@@ -18,7 +18,7 @@ import {
 import { DeleteIcon } from "@/components/icon/DeleteIcon";
 import axios from "axios";
 
-export default function ModalDelete(data) {
+export default function ModalDelete(data: any) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
 

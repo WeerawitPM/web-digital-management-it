@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { EyeIcon } from "@/components/icon/EyeIcon";
 
-export default function ModalView({ id, name }) {
+export default function ModalView({ id, name }: { id: string, name: string }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (

@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Component from "./Component";
 
-export default function Home({ params }) {
+export default function Home({ params }: { params: { id: string } }) {
     const doc_no = params.id;
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     const [steps, setStep] = useState();
-    const [statusStep, setStatusStep] = useState("");
-    const [totalPrice, setTotalPrice] = useState();
+    const [statusStep, setStatusStep] = useState<any>("");
+    const [totalPrice, setTotalPrice] = useState<any>();
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -25,7 +25,7 @@ export default function Home({ params }) {
             const data = response.data;
             setData(data);
 
-            const totalPrice = data?.Table_ITC_0001?.reduce((sum, item) => sum + item.price, 0) || 0;
+            const totalPrice = data?.Table_ITC_0001?.reduce((sum: any, item: { price: any; }) => sum + item.price, 0) || 0;
             setTotalPrice(totalPrice);
 
             let trackDoc;
@@ -35,7 +35,7 @@ export default function Home({ params }) {
                 trackDoc = data.Track_Doc.slice(0, -1)
             }
 
-            const steps = trackDoc.map((step, index) => {
+            const steps = trackDoc.map((step: { status: number; name: any; }, index: any) => {
                 let status;
                 if (step.status === 1) {
                     status = index === trackDoc.step ? "current" : "finished";

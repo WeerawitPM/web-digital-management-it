@@ -8,7 +8,7 @@ import AdminNavbar from "@/components/navbar/AdminNavbar";
 import ManagerNavbar from "@/components/navbar/ManagerNavbar";
 import SessionProvider from "@/context/SessionProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { ReactNode } from "react";
 import { Session } from "next-auth";

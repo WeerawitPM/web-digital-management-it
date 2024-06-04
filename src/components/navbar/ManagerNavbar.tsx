@@ -26,7 +26,7 @@ import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
 import { MoonIcon } from "@/components/icon/MoonIcon";
 import { SunIcon } from "@/components/icon/SunIcon";
 
-export default function ManagerNavbar({ role }) {
+export default function ManagerNavbar({ role }: { role: string }) {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = useSession();
     const pathname = usePathname();
@@ -106,7 +106,7 @@ export default function ManagerNavbar({ role }) {
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
                         <DropdownItem key="profile" className="h-14 gap-2">
                             <p className="font-semibold">Signed in as</p>
-                            <p className="font-semibold">{session.user.email}</p>
+                            <p className="font-semibold">{session?.user?.email}</p>
                         </DropdownItem>
                         <DropdownItem key="settings">Profile</DropdownItem>
                         <DropdownItem key="logout" color="danger" className="text-danger" onClick={() => signOut({ callbackUrl: '/' })} onPress={() => signOut({ callbackUrl: '/' })}>
