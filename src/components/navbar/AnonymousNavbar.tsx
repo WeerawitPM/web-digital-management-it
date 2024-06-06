@@ -14,7 +14,7 @@ import { SunIcon } from "@/components/icon/SunIcon";
 import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
 
 export default function AnonymousNavbar() {
-    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { theme, toggleTheme } = useContext<any>(ThemeContext);
 
     return (
         <Navbar maxWidth="xl" isBordered isBlurred={false}>

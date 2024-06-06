@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import {
     Navbar,
@@ -32,7 +32,7 @@ export default function ManagerNavbar({ role }: { role: string }) {
     const pathname = usePathname();
     const home = pathname.startsWith(`/${role}/`);
     const documents = pathname.startsWith(`/${role}/documents`);
-    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { theme, toggleTheme } = useContext<any>(ThemeContext);
 
     return (
         <Navbar maxWidth="xl" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>

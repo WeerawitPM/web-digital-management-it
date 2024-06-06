@@ -21,15 +21,15 @@ import {
 import { EyeIcon } from "@/components/icon/EyeIcon";
 import { useSelector } from 'react-redux'
 
-export default function ModalView({ id }) {
+export default function ModalView({ id }: { id: number }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const equipmentListData = useSelector((state) => state.equipment.data);
-    const [name, setName] = useState(null);
-    const [detail, setDetail] = useState(null);
-    const [qty, setQty] = useState(null);
+    const equipmentListData = useSelector((state: any) => state.equipment.data);
+    const [name, setName] = useState<any>(null);
+    const [detail, setDetail] = useState<any>(null);
+    const [qty, setQty] = useState<any>(null);
 
     useEffect(() => {
-        const selectedAsset = equipmentListData.find(item => item.id === id);
+        const selectedAsset = equipmentListData.find((item: { id: number; }) => item.id === id);
         if (selectedAsset) {
             setName(selectedAsset.name);
             setDetail(selectedAsset.detail);

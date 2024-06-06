@@ -9,7 +9,7 @@ export default function Home({ params }: { params: any }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
     const [steps, setStep] = useState();
     const [statusStep, setStatusStep] = useState("");
-    const [totalPrice, setTotalPrice] = useState();
+    const [totalPrice, setTotalPrice] = useState<any>();
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล

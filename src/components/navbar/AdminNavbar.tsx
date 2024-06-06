@@ -33,7 +33,7 @@ export default function AdminNavbar({ role }: { role: string }) {
     const home = pathname.startsWith(`/${role}/`);
     const manage = pathname.startsWith(`/${role}/manage`);
     const documents = pathname.startsWith(`/${role}/documents`);
-    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { theme, toggleTheme } = useContext<any>(ThemeContext);
 
     return (
         <Navbar maxWidth="xl" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>

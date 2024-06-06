@@ -13,12 +13,12 @@ import { useRouter } from 'next/navigation'
 export default function Signin() {
     const [isVisible, setIsVisible] = useState(false);
     const toggleVisibility = () => setIsVisible(!isVisible);
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const toast = useToast()
     const router = useRouter();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault()
         try {
             const result = await signIn('credentials', {
@@ -27,7 +27,7 @@ export default function Signin() {
                 password,
             })
 
-            if (result.error) {
+            if (result?.error) {
                 console.error(result.error)
                 toast({
                     title: 'Error',

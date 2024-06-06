@@ -32,7 +32,7 @@ export default function UserNavbar({ role }: { role: string }) {
     const pathname = usePathname();
     const home = pathname.startsWith(`/${role}/`);
     const documents = pathname.startsWith(`/${role}/documents`);
-    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { theme, toggleTheme } = useContext<any>(ThemeContext);
 
     return (
         <Navbar maxWidth="xl" onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>

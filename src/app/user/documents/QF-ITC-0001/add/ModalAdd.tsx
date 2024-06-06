@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form"; //ง่ายต่อการดึงข้อมูลจากฟอร์ม
 import { AddIcon } from "@chakra-ui/icons";
 import {
@@ -11,7 +11,6 @@ import {
     ModalCloseButton,
     FormControl,
     FormLabel,
-    Input,
     Button,
     useDisclosure,
     NumberInput,
@@ -30,12 +29,12 @@ export default function ModalAdd() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
 
-    const initialRef = React.useRef(null);
-    const finalRef = React.useRef(null);
+    const initialRef = useRef(null);
+    const finalRef = useRef(null);
 
-    const [assetData, setAssetData] = useState(null);
+    const [assetData, setAssetData] = useState<any>(null);
     const [selectedAssetType, setSelectedAssetType] = useState(null);
-    const [selectedAssets, setSelectedAssets] = useState([]);
+    const [selectedAssets, setSelectedAssets] = useState<any>([]);
 
     useEffect(() => {
         fetchData();
@@ -54,19 +53,19 @@ export default function ModalAdd() {
         }
     };
 
-    const handleAssetTypeChange = (event) => {
+    const handleAssetTypeChange = (event: { target: { value: any; }; }) => {
         const selectedType = event.target.value;
         setSelectedAssetType(selectedType);
-        const assets = assetData.find(assetType => assetType.id === parseInt(selectedType)).Asset;
+        const assets = assetData.find((assetType: { id: number; }) => assetType.id === parseInt(selectedType)).Asset;
         setSelectedAssets(assets);
     };
 
     const { register, handleSubmit } = useForm();
 
-    const doSubmit = (data) => {
+    const doSubmit = (data: any) => {
         dispatch(
             addEquipment({
-                assetId: (selectedAssets.find((asset) => asset.name === data.name)).id,
+                assetId: (selectedAssets.find((asset: { name: string; }) => asset.name === data.name)).id,
                 name: data.name,
                 purpose: data.purpose,
                 detail: data.detail,
@@ -102,7 +101,7 @@ export default function ModalAdd() {
                                     isRequired
                                     onChange={handleAssetTypeChange}
                                 >
-                                    {assetData && assetData.map((assetType) => (
+                                    {assetData && assetData.map((assetType: any) => (
                                         <option key={assetType.id} value={assetType.id}>{assetType.name}</option>
                                     ))}
                                 </Select>
@@ -115,7 +114,7 @@ export default function ModalAdd() {
                                     isRequired
                                     {...register("name", { required: true })}
                                 >
-                                    {selectedAssets && selectedAssets.map((asset) => (
+                                    {selectedAssets && selectedAssets.map((asset: any) => (
                                         <option key={asset.id} value={asset.name}>{asset.name}</option>
                                     ))}
                                 </Select>

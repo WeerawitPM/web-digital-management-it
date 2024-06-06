@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import {
     Button,
     AlertDialog,
@@ -15,9 +15,9 @@ import { DeleteIcon } from "@/components/icon/DeleteIcon";
 import { deleteEquipment } from "@/lib/equipmentSlice";
 import { useDispatch } from 'react-redux'
 
-export default function DeleteRequestItem({ id }) {
+export default function DeleteRequestItem({ id }: { id: number }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const cancelRef = React.useRef()
+    const cancelRef = useRef<any>()
     const dispatch = useDispatch();
 
     const deleteItem = () => {
