@@ -4,7 +4,7 @@ import { Navbar, NavbarContent } from "@nextui-org/react"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 
-export default function HeaderMain({ title }) {
+export default function HeaderMain({ title }: { title: string }) {
     const { data: session } = useSession();
     return (
         <Navbar position="static" isBordered maxWidth="xl">

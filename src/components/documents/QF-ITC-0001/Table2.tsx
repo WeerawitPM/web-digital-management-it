@@ -1,9 +1,9 @@
-export default function Table2({ requestBy }) {
+export default function Table2({ requestBy }: { requestBy: any }) {
     return (
         <table className="table-auto border-collapse border border-black text-sm mt-1 w-full text-black">
             <thead>
                 <tr>
-                    <th className='border border-black' colSpan="4">Requestor Detail</th>
+                    <th className='border border-black' colSpan={4}>Requestor Detail</th>
                 </tr>
             </thead>
             <tbody>

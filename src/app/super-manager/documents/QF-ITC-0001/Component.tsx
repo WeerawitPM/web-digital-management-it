@@ -7,10 +7,10 @@ import stamp from "@/images/stamp.png";
 import Link from "next/link";
 import HeaderMain from "@/components/documents/QF-ITC-0001/HeaderMain";
 
-export default function Component({ data }) {
+export default function Component({ data }: { data: any }) {
     return (
         <>
-            <HeaderMain />
+            <HeaderMain title={undefined} />
             <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-12 min-h-screen">
                 <div className="flex flex-col gap-4">
                     <h1 className="font-bold">สถานะคำร้องขออุปกรณ์</h1>

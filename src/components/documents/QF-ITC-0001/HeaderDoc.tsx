@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
 import { Navbar, NavbarContent } from "@nextui-org/react";
 
-export default function HeaderDoc({ doc_no }) {
+export default function HeaderDoc({ doc_no }: { doc_no: string }) {
     const { data: session } = useSession();
 
     return (

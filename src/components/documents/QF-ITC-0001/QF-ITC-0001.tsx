@@ -10,7 +10,7 @@ import Table5 from './Table5';
 import { Navbar, NavbarContent } from '@nextui-org/react';
 import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
 
-export default function Component({ data, doc_no }) {
+export default function Component({ data, doc_no }: { data: any, doc_no: string }) {
     const requestBy = data?.Track_Doc[0]?.user;
     const requestFor = data?.Table_ITC_0001;
     const refRo = data?.Table_ITC_0001[0]?.ref_ro;
@@ -20,7 +20,7 @@ export default function Component({ data, doc_no }) {
     const SuperManager = data?.Track_Doc[5];
     let processPOManager
     const componentRef = useRef(null);
-    const { theme } = useContext(ThemeContext);
+    const { theme } = useContext<any>(ThemeContext);
 
     if (data?.price >= 5000) {
         processPOManager = SuperManager;
@@ -29,7 +29,7 @@ export default function Component({ data, doc_no }) {
     }
 
     const exportToPDF = () => {
-        const input = componentRef.current;
+        const input = componentRef.current as any;
 
         // html2canvas(input, {useCORS:true})
         html2canvas(input, {

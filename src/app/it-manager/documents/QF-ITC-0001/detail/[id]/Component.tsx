@@ -12,7 +12,6 @@ const columns = [
 ];
 
 export default function Component({ data, status, isLoading }: { data: any, status: number, isLoading: boolean }) {
-
     return (
         <>
             <HeaderMain
@@ -33,7 +32,7 @@ export default function Component({ data, status, isLoading }: { data: any, stat
                         isLoading={isLoading}
                         loadingContent={<Spinner label="Loading..." />}
                     >
-                        {data?.filter((item: { step: number; }) => item.step === 2).length === 0 ? (
+                        {data?.filter((item: { step: number; }) => item.step === 4).length === 0 ? (
                             data?.map((item: any, index: number) => (
                                 <TableRow key={item.key}>
                                     <TableCell>
@@ -41,7 +40,7 @@ export default function Component({ data, status, isLoading }: { data: any, stat
                                     </TableCell>
                                     <TableCell>
                                         <Link
-                                            href={`/manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
+                                            href={`/it-manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
                                             className="text-blue-500">
                                             {item.ref_no}
                                         </Link>
@@ -54,20 +53,20 @@ export default function Component({ data, status, isLoading }: { data: any, stat
                                     </TableCell>
                                     <TableCell>
                                         <Chip color="primary" size="md" variant="flat">
-                                            {item.Track_Doc.find((doc: { step: any; }) => doc.step === item.step)?.name || 'No matching step'}
+                                            {item.Track_Doc.find((doc: { step: any }) => doc.step === item.step)?.name || 'No matching step'}
                                         </Chip>
                                     </TableCell>
                                 </TableRow>
                             ))
                         ) : (
-                            data?.filter((item: { step: number; }) => item.step === 2).map((item: any, index: number) => (
+                            data?.filter((item: { step: number; }) => item.step === 4).map((item: any, index: number) => (
                                 <TableRow key={item.key}>
                                     <TableCell>
                                         {index + 1}
                                     </TableCell>
                                     <TableCell>
                                         <Link
-                                            href={`/manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
+                                            href={`/it-manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
                                             className="text-blue-500">
                                             {item.ref_no}
                                         </Link>

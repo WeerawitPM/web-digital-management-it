@@ -22,7 +22,7 @@ export default function Component({ data, status, isLoading }: { data: any, stat
                             : "| คำร้องขอที่ปฏิเสธ"
                 }
             />
-            <main className="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 min-h-screen">
+            <div className="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 min-h-screen">
                 <Table aria-label="Example table with dynamic content">
                     <TableHeader columns={columns}>
                         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
@@ -33,7 +33,7 @@ export default function Component({ data, status, isLoading }: { data: any, stat
                         isLoading={isLoading}
                         loadingContent={<Spinner label="Loading..." />}
                     >
-                        {data?.filter((item: { step: number; }) => item.step === 2).length === 0 ? (
+                        {data?.filter((item: { step: number; }) => item.step === 5).length === 0 ? (
                             data?.map((item: any, index: number) => (
                                 <TableRow key={item.key}>
                                     <TableCell>
@@ -41,7 +41,7 @@ export default function Component({ data, status, isLoading }: { data: any, stat
                                     </TableCell>
                                     <TableCell>
                                         <Link
-                                            href={`/manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
+                                            href={`/super-manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
                                             className="text-blue-500">
                                             {item.ref_no}
                                         </Link>
@@ -60,14 +60,14 @@ export default function Component({ data, status, isLoading }: { data: any, stat
                                 </TableRow>
                             ))
                         ) : (
-                            data?.filter((item: { step: number; }) => item.step === 2).map((item: any, index: number) => (
+                            data?.filter((item: { step: number; }) => item.step === 5).map((item: any, index: number) => (
                                 <TableRow key={item.key}>
                                     <TableCell>
                                         {index + 1}
                                     </TableCell>
                                     <TableCell>
                                         <Link
-                                            href={`/manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
+                                            href={`/super-manager/documents/QF-ITC-0001/doc_no/${item.ref_no}`}
                                             className="text-blue-500">
                                             {item.ref_no}
                                         </Link>
@@ -88,7 +88,7 @@ export default function Component({ data, status, isLoading }: { data: any, stat
                         )}
                     </TableBody>
                 </Table>
-            </main>
+            </div>
         </>
     )
 }

@@ -3,12 +3,12 @@ export default function Table1() {
         <table className="table-auto border-collapse border border-black w-full text-sm text-black">
             <thead>
                 <tr>
-                    <th className='border border-black text-base' colSpan="3">VCS Group.</th>
+                    <th className='border border-black text-base' colSpan={3}>VCS Group.</th>
                 </tr>
             </thead>
             <tbody>
                 <tr className='text-center'>
-                    <td className='border border-black' colSpan="3">IT Equipments Request Form</td>
+                    <td className='border border-black' colSpan={3}>IT Equipments Request Form</td>
                 </tr>
                 <tr>
                     <td>Document No. QF-ITC-0001</td>

@@ -2,12 +2,12 @@ import Image from "next/image";
 import uncheck from "@/images/uncheck.png";
 import check from "@/images/check-mark.png";
 
-export default function Table4({ ITStaff, processPOManager }) {
+export default function Table4({ ITStaff, processPOManager }: { ITStaff: any, processPOManager: any }) {
     return (
         <table className="table-auto border-collapse border border-black text-sm mt-1 w-full text-black">
             <thead>
                 <tr>
-                    <th className='border border-black' colSpan="4">IT Center</th>
+                    <th className='border border-black' colSpan={4}>IT Center</th>
                 </tr>
             </thead>
             <tbody>

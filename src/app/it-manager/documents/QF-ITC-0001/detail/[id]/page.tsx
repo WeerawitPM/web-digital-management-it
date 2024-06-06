@@ -16,7 +16,7 @@ export default function Home({ params }: { params: any }) {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/manager/documents/QF-ITC-0001/detail?status=' + status); // เรียกใช้งาน API ที่เส้นทาง '/api'
+            const response = await axios.get('/api/it-manager/documents/QF-ITC-0001/detail?status=' + status); // เรียกใช้งาน API ที่เส้นทาง '/api'
             const data = response.data;
             setData(data); // เก็บข้อมูลที่ได้จาก API ลงใน state
             setIsLoading(false);

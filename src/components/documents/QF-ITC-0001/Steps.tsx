@@ -4,8 +4,8 @@ import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
 import { Steps } from 'antd';
 import { Card } from "@nextui-org/react";
 
-export default function StepsComponent({ current, status, items }) {
-    const { theme } = useContext(ThemeContext);
+export default function StepsComponent({ current, status, items }: { current: number, status: any, items: any }) {
+    const { theme } = useContext<any>(ThemeContext);
 
     return (
         <>

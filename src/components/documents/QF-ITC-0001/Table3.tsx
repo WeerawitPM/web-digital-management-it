@@ -1,17 +1,20 @@
 import Image from "next/image";
 
-export default function Table3({ requestBy, requestFor, data, userManager, refRo }) {
+export default function Table3(
+    { requestBy, requestFor, data, userManager, refRo }:
+        { requestBy: any, requestFor: any, data: any, userManager: any, refRo: string }
+) {
     return (
         <table className="table-auto border-collapse border border-black text-sm mt-1 w-full text-black">
             <thead>
                 <tr>
-                    <th className='border border-black' colSpan="6">Request Description</th>
+                    <th className='border border-black' colSpan={6}>Request Description</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td className='border border-black font-bold'>
-                        {requestFor?.map((item, index) => (
+                        {requestFor?.map((item: any, index: number) => (
                             <div
                                 key={item.id || index}
                                 className="flex font-bold">
@@ -19,9 +22,9 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                             </div>
                         ))}
                     </td>
-                    <td className='border border-black' colSpan="3">
+                    <td className='border border-black' colSpan={3}>
                         <div className='flex flex-col'>
-                            {requestFor?.map((item, index) => (
+                            {requestFor?.map((item: any, index: number) => (
                                 <div
                                     key={item.id || index}
                                     className="flex font-bold">item : <span className='font-normal'>&nbsp;{item?.asset?.name}</span>
@@ -31,7 +34,7 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                     </td>
                     <td className='border border-black'>
                         <div className='flex flex-col'>
-                            {requestFor?.map((item, index) => (
+                            {requestFor?.map((item: any, index: number) => (
                                 <div
                                     key={item.id || index}
                                     className="flex font-bold">Quantity : <span className='font-normal'>&nbsp;{item?.qty}</span>
@@ -44,8 +47,8 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                     <td className='border border-black font-bold'>Purpose of Usage :
                         <br /> (Please write in Detail)
                     </td>
-                    <td className='border border-black' colSpan="5">
-                        {requestFor?.map((item, index) => (
+                    <td className='border border-black' colSpan={5}>
+                        {requestFor?.map((item: any, index: number) => (
                             <div key={item.id || index}>- {item?.purpose}</div>
                         ))}
                     </td>
@@ -54,19 +57,19 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                     <td className='border border-black font-bold'>Device Specification /
                         <br /> Software Version :
                     </td>
-                    <td className='border border-black' colSpan="5">
-                        {requestFor?.map((item, index) => (
+                    <td className='border border-black' colSpan={5}>
+                        {requestFor?.map((item: any, index: number) => (
                             <div key={item.id || index}>- {item?.spec_detail}</div>
                         ))}
                     </td>
                 </tr>
                 <tr>
                     <td className='border border-black font-bold'>Refer to Quotation No. :</td>
-                    <td className='border border-black' colSpan="5">
-                        {requestFor?.map((item, index) => (
+                    <td className='border border-black' colSpan={5}>
+                        {requestFor?.map((item: any, index: number) => (
                             <div key={index}>
                                 {item.Table_Ref_Quotation.length > 0 ? (
-                                    item.Table_Ref_Quotation.map((quote, quoteIndex) => (
+                                    item.Table_Ref_Quotation.map((quote: any, quoteIndex: number) => (
                                         <div key={quoteIndex}>
                                             <a href={quote.path} target="_blank" rel="noopener noreferrer">
                                                 - {quote.name}
@@ -85,17 +88,17 @@ export default function Table3({ requestBy, requestFor, data, userManager, refRo
                     <td className='border border-black'>
                         <div> {refRo}</div>
                     </td>
-                    <td className='border border-black font-bold' colSpan="3">
+                    <td className='border border-black font-bold' colSpan={3}>
                         <div className='flex' key="date">
                             Date Required (Approximately) :<div className='font-normal'>&nbsp;{data?.start_date && new Date(data.start_date).toLocaleDateString('th-TH')}</div>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td className='border border-black font-bold' colSpan="3">Remark :
+                    <td className='border border-black font-bold' colSpan={3}>Remark :
                         {data?.Track_Doc
-                            .filter(index => index?.remark && index.remark !== "null" && index.remark.trim() !== "")
-                            .map((index) => (
+                            .filter((index: { remark: string; }) => index?.remark && index.remark !== "null" && index.remark.trim() !== "")
+                            .map((index: any) => (
                                 <span key={index} className='font-normal'>&nbsp;{index.remark}</span>
                             ))}
                     </td>

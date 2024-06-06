@@ -10,17 +10,20 @@ import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
 import StepsComponent from "@/components/documents/QF-ITC-0001/Steps";
 
-export default function Component({ data, steps, statusStep, totalPrice, trackStatus, fetchData, doc_no }) {
-    const [remark, setRemark] = useState(null);
+export default function Component(
+    { data, steps, statusStep, totalPrice, trackStatus, fetchData, doc_no }:
+        { data: any, steps: any, statusStep: string, totalPrice: number, trackStatus: number, fetchData: any, doc_no: string }
+) {
+    const [remark, setRemark] = useState("");
     const toast = useToast();
 
-    const saveData = (status) => {
+    const saveData = (status: any) => {
         const formData = new FormData();
         formData.append("document_head_id", data?.ref_no);
         formData.append("step", data?.step);
         formData.append("status", status);
         formData.append("remark", remark);
-        formData.append("price", totalPrice);
+        formData.append("price", totalPrice.toString());
 
         axios.patch('/api/it-manager/documents/QF-ITC-0001/doc_no', formData, {
             // headers: {
@@ -59,7 +62,7 @@ export default function Component({ data, steps, statusStep, totalPrice, trackSt
             })
     }
 
-    const handleConfirmSave = (status) => {
+    const handleConfirmSave = (status: number) => {
         if (status === 1) {
             saveData(1);
         }
@@ -87,7 +90,7 @@ export default function Component({ data, steps, statusStep, totalPrice, trackSt
                     <>
                         <StepsComponent current={data.step} status={statusStep} items={steps} />
                         <ProfileInformation data={data} />
-                        <TableAsset data={data} totalPrice={totalPrice} ModalView={ModalViewItem} />
+                        <TableAsset data={data} totalPrice={totalPrice} ModalView={ModalViewItem} trackStatus={undefined} ModalEdit={undefined} fetchData={undefined} />
                         {data?.step == 4 && trackStatus == 0 ?
                             <Card className="p-4 sm:p-8 sm:rounded-lg w-75">
                                 <div className="font-medium">Remark</div>
