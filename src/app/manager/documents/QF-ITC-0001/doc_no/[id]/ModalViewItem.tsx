@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
     Button as NextButton,
     Tooltip,
@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react'
 import { EyeIcon } from "@/components/icon/EyeIcon";
 
-export default function ModalViewItem(data) {
+export default function ModalViewItem(data: any) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -81,7 +81,7 @@ export default function ModalViewItem(data) {
                         </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Refer to Quotation No.</FormLabel>
-                            {data.ref_quotation?.map((quotation, index) => (
+                            {data.ref_quotation?.map((quotation: any, index: number) => (
                                 <div key={index}>
                                     <Link
                                         isExternal

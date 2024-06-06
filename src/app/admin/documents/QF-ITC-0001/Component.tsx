@@ -16,7 +16,7 @@ export default function Component({ data }: { data: any }) {
                 <div className="flex flex-col gap-4">
                     <h1 className="font-bold">สถานะคำร้องขออุปกรณ์</h1>
                     <div className="flex flex-row flex-wrap justify-center items-center gap-5">
-                        <Card className="p-5 rounded shadow-md">
+                        <Card className="p-5 rounded">
                             <div className="flex flex-col">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex items-center justify-center w-12 h-12 rounded-full">
@@ -45,7 +45,7 @@ export default function Component({ data }: { data: any }) {
                                 </Link>
                             </div>
                         </Card>
-                        <Card className="p-5 rounded shadow-md">
+                        <Card className="p-5 rounded">
                             <div className="flex flex-col">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex items-center justify-center w-12 h-12 rounded-full">
@@ -74,7 +74,7 @@ export default function Component({ data }: { data: any }) {
                                 </Link>
                             </div>
                         </Card>
-                        <Card className="p-5 rounded shadow-md">
+                        <Card className="p-5 rounded">
                             <div className="flex flex-col">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex items-center justify-center w-12 h-12 rounded-full">
@@ -103,7 +103,7 @@ export default function Component({ data }: { data: any }) {
                                 </Link>
                             </div>
                         </Card>
-                        <Card className="p-5 rounded shadow-md">
+                        <Card className="p-5 rounded">
                             <div className="flex flex-col">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex items-center justify-center w-12 h-12 rounded-full">

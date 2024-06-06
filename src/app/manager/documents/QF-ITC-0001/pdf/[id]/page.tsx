@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Component from "@/components/documents/QF-ITC-0001/QF-ITC-0001";
 
-export default function Home({ params }) {
+export default function Home({ params }: { params: any }) {
     const doc_no = params.id
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
 
