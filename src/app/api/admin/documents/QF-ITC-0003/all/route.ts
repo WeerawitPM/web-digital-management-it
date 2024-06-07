@@ -12,11 +12,11 @@ export async function GET() {
         const data = await prisma.document_Head.findMany({
             where: {
                 document: {
-                    name: "QF-ITC-0001"
+                    name: "QF-ITC-0003"
                 }
             },
             include: {
-                Table_ITC_0001: {
+                Table_ITC_0003: {
                     select: {
                         request_by: {
                             select: {

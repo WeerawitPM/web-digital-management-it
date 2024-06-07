@@ -1,7 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
 
 export async function GET() {
     const session = await getServerSession(authOptions);
@@ -9,14 +8,23 @@ export async function GET() {
     if (!session) {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
+        const prisma = new PrismaClient();
+        const step = 1;
         const data = await prisma.document_Head.findMany({
             where: {
+                step: step,
                 document: {
-                    name: "QF-ITC-0001"
+                    name: "QF-ITC-0003"
+                },
+                Track_Doc: {
+                    some: {
+                        step: step,
+                        status: 0
+                    }
                 }
             },
             include: {
-                Table_ITC_0001: {
+                Table_ITC_0003: {
                     select: {
                         request_by: {
                             select: {
@@ -25,17 +33,14 @@ export async function GET() {
                         }
                     }
                 },
-                Track_Doc: true
+                Track_Doc: {
+                    where: {
+                        step: step
+                    },
+                }
             }
         });
         await prisma.$disconnect();
-
-        // Add sequential numbering to each item
-        const numberedData = data.map((item, index) => ({
-            ...item,
-            sequenceNumber: index + 1
-        }));
-
-        return Response.json(numberedData);
+        return Response.json(data);
     }
 };

@@ -99,7 +99,7 @@ export async function PATCH(req: Request) {
             }
         } catch (error) {
             console.error('Error:', error);
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to update document",

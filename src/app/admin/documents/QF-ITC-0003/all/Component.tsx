@@ -5,7 +5,7 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, 
 import Link from "next/link";
 import axios from "axios";
 import { SearchIcon } from "@chakra-ui/icons";
-import HeaderMain from "@/components/documents/QF-ITC-0001/HeaderMain";
+import HeaderMain from "@/components/documents/QF-ITC-0003/HeaderMain";
 
 const columns = [
     { key: "id", label: "#" },
@@ -24,7 +24,7 @@ export default function Component() {
 
     const fetchData = async () => {
         try {
-            let res = await axios.get('/api/admin/documents/QF-ITC-0001/all');
+            let res = await axios.get('/api/admin/documents/QF-ITC-0003/all');
             let json = await res.data;
             setItems(json);
             setIsLoading(false);
@@ -63,13 +63,13 @@ export default function Component() {
             const filtered = items.filter((item: {
                 ref_no: string;
                 start_date: string | number | Date;
-                Table_ITC_0001: { request_by: { username: string; }; }[];
+                Table_ITC_0003: { request_by: { username: string; }; }[];
                 Track_Doc: any[];
                 step: any;
             }) => {
                 const doc_no = item.ref_no.toLowerCase();
                 const requestDate = new Date(item.start_date).toLocaleDateString('th-TH').toLowerCase();
-                const requestBy = item.Table_ITC_0001[0].request_by.username.toLowerCase();
+                const requestBy = item.Table_ITC_0003[0].request_by.username.toLowerCase();
                 const title = item.Track_Doc
                     .filter(track => track.step === item.step)
                     .map(track => track.name)
@@ -121,14 +121,14 @@ export default function Component() {
                             <TableRow key={item.id}>
                                 <TableCell>{item.sequenceNumber}</TableCell>
                                 <TableCell>
-                                    <Link href={`/admin/documents/QF-ITC-0001/all/doc_no/${item.ref_no}`} className="text-blue-500">
+                                    <Link href={`/admin/documents/QF-ITC-0003/all/doc_no/${item.ref_no}`} className="text-blue-500">
                                         {item.ref_no}
                                     </Link>
                                 </TableCell>
                                 <TableCell>
                                     {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
                                 </TableCell>
-                                <TableCell>{item.Table_ITC_0001[0]?.request_by.username}</TableCell>
+                                <TableCell>{item.Table_ITC_0003[0]?.request_by.username}</TableCell>
                                 <TableCell>
                                     {item.status === 1 ?
                                         item.Track_Doc

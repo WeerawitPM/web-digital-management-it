@@ -18,6 +18,9 @@ export async function GET() {
                         user_id: parseInt(session?.user?.id),
                         status: status
                     }
+                },
+                document: {
+                    name: "QF-ITC-0001"
                 }
             },
             include: {

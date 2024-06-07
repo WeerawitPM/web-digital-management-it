@@ -18,6 +18,9 @@ export async function GET() {
                         step: step,
                         status: 0
                     }
+                },
+                document: {
+                    name: "QF-ITC-0001"
                 }
             },
             include: {

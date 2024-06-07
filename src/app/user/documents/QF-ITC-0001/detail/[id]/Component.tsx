@@ -50,7 +50,7 @@ export default function Component(
                                     {item.start_date && new Date(item.start_date).toLocaleDateString('th-TH')}
                                 </TableCell>
                                 <TableCell>
-                                    {item.Table_ITC_0001[0].request_by.username}
+                                    {item.Table_ITC_0001[0]?.request_by.username}
                                 </TableCell>
                                 <TableCell>
                                     <Chip color="primary" size="md" variant="flat">

@@ -37,7 +37,7 @@ export async function GET(req: Request) {
                 Track_Doc: true
             }
         });
-        prisma.$disconnect();
+        await prisma.$disconnect();
         return Response.json(data);
     }
 };

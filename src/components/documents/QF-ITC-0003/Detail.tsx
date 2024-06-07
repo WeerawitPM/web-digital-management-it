@@ -50,8 +50,8 @@ export default function Detail({ data }: { data: any }) {
                 </RadioGroup>
                 {data?.Attached_Proposal.length === 0 ? "" :
                     (
-                        data?.Attached_Proposal.map((item: any) => (
-                            <div>
+                        data?.Attached_Proposal?.map((item: any, index: number) => (
+                            <div key={index}>
                                 <Link
                                     isExternal
                                     showAnchorIcon

@@ -16,6 +16,9 @@ export async function GET() {
                     some: {
                         request_by_id: parseInt(session.user.id)
                     }
+                },
+                document: {
+                    name: "QF-ITC-0001"
                 }
             },
             include: {
@@ -31,7 +34,7 @@ export async function GET() {
                 Track_Doc: true
             }
         });
-        prisma.$disconnect();
+        await prisma.$disconnect();
         return Response.json(data);
     }
 };

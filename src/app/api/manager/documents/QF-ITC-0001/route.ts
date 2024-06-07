@@ -27,6 +27,9 @@ export async function GET() {
                             department_id: manager?.department_id
                         }
                     }
+                },
+                document: {
+                    name: "QF-ITC-0001"
                 }
             },
             include: {
