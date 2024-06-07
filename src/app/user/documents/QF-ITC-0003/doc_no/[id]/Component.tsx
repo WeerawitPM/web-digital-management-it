@@ -1,9 +1,8 @@
 import React from "react";
-import ProfileInformation from "@/components/documents/QF-ITC-0001/ProfileInformation";
-import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
-import ModalViewItem from "./ModalViewItem";
-import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
+import ProfileInformation from "@/components/documents/QF-ITC-0003/ProfileInformation";
+import HeaderDoc from "@/components/documents/QF-ITC-0003/HeaderDoc";
 import StepsComponent from "@/components/documents/Steps";
+import Detail from "@/components/documents/QF-ITC-0003/Detail";
 
 export default function Component(
     { data, steps, statusStep, totalPrice, doc_no }:
@@ -17,7 +16,7 @@ export default function Component(
                     <>
                         <StepsComponent current={data.step} status={statusStep} items={steps} />
                         <ProfileInformation data={data} />
-                        <TableAsset data={data} totalPrice={totalPrice} ModalView={ModalViewItem} trackStatus={undefined} ModalEdit={undefined} fetchData={undefined} />
+                        <Detail data={data?.Table_ITC_0003[0]} />
                     </>
                 }
             </main>

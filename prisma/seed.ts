@@ -57,6 +57,14 @@ async function main() {
         data: [
             { name: "QF-ITC-0001" },
             { name: "QF-ITC-0002" },
+            { name: "QF-ITC-0003" },
+            { name: "QF-ITC-0004" },
+            { name: "QF-ITC-0005" },
+            { name: "QF-ITC-0006" },
+            { name: "QF-ITC-0007" },
+            { name: "QF-ITC-0008" },
+            { name: "QF-ITC-0009" },
+            { name: "QF-ITC-0010" },
         ],
     });
     await prisma.routing.createMany({
@@ -67,6 +75,13 @@ async function main() {
             { document_id: 1, name: "IT Approve", step: 3 },
             { document_id: 1, name: "IT Manager Approve", step: 4 },
             { document_id: 1, name: "Manager Approve", step: 5 },
+
+            { document_id: 3, name: "User Request", step: 0 },
+            { document_id: 3, name: "IT Accept", step: 1 },
+            { document_id: 3, name: "IT Delivers", step: 2 },
+            { document_id: 3, name: "User Accept", step: 3 },
+            { document_id: 3, name: "IT Summary", step: 4 },
+            { document_id: 3, name: "IT Manager Approve", step: 5 },
         ],
     });
 }

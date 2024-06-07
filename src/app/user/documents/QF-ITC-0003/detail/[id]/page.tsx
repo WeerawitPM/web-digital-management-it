@@ -22,7 +22,7 @@ export default function Home({ params }: { params: any }) {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/api/user/documents/QF-ITC-0001/detail');
+            const response = await axios.get('/api/user/documents/QF-ITC-0003/detail');
             const data = response.data;
             setData(data);
             setIsLoading(false);

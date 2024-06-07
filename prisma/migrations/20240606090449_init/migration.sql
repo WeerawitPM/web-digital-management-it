@@ -122,6 +122,16 @@ CREATE TABLE `Table_Ref_Quotation` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Attached_Proposal` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NULL,
+    `path` VARCHAR(191) NULL,
+    `table_ITC_0003_id` INTEGER NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `Table_ITC_0001` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `asset_id` INTEGER NOT NULL,
@@ -140,11 +150,27 @@ CREATE TABLE `Table_ITC_0001` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Table_ITC_0003` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `requirement` VARCHAR(191) NOT NULL,
+    `purpose` VARCHAR(191) NOT NULL,
+    `requirement_detail` VARCHAR(191) NOT NULL,
+    `proposal_detail` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `request_by_id` INTEGER NOT NULL,
+    `document_head_id` VARCHAR(191) NOT NULL,
+    `status_flag` INTEGER NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `Document` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `status_flag` INTEGER NOT NULL DEFAULT 0,
 
+    UNIQUE INDEX `Document_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -216,6 +242,9 @@ ALTER TABLE `Asset` ADD CONSTRAINT `Asset_asset_type_id_fkey` FOREIGN KEY (`asse
 ALTER TABLE `Table_Ref_Quotation` ADD CONSTRAINT `Table_Ref_Quotation_table_ITC_0001_id_fkey` FOREIGN KEY (`table_ITC_0001_id`) REFERENCES `Table_ITC_0001`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `Attached_Proposal` ADD CONSTRAINT `Attached_Proposal_table_ITC_0003_id_fkey` FOREIGN KEY (`table_ITC_0003_id`) REFERENCES `Table_ITC_0003`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `Table_ITC_0001` ADD CONSTRAINT `Table_ITC_0001_asset_id_fkey` FOREIGN KEY (`asset_id`) REFERENCES `Asset`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -223,6 +252,12 @@ ALTER TABLE `Table_ITC_0001` ADD CONSTRAINT `Table_ITC_0001_request_by_id_fkey` 
 
 -- AddForeignKey
 ALTER TABLE `Table_ITC_0001` ADD CONSTRAINT `Table_ITC_0001_document_head_id_fkey` FOREIGN KEY (`document_head_id`) REFERENCES `Document_Head`(`ref_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Table_ITC_0003` ADD CONSTRAINT `Table_ITC_0003_request_by_id_fkey` FOREIGN KEY (`request_by_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Table_ITC_0003` ADD CONSTRAINT `Table_ITC_0003_document_head_id_fkey` FOREIGN KEY (`document_head_id`) REFERENCES `Document_Head`(`ref_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Routing` ADD CONSTRAINT `Routing_document_id_fkey` FOREIGN KEY (`document_id`) REFERENCES `Document`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -17,14 +17,20 @@ export async function GET(req: Request) {
                 ref_no: doc_no
             },
             include: {
-                Table_ITC_0001: {
+                Table_ITC_0003: {
                     include: {
-                        asset: {
-                            include: {
-                                asset_type: true
+                        request_by: {
+                            select: {
+                                firstname: true,
+                                lastname: true,
+                                emp_id: true,
+                                company: true,
+                                position: true,
+                                department: true,
+                                tel: true
                             }
                         },
-                        Table_Ref_Quotation: true
+                        Attached_Proposal: true
                     }
                 },
                 Track_Doc: {

@@ -6,7 +6,7 @@ import {
     Email,
     FolderDownload,
     Server,
-} from "../../icon/Icons";
+} from "../icon/Icons";
 
 export const menuRequest = [
     {
@@ -31,7 +31,7 @@ export const menuRequest = [
             <AddPlus className="text-success" fill="currentColor" size={30} height={undefined} width={undefined} />
         ),
         title: "QF-ITC-0003",
-        href: "/documents/QF-ITC-0001",
+        href: "/documents/QF-ITC-0003",
     },
     {
         description: "แบบคำร้องขอใช้งานอีเมล",

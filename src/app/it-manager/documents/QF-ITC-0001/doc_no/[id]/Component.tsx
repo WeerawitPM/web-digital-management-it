@@ -5,10 +5,10 @@ import { Card, Textarea } from "@nextui-org/react";
 import { Button, useToast } from "@chakra-ui/react";
 import ModalViewItem from "./ModalViewItem";
 import axios from "axios";
-import ProfileInformation from "@/components/ProfileInformation";
+import ProfileInformation from "@/components/documents/QF-ITC-0001/ProfileInformation";
 import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
-import StepsComponent from "@/components/documents/QF-ITC-0001/Steps";
+import StepsComponent from "@/components/documents/Steps";
 
 export default function Component(
     { data, steps, statusStep, totalPrice, trackStatus, fetchData, doc_no }:

@@ -10,6 +10,11 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const data = await prisma.document_Head.findMany({
+            where: {
+                document: {
+                    name: "QF-ITC-0001"
+                }
+            },
             include: {
                 Track_Doc: true
             }

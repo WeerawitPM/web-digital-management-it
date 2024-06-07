@@ -9,9 +9,15 @@ export async function GET() {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
         const prisma = new PrismaClient();
-        const data = await prisma.document_Head.findMany();
+        const data = await prisma.document_Head.findMany({
+            where: {
+                document: {
+                    name: "QF-ITC-0001"
+                }
+            }
+        });
 
-        prisma.$disconnect();
+        await prisma.$disconnect();
 
         // สร้างอ็อบเจ็กต์ status ภายในอ็อบเจ็กต์
         const status = {

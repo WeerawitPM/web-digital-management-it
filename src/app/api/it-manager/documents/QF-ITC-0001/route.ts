@@ -10,6 +10,11 @@ export async function GET() {
     } else {
         const prisma = new PrismaClient();
         const data = await prisma.document_Head.findMany({
+            where: {
+                document: {
+                    name: "QF-ITC-0001"
+                }
+            },
             include: {
                 Track_Doc: true
             }

@@ -70,6 +70,7 @@ model User {
   Session        Session[]
   Table_ITC_0001 Table_ITC_0001[]
   Track_Doc      Track_Doc[]
+  Table_ITC_0003 Table_ITC_0003[]
 }
 
 model Company {
@@ -117,6 +118,14 @@ model Table_Ref_Quotation {
   table_ITC_0001_   Table_ITC_0001? @relation(fields: [table_ITC_0001_id], references: [id])
 }
 
+model Attached_Proposal {
+  id                Int             @id @default(autoincrement())
+  name              String?
+  path              String?
+  table_ITC_0003_id Int?
+  table_ITC_0003    Table_ITC_0003? @relation(fields: [table_ITC_0003_id], references: [id])
+}
+
 model Table_ITC_0001 {
   id                  Int                   @id @default(autoincrement())
   asset_id            Int
@@ -136,9 +145,24 @@ model Table_ITC_0001 {
   Table_Ref_Quotation Table_Ref_Quotation[]
 }
 
+model Table_ITC_0003 {
+  id                 Int                 @id @default(autoincrement())
+  requirement        String
+  purpose            String
+  requirement_detail String
+  proposal_detail    String
+  created_at         DateTime            @default(now())
+  request_by_id      Int
+  request_by         User?               @relation(fields: [request_by_id], references: [id])
+  document_head_id   String
+  document_head      Document_Head?      @relation(fields: [document_head_id], references: [ref_no])
+  status_flag        Int                 @default(0)
+  Attached_Proposal  Attached_Proposal[]
+}
+
 model Document {
   id            Int             @id @default(autoincrement())
-  name          String
+  name          String          @unique
   status_flag   Int             @default(0)
   Routing       Routing[]
   Document_Head Document_Head[]
@@ -166,6 +190,7 @@ model Document_Head {
   status_flag    Int              @default(0)
   Table_ITC_0001 Table_ITC_0001[]
   Track_Doc      Track_Doc[]
+  Table_ITC_0003 Table_ITC_0003[]
 }
 
 model Track_Doc {

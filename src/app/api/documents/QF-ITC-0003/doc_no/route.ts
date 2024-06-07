@@ -17,19 +17,9 @@ export async function GET(req: Request) {
                 ref_no: doc_no
             },
             include: {
-                Table_ITC_0001: {
+                Table_ITC_0003: {
                     include: {
-                        asset: {
-                            include: {
-                                asset_type: true
-                            }
-                        },
-                        Table_Ref_Quotation: true
-                    }
-                },
-                Track_Doc: {
-                    include: {
-                        user: {
+                        request_by: {
                             select: {
                                 firstname: true,
                                 lastname: true,
@@ -37,12 +27,13 @@ export async function GET(req: Request) {
                                 company: true,
                                 position: true,
                                 department: true,
-                                tel: true,
-                                license: true
+                                tel: true
                             }
-                        }
+                        },
+                        Attached_Proposal: true
                     }
-                }
+                },
+                Track_Doc: true
             }
         });
         await prisma.$disconnect();

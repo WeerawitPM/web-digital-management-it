@@ -12,11 +12,8 @@ export async function GET() {
         const data = await prisma.document_Head.findMany({
             where: {
                 document: {
-                    name: "QF-ITC-0001"
+                    name: "QF-ITC-0003"
                 }
-            },
-            include: {
-                Track_Doc: true
             }
         });
 
@@ -32,20 +29,12 @@ export async function GET() {
         // วนลูปผ่านข้อมูลแต่ละรายการและเพิ่มจำนวนของแต่ละสถานะ
         data.forEach(request => {
             // เช็คสถานะและเพิ่มจำนวนของแต่ละสถานะ
-            if (request.step === 5) {
-                request.Track_Doc.forEach(item => {
-                    if (item.step === 5) {
-                        if (item.status === 0) {
-                            status["waitApprove"]++;
-                        }
-                        if (item.status === 1) {
-                            status["approved"]++;
-                        }
-                        if (item.status === 2) {
-                            status["rejected"]++;
-                        }
-                    }
-                })
+            if (request.status === 0) {
+                status["waitApprove"]++;
+            } else if (request.status === 1) {
+                status["approved"]++;
+            } else if (request.status === 2) {
+                status["rejected"]++;
             }
         });
 

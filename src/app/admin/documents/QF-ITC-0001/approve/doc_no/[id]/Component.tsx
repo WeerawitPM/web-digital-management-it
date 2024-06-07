@@ -6,9 +6,9 @@ import { useToast, Button } from "@chakra-ui/react";
 import ModalView from "./ModalView";
 import axios from "axios";
 import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
-import ProfileInformation from "@/components/ProfileInformation";
+import ProfileInformation from "@/components/documents/QF-ITC-0001/ProfileInformation";
 import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
-import StepsComponent from "@/components/documents/QF-ITC-0001/Steps";
+import StepsComponent from "@/components/documents/Steps";
 
 export default function Component(params: any) {
     const data = params.data; // เก็บข้อมูลที่ได้จาก API

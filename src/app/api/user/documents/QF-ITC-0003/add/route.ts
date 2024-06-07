@@ -1,6 +1,8 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
+import axios from "axios";
+const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
@@ -8,15 +10,27 @@ export async function POST(req: Request) {
     if (!session) {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
-        const prisma = new PrismaClient();
         try {
-            const { request_by_id, equipment } = await req.json(); // Parse request body as JSON
+            const request_by_id = session?.user?.id;
+            const data = await req.formData() as any;
+            const requirement = data.get("requirement") as string;
+            const purpose = data.get("purpose") as string;
+            const requirement_detail = data.get("requirement_detail") as string;
+            const proposal_detail = data.get("proposal_detail") as string;
+            const attached_proposals = [];
 
-            // Generate requestEquipment ID
+            // Collect all files whose keys start with "attached_proposal_"
+            for (let key of data.keys()) {
+                if (key.startsWith("attached_proposal_")) {
+                    attached_proposals.push(data.get(key));
+                }
+            }
+
+            // Generate requestID
             const now = new Date();
             const year = now.getFullYear().toString().slice(-2); // ใช้แค่สองตัวท้ายของปี
             const month = (now.getMonth() + 1).toString().padStart(2, '0');
-            const docId = "QF-ITC-0001";
+            const docId = "QF-ITC-0003";
             // Retrieve the last used request number for the current year and month
             const lastRequest = await prisma.document_Head.findFirst({
                 where: {
@@ -44,32 +58,27 @@ export async function POST(req: Request) {
                     name: docId
                 }
             })
-            // Create requestEquipment
-            const requestEquipment = await prisma.document_Head.create({
+
+            // Create documentHead
+            const documentHead = await prisma.document_Head.create({
                 data: {
                     ref_no: requestId,
                     step: 1,
-                    document: { connect: { id: findDoc?.id } },
+                    document_id: findDoc?.id,
                     end_date: null
                 },
             });
 
-            // Create equipment and link to requestEquipment
-            const createdEquipment = [];
-            for (const eq of equipment) {
-                const newEquipment = await prisma.table_ITC_0001.create({
-                    data: {
-                        asset_id: parseInt(eq.assetId),
-                        purpose: eq.purpose,
-                        spec_detail: eq.detail,
-                        qty: parseInt(eq.qty),
-                        request_by_id: parseInt(request_by_id),
-                        document_head_id: requestId
-                    },
-                });
-                createdEquipment.push(newEquipment);
-            }
-
+            const tableITC0003 = await prisma.table_ITC_0003.create({
+                data: {
+                    requirement: requirement,
+                    purpose: purpose,
+                    requirement_detail: requirement_detail,
+                    proposal_detail: proposal_detail,
+                    request_by_id: parseInt(request_by_id),
+                    document_head_id: requestId
+                },
+            });
 
             const tableRouting = await prisma.routing.findMany({
                 where: {
@@ -79,15 +88,15 @@ export async function POST(req: Request) {
                 }
             })
 
-            // Create equipment and link to requestEquipment
+            // Create and link to requestEquipment
             const createTrackDoc = [];
             for (const item of tableRouting) {
                 const newStep = await prisma.track_Doc.create({
                     data: {
                         step: item.step,
                         name: item.name,
-                        document_head: { connect: { ref_no: requestId } }
-                    },
+                        document_head_id: requestId
+                    }
                 });
                 createTrackDoc.push(newStep);
             }
@@ -113,19 +122,55 @@ export async function POST(req: Request) {
                 });
             }
 
-            await prisma.$disconnect();
+            if (attached_proposals.length != 0) {
+                const table_ITC_0003_id = await prisma.document_Head.findFirst({
+                    where: {
+                        ref_no: requestId
+                    },
+                    select: {
+                        Table_ITC_0003: {
+                            select: {
+                                id: true
+                            }
+                        }
+                    }
+                })
+                let id = table_ITC_0003_id?.Table_ITC_0003[0]?.id
 
+                //ส่ง file ไปที่ api
+                const uploadData = new FormData();
+                attached_proposals.forEach((document, index) => {
+                    uploadData.append(`attached_proposal_${index}`, document);
+                });
+
+                const response = await axios.post('http://localhost:3001/upload/document/QF-ITC-0003', uploadData);
+                const attachments = response.data;
+
+                let createAttachments = []
+                for (const item of attachments) {
+                    const result = await prisma.attached_Proposal.create({
+                        data: {
+                            name: item.name,
+                            path: item.path,
+                            table_ITC_0003_id: id
+                        }
+                    });
+                    createAttachments.push(result);
+                }
+            }
+
+            await prisma.$disconnect();
             return Response.json({
                 status: "success",
-                message: "Equipment request created successfully",
+                message: "Request created successfully",
                 requestId: requestId, // Include the generated ID in the response
             });
         } catch (error) {
             console.error('Error:', error);
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
-                message: "Failed to create equipment",
+                message: "Failed to create request",
                 error: error, // Include error message for debugging
             });
         }
