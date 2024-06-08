@@ -2,6 +2,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios';
+const { writeFile } = require('fs').promises;
+import { join } from 'path';
 const prisma = new PrismaClient();
 
 export async function GET() {
@@ -48,11 +50,15 @@ export async function POST(req: Request) {
         try {
             const data = await req.formData();
 
-            const [email, username, password, firstname, lastname, tel, role_id, emp_id, company_id, department_id, position_id, user_status_id] = [
-                'email', 'username', 'password', 'firstname', 'lastname', 'tel', 'role_id', 'emp_id', 'company_id', 'department_id', 'position_id', 'user_status_id'
+            const [
+                email, username, password, firstname, lastname, tel,
+                role_id, emp_id, company_id, department_id, position_id, user_status_id
+            ] = [
+                'email', 'username', 'password', 'firstname', 'lastname', 'tel',
+                'role_id', 'emp_id', 'company_id', 'department_id', 'position_id', 'user_status_id'
             ].map(field => data.get(field) as string);
 
-            const file = data.get("image") as any;
+            const file = data.get("image") as File | null;
 
             // Check if user name already exists
             const existingUser = await prisma.user.findFirst({
@@ -65,69 +71,56 @@ export async function POST(req: Request) {
             });
 
             if (existingUser) {
-                prisma.$disconnect();
+                await prisma.$disconnect();
                 return Response.json({
                     status: "fail",
                     message: "User already exists",
                 });
             } else {
-                if (file === 'undefined' || file === undefined || file === null || file === "null" || file === "") {
-                    const addUser = await prisma.user.create({
-                        data: {
-                            email: email,
-                            username: username,
-                            password: password,
-                            firstname: firstname,
-                            lastname: lastname,
-                            tel: tel,
-                            image: "",
-                            license: "",
-                            role: { connect: { id: parseInt(role_id) } },
-                            emp_id: parseInt(emp_id),
-                            company: { connect: { id: parseInt(company_id) } },
-                            department: { connect: { id: parseInt(department_id) } },
-                            position: { connect: { id: parseInt(position_id) } },
-                            user_status: { connect: { id: parseInt(user_status_id) } },
-                        }
-                    });
-                    prisma.$disconnect();
-                    return Response.json({ status: "success", message: addUser });
-                } else {
-                    //ส่ง username และ file ไปที่ api
-                    const uploadData = new FormData();
-                    uploadData.append('username', username); // ส่ง username ไปด้วย
-                    uploadData.append('image', file);
+                let imagePath = "";
 
-                    // เรียกใช้งาน API upload ภาพ
-                    const response = await axios.post('http://localhost:3001/upload/userProfile', uploadData);
-                    const image = response.data.imageUrl;
+                if (file && file.size > 0) {
+                    const bytes = await file.arrayBuffer();
+                    const buffer = Buffer.from(bytes);
 
-                    const addUser = await prisma.user.create({
-                        data: {
-                            email: email,
-                            username: username,
-                            password: password,
-                            firstname: firstname,
-                            lastname: lastname,
-                            tel: tel,
-                            image: image,
-                            license: "",
-                            role: { connect: { id: parseInt(role_id) } },
-                            emp_id: parseInt(emp_id),
-                            company: { connect: { id: parseInt(company_id) } },
-                            department: { connect: { id: parseInt(department_id) } },
-                            position: { connect: { id: parseInt(position_id) } },
-                            user_status: { connect: { id: parseInt(user_status_id) } },
-                        }
-                    });
+                    // Get the file extension
+                    const fileExtension = file.name.split('.').pop();
 
-                    prisma.$disconnect();
-                    return Response.json({ status: "success", message: addUser });
+                    // Create the new file name using the username and original file extension
+                    const fileName = `${username}.${fileExtension}`;
+
+                    const path = join(process.cwd(), 'public/images/userProfile/', fileName);
+                    imagePath = `/api/public/images/userProfile/${fileName}`;
+
+                    // Write file and create user in a try-catch block
+                    await writeFile(path, buffer);
                 }
+
+                const addUser = await prisma.user.create({
+                    data: {
+                        email: email,
+                        username: username,
+                        password: password,
+                        firstname: firstname,
+                        lastname: lastname,
+                        tel: tel,
+                        image: imagePath,
+                        license: "",
+                        role: { connect: { id: parseInt(role_id) } },
+                        emp_id: parseInt(emp_id),
+                        company: { connect: { id: parseInt(company_id) } },
+                        department: { connect: { id: parseInt(department_id) } },
+                        position: { connect: { id: parseInt(position_id) } },
+                        user_status: { connect: { id: parseInt(user_status_id) } },
+                    }
+                });
+
+                await prisma.$disconnect();
+                return Response.json({ status: "success", message: addUser });
             }
         } catch (error) {
             console.error('Error:', error);
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to save user",
@@ -172,7 +165,7 @@ export async function PATCH(req: Request) {
                         user_status: { connect: { id: parseInt(user_status_id) } },
                     }
                 });
-                prisma.$disconnect();
+                await prisma.$disconnect();
                 return Response.json({ status: "success", message: updateuserName });
             } else {
 
@@ -206,12 +199,12 @@ export async function PATCH(req: Request) {
                     }
                 });
 
-                prisma.$disconnect();
+                await prisma.$disconnect();
                 return Response.json({ status: "success", message: updateuserName });
             }
         } catch (error) {
             console.error('Error:', error);
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to update user",
@@ -260,11 +253,11 @@ export async function DELETE(req: Request) {
                     id: id
                 }
             });
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({ status: "success", message: deleteUser });
         } catch (error) {
             console.error('Error:', error);
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to delete user",
