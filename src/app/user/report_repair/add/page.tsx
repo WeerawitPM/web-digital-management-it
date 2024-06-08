@@ -51,7 +51,7 @@ export default function Home() {
                     title: 'Error',
                     description: "Please fill in complete information.",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             )

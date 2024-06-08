@@ -35,7 +35,7 @@ export default function ModalEdit(data: any) {
                 title: 'Warning',
                 description: "Please fill price.",
                 status: 'warning',
-                duration: 9000,
+                duration: 3000,
                 isClosable: true,
             })
         } else {
@@ -55,7 +55,7 @@ export default function ModalEdit(data: any) {
                             title: 'Success',
                             description: "Document has been saved.",
                             status: 'success',
-                            duration: 9000,
+                            duration: 3000,
                             isClosable: true,
                         })
                         data.fetchData();
@@ -64,7 +64,7 @@ export default function ModalEdit(data: any) {
                             title: 'Error',
                             description: response.data.message,
                             status: 'error',
-                            duration: 9000,
+                            duration: 3000,
                             isClosable: true,
                         })
                     }
@@ -75,7 +75,7 @@ export default function ModalEdit(data: any) {
                         title: 'Error',
                         description: "Something went wrong",
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 })

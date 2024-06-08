@@ -40,7 +40,7 @@ export default function Component({ data }: { data: any }) {
                                     </div>
                                 </div>
                                 <Link
-                                    href="/admin/documents/QF-ITC-0003/attach_document"
+                                    href="/admin/documents/QF-ITC-0003/accept"
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="primary" variant="flat">Detail</Button>

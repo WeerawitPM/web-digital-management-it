@@ -40,7 +40,7 @@ export default function Component(params: any) {
                         title: 'Success',
                         description: "Document has been saved.",
                         status: 'success',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                     params.fetchData();
@@ -49,7 +49,7 @@ export default function Component(params: any) {
                         title: 'Error',
                         description: response.data.message,
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 }
@@ -60,7 +60,7 @@ export default function Component(params: any) {
                     title: 'Error',
                     description: "Something went wrong",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             })
@@ -76,7 +76,7 @@ export default function Component(params: any) {
                     title: 'Warning',
                     description: "Please fill remark.",
                     status: 'warning',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             }

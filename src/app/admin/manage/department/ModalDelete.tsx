@@ -38,7 +38,7 @@ export default function ModalDelete({ id, onDataDelete }: { id: number, onDataDe
                         title: 'Success',
                         description: "Department has been delete.",
                         status: 'success',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                     onDataDelete();
@@ -47,7 +47,7 @@ export default function ModalDelete({ id, onDataDelete }: { id: number, onDataDe
                         title: 'Error',
                         description: "Failed to delete department.",
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 }
@@ -58,7 +58,7 @@ export default function ModalDelete({ id, onDataDelete }: { id: number, onDataDe
                     title: 'Error',
                     description: "Failed to delete department.",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             })

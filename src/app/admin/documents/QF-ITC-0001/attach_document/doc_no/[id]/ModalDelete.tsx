@@ -37,7 +37,7 @@ export default function ModalDelete(data: any) {
                         title: 'Success',
                         description: "Document has been delete.",
                         status: 'success',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                     data.fetchData();
@@ -46,7 +46,7 @@ export default function ModalDelete(data: any) {
                         title: 'Error',
                         description: "Failed to delete document.",
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 }
@@ -57,7 +57,7 @@ export default function ModalDelete(data: any) {
                     title: 'Error',
                     description: "Failed to delete document name.",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             })

@@ -77,7 +77,7 @@ export default function Component({ data }: { data: any }) {
                         title: 'Success',
                         description: "Request has been saved.",
                         status: 'success',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 } else {
@@ -85,7 +85,7 @@ export default function Component({ data }: { data: any }) {
                         title: 'Error',
                         description: "Failed to save request.",
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 }
@@ -96,7 +96,7 @@ export default function Component({ data }: { data: any }) {
                     title: 'Error',
                     description: "Failed to save request.",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             })

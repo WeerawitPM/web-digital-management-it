@@ -33,7 +33,7 @@ export default function Signin() {
                     title: 'Error',
                     description: "Wrong email or password",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             } else {
@@ -41,7 +41,7 @@ export default function Signin() {
                     title: 'Success',
                     description: "Welcome",
                     status: 'success',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
                 setTimeout(function () {

@@ -73,7 +73,7 @@ export default function ModalEdit(data: any) {
                 title: 'Warning',
                 description: "Password not match.",
                 status: 'warning',
-                duration: 9000,
+                duration: 3000,
                 isClosable: true,
             })
         } else {
@@ -108,7 +108,7 @@ export default function ModalEdit(data: any) {
                             title: 'Success',
                             description: "User has been saved.",
                             status: 'success',
-                            duration: 9000,
+                            duration: 3000,
                             isClosable: true,
                         })
                         data.onDataUpdate();
@@ -117,7 +117,7 @@ export default function ModalEdit(data: any) {
                             title: 'Error',
                             description: response.data.message,
                             status: 'error',
-                            duration: 9000,
+                            duration: 3000,
                             isClosable: true,
                         })
                     }
@@ -128,7 +128,7 @@ export default function ModalEdit(data: any) {
                         title: 'Error',
                         description: "Something went wrong",
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 })

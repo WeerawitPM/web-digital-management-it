@@ -36,7 +36,7 @@ export default function Component(
                         title: 'Success',
                         description: "Document has been saved.",
                         status: 'success',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                     fetchData();
@@ -45,7 +45,7 @@ export default function Component(
                         title: 'Error',
                         description: response.data.message,
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 }
@@ -56,7 +56,7 @@ export default function Component(
                     title: 'Error',
                     description: "Something went wrong",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             })
@@ -69,7 +69,7 @@ export default function Component(
                     title: 'Warning',
                     description: "Please fill Refer to R/O.No.",
                     status: 'warning',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             }
@@ -83,7 +83,7 @@ export default function Component(
                     title: 'Warning',
                     description: "Please fill remark.",
                     status: 'warning',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             }

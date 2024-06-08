@@ -41,7 +41,7 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
                         title: 'Success',
                         description: "Department has been saved.",
                         status: 'success',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                     fetchData();
@@ -50,7 +50,7 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
                         title: 'Error',
                         description: response.data.message,
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 }
@@ -61,7 +61,7 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
                     title: 'Error',
                     description: "Failed to save department.",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             })

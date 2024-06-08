@@ -1,25 +1,20 @@
-'use client'
+"use client"
 
 import React, { useState } from "react";
-import { Textarea, Card, CardBody } from "@nextui-org/react";
-import { useToast, Button } from "@chakra-ui/react";
-import ModalView from "./ModalView";
-import axios from "axios";
-import TableAsset from "@/components/documents/QF-ITC-0001/TableAsset";
-import ProfileInformation from "@/components/documents/QF-ITC-0001/ProfileInformation";
-import HeaderDoc from "@/components/documents/QF-ITC-0001/HeaderDoc";
+import ProfileInformation from "@/components/documents/QF-ITC-0003/ProfileInformation";
+import HeaderDoc from "@/components/documents/QF-ITC-0003/HeaderDoc";
 import StepsComponent from "@/components/documents/Steps";
+import Detail from "@/components/documents/QF-ITC-0003/Detail";
+import { Card, CardBody, Textarea } from "@nextui-org/react";
+import { Button, useToast } from "@chakra-ui/react";
+import axios from "axios";
 
-export default function Component(params: any) {
-    const data = params.data; // เก็บข้อมูลที่ได้จาก API
-    const toast = useToast();
-    const steps = params.steps;
-    const statusStep = params.statusStep;
-    const trackStatus = params.trackStatus;
-    const totalPrice = params.totalPrice;
+export default function Component(
+    { data, steps, statusStep, doc_no, trackStatus, fetchData }:
+        { data: any, steps: any, statusStep: string, doc_no: string, trackStatus: number, fetchData: any }
+) {
     const [remark, setRemark] = useState<any>(null);
-    const fetchData = params.fetchData;
-    const doc_no = params.doc_no;
+    const toast = useToast();
 
     const saveData = (status: number) => {
         const formData = new FormData();
@@ -27,13 +22,8 @@ export default function Component(params: any) {
         formData.append("step", data?.step);
         formData.append("status", String(status));
         formData.append("remark", remark);
-        formData.append("price", totalPrice);
 
-        axios.patch('/api/admin/documents/QF-ITC-0001/approve/doc_no', formData, {
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // }
-        })
+        axios.patch('/api/admin/documents/QF-ITC-0003/accept/doc_no', formData)
             .then(response => {
                 if (response.data.status === "success") {
                     toast({
@@ -89,13 +79,13 @@ export default function Component(params: any) {
     return (
         <>
             <HeaderDoc doc_no={doc_no} />
-            <main className="max-h-full max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-5">
-                {data == null ? "" :
+            <main className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 min-h-screen py-5">
+                {data === null ? "" :
                     <>
                         <StepsComponent current={data.step} status={statusStep} items={steps} />
                         <ProfileInformation data={data} />
-                        <TableAsset data={data} totalPrice={totalPrice} trackStatus={trackStatus} ModalView={ModalView} ModalEdit={undefined} fetchData={undefined} />
-                        {data?.step === 3 && trackStatus === 0 ?
+                        <Detail data={data?.Table_ITC_0003[0]} />
+                        {data?.step === 1 && trackStatus === 0 ?
                             <Card className="p-4 sm:p-8 sm:rounded-lg w-75">
                                 <CardBody>
                                     <div className=" font-medium">Remark</div>
@@ -116,5 +106,5 @@ export default function Component(params: any) {
                 }
             </main>
         </>
-    )
+    );
 }

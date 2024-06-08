@@ -45,7 +45,7 @@ export default function ModalEdit({ id, name, onDataUpdate }: { id: number, name
                         title: 'Success',
                         description: "Department has been saved.",
                         status: 'success',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                     onDataUpdate();
@@ -54,7 +54,7 @@ export default function ModalEdit({ id, name, onDataUpdate }: { id: number, name
                         title: 'Error',
                         description: "Failed to save department.",
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 }
@@ -65,7 +65,7 @@ export default function ModalEdit({ id, name, onDataUpdate }: { id: number, name
                     title: 'Error',
                     description: "Failed to save department.",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 })
             })
