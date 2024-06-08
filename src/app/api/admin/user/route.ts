@@ -1,8 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
-import axios from 'axios';
-const { writeFile } = require('fs').promises;
+const { writeFile, unlink } = require('fs').promises;
 import { join } from 'path';
 const prisma = new PrismaClient();
 
@@ -36,7 +35,7 @@ export async function GET() {
                 user_status: true
             }
         });
-        prisma.$disconnect();
+        await prisma.$disconnect();
         return Response.json(data);
     }
 };
@@ -116,7 +115,7 @@ export async function POST(req: Request) {
                 });
 
                 await prisma.$disconnect();
-                return Response.json({ status: "success", message: addUser });
+                return Response.json({ status: "success", message: "Create user success!!!" });
             }
         } catch (error) {
             console.error('Error:', error);
@@ -145,63 +144,59 @@ export async function PATCH(req: Request) {
 
             const file = data.get("image") as any;
 
-            if (file === 'undefined' || file === undefined || file === null || file === "null" || file === "") {
-                const updateuserName = await prisma.user.update({
-                    where: {
-                        id: parseInt(id)
-                    },
-                    data: {
-                        email: email as string,
-                        username: username,
-                        password: password,
-                        firstname: firstname,
-                        lastname: lastname,
-                        tel: tel,
-                        role: { connect: { id: parseInt(role_id) } },
-                        emp_id: parseInt(emp_id),
-                        company: { connect: { id: parseInt(company_id) } },
-                        department: { connect: { id: parseInt(department_id) } },
-                        position: { connect: { id: parseInt(position_id) } },
-                        user_status: { connect: { id: parseInt(user_status_id) } },
-                    }
-                });
-                await prisma.$disconnect();
-                return Response.json({ status: "success", message: updateuserName });
+            let imagePath = "";
+
+            if (file && file.size > 0) {
+                const bytes = await file.arrayBuffer();
+                const buffer = Buffer.from(bytes);
+
+                // Get the file extension
+                const fileExtension = file.name.split('.').pop();
+
+                // Create the new file name using the username and original file extension
+                const fileName = `${username}.${fileExtension}`;
+
+                const path = join(process.cwd(), 'public/images/userProfile/', fileName);
+                imagePath = `/api/public/images/userProfile/${fileName}`;
+
+                // Write file and create user in a try-catch block
+                await writeFile(path, buffer);
             } else {
-
-                //ส่ง username และ file ไปที่ api
-                const uploadData = new FormData();
-                uploadData.append('username', username); // ส่ง username ไปด้วย
-                uploadData.append('image', file);
-
-                // เรียกใช้งาน API upload ภาพ
-                const response = await axios.post('http://localhost:3001/upload/userProfile', uploadData);
-                const image = response.data.imageUrl;
-
-                const updateuserName = await prisma.user.update({
+                const userImage = await prisma.user.findUnique({
                     where: {
                         id: parseInt(id)
                     },
-                    data: {
-                        email: email,
-                        username: username,
-                        password: password,
-                        firstname: firstname,
-                        lastname: lastname,
-                        tel: tel,
-                        image: image,
-                        role: { connect: { id: parseInt(role_id) } },
-                        emp_id: parseInt(emp_id),
-                        company: { connect: { id: parseInt(company_id) } },
-                        department: { connect: { id: parseInt(department_id) } },
-                        position: { connect: { id: parseInt(position_id) } },
-                        user_status: { connect: { id: parseInt(user_status_id) } },
+                    select: {
+                        image: true
                     }
-                });
-
-                await prisma.$disconnect();
-                return Response.json({ status: "success", message: updateuserName });
+                })
+                imagePath = userImage?.image as string;
             }
+
+            const updateUser = await prisma.user.update({
+                where: {
+                    id: parseInt(id)
+                },
+                data: {
+                    email: email,
+                    username: username,
+                    password: password,
+                    firstname: firstname,
+                    lastname: lastname,
+                    tel: tel,
+                    image: imagePath,
+                    license: "",
+                    role: { connect: { id: parseInt(role_id) } },
+                    emp_id: parseInt(emp_id),
+                    company: { connect: { id: parseInt(company_id) } },
+                    department: { connect: { id: parseInt(department_id) } },
+                    position: { connect: { id: parseInt(position_id) } },
+                    user_status: { connect: { id: parseInt(user_status_id) } },
+                }
+            });
+
+            await prisma.$disconnect();
+            return Response.json({ status: "success", message: "Update user success!!!" });
         } catch (error) {
             console.error('Error:', error);
             await prisma.$disconnect();
@@ -234,25 +229,29 @@ export async function DELETE(req: Request) {
             });
 
             if (!user) {
-                prisma.$disconnect();
+                await prisma.$disconnect();
                 return Response.json({ status: "fail", message: "User not found" });
             }
 
             if (user.image) {
-                const image = user.image;
+                const imagePath = join(process.cwd(), user.image.replace('/api', ''));
+
                 try {
-                    const response = await axios.delete('http://localhost:3001/delete/userProfile', { data: { image: image } });
-                    if (!response.data) throw new Error("Failed to delete image");
+                    // Delete the image file
+                    await unlink(imagePath);
                 } catch (error) {
+                    console.error('Failed to delete image:', error);
                     return Response.json({ status: "fail", message: "Delete image fail" });
                 }
             }
 
+            // Delete the user
             const deleteUser = await prisma.user.delete({
                 where: {
                     id: id
                 }
             });
+
             await prisma.$disconnect();
             return Response.json({ status: "success", message: deleteUser });
         } catch (error) {
