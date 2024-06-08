@@ -1,7 +1,8 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
-import axios from 'axios';
+const { writeFile, unlink } = require('fs').promises;
+import { join } from 'path';
 const prisma = new PrismaClient();
 
 export async function PATCH(req: Request) {
@@ -33,17 +34,21 @@ export async function PATCH(req: Request) {
                         }
                     }),
                 ]);
-                prisma.$disconnect();
+                await prisma.$disconnect();
                 return Response.json({ status: "success", message: result[0] });
             }
             else {
-                //ส่ง username และ file ไปที่ api
-                const uploadData = new FormData();
-                uploadData.append('document', document);
+                const bytes = await document.arrayBuffer();
+                const buffer = Buffer.from(bytes);
 
-                const response = await axios.post('http://localhost:3001/upload/document/QF-ITC-0001', uploadData);
-                const name = response.data.name;
-                const path = response.data.path;
+                // Create the new file name using the username and original file extension
+                const fileName = document.name;
+
+                const path = join(process.cwd(), 'public/documents/QF-ITC-0001/', fileName);
+                const filePath = `/api/public/documents/QF-ITC-0001/${fileName}`;
+
+                // Write file and create user in a try-catch block
+                await writeFile(path, buffer);
 
                 // ใช้ Prisma transaction เพื่อรวมการอัปเดตและการสร้างข้อมูลใน transaction เดียวกัน
                 const result = await prisma.$transaction([
@@ -57,18 +62,18 @@ export async function PATCH(req: Request) {
                     }),
                     prisma.table_Ref_Quotation.create({
                         data: {
-                            name: name,
-                            path: path,
+                            name: fileName,
+                            path: filePath,
                             table_ITC_0001_id: id
                         }
                     })
                 ]);
-                prisma.$disconnect();
+                await prisma.$disconnect();
                 return Response.json({ status: "success", message: result[0] });
             }
         } catch (error) {
             console.error('Error:', error);
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to upload document",
@@ -96,12 +101,16 @@ export async function DELETE(req: Request) {
                 }
             })
 
-            const path = document?.path;
-            try {
-                const response = await axios.delete('http://localhost:3001/delete/document/QF-ITC-0001', { data: { document: path } });
-                if (!response.data) throw new Error("Failed to delete document");
-            } catch (error) {
-                return Response.json({ status: "fail", message: "Delete document fail" });
+            if (document?.path) {
+                const filePath = join(process.cwd(), document.path.replace('/api', ''));
+
+                try {
+                    // Delete the image file
+                    await unlink(filePath);
+                } catch (error) {
+                    console.error('Failed to delete file:', error);
+                    return Response.json({ status: "fail", message: "Delete file fail" });
+                }
             }
 
             const deleteAttachDocument = await prisma.$transaction([
@@ -112,7 +121,7 @@ export async function DELETE(req: Request) {
                 })
             ]);
 
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json({ status: "success", message: deleteAttachDocument });
         } catch (error) {
             console.error('Error:', error);
