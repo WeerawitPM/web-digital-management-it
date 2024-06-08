@@ -1,7 +1,8 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
-import axios from "axios";
+const { writeFile, unlink } = require('fs').promises;
+import { join } from 'path';
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
@@ -137,25 +138,26 @@ export async function POST(req: Request) {
                 })
                 let id = table_ITC_0003_id?.Table_ITC_0003[0]?.id
 
-                //ส่ง file ไปที่ api
-                const uploadData = new FormData();
-                attached_proposals.forEach((document, index) => {
-                    uploadData.append(`attached_proposal_${index}`, document);
-                });
+                // Loop through the documents and process them
+                for (const document of attached_proposals) {
+                    const bytes = await document.arrayBuffer();
+                    const buffer = Buffer.from(bytes);
 
-                const response = await axios.post('http://localhost:3001/upload/document/QF-ITC-0003', uploadData);
-                const attachments = response.data;
+                    // Create the new file name using the username and original file extension
+                    const fileName = document.name;
+                    const path = join(process.cwd(), 'public/documents/QF-ITC-0003/', fileName);
+                    const filePath = `/api/public/documents/QF-ITC-0003/${fileName}`;
 
-                let createAttachments = []
-                for (const item of attachments) {
+                    // Write file and create user in a try-catch block
+                    await writeFile(path, buffer);
+
                     const result = await prisma.attached_Proposal.create({
                         data: {
-                            name: item.name,
-                            path: item.path,
+                            name: document.name,
+                            path: filePath,
                             table_ITC_0003_id: id
                         }
                     });
-                    createAttachments.push(result);
                 }
             }
 
