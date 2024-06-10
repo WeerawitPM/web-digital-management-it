@@ -43,6 +43,7 @@ export default function ModalEdit(data: any) {
     const toggleVisibility2 = () => setIsVisible2(!isVisible2);
 
     const [file, setFile] = useState<any>(null);
+    const [license, setLicense] = useState<any>();
 
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
@@ -88,7 +89,7 @@ export default function ModalEdit(data: any) {
             dataForm.append('lastname', formData.lastname);
             dataForm.append('tel', formData.tel);
             dataForm.append('image', file);
-            // data.append('license', "");
+            dataForm.append('license', license);
             dataForm.append('role_id', formData.role_id);
             dataForm.append('emp_id', formData.emp_id);
             dataForm.append('company_id', formData.company_id);
@@ -379,8 +380,21 @@ export default function ModalEdit(data: any) {
                                     }}
                                 />
                             </FormControl>
+                            <FormControl mt={4}>
+                                <FormLabel>License</FormLabel>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="file-input file-input-bordered file-input-sm w-full max-w-xs"
+                                    onChange={({ target }: { target: any }) => {
+                                        if (target.files) {
+                                            const file = target.files[0];
+                                            setLicense(file);
+                                        }
+                                    }}
+                                />
+                            </FormControl>
                         </ModalBody>
-
                         <ModalFooter>
                             <Button colorScheme='green' className="me-2" type="submit">Save</Button>
                             <Button onClick={onClose} colorScheme='red'>Cancel</Button>

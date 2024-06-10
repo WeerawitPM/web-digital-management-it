@@ -57,7 +57,8 @@ export async function POST(req: Request) {
                 'role_id', 'emp_id', 'company_id', 'department_id', 'position_id', 'user_status_id'
             ].map(field => data.get(field) as string);
 
-            const file = data.get("image") as File | null;
+            const image = data.get("image") as File | null;
+            const license = data.get("license") as File | null;
 
             // Check if user name already exists
             const existingUser = await prisma.user.findFirst({
@@ -77,19 +78,37 @@ export async function POST(req: Request) {
                 });
             } else {
                 let imagePath = "";
+                let licensePath = ""
 
-                if (file && file.size > 0) {
-                    const bytes = await file.arrayBuffer();
+                if (image && image.size > 0) {
+                    const bytes = await image.arrayBuffer();
                     const buffer = Buffer.from(bytes);
 
                     // Get the file extension
-                    const fileExtension = file.name.split('.').pop();
+                    const fileExtension = image.name.split('.').pop();
 
                     // Create the new file name using the username and original file extension
                     const fileName = `${username}.${fileExtension}`;
 
                     const path = join(process.cwd(), 'public/images/userProfile/', fileName);
                     imagePath = `/api/public/images/userProfile/${fileName}`;
+
+                    // Write file and create user in a try-catch block
+                    await writeFile(path, buffer);
+                }
+
+                if (license && license.size > 0) {
+                    const bytes = await license.arrayBuffer();
+                    const buffer = Buffer.from(bytes);
+
+                    // Get the file extension
+                    const fileExtension = license.name.split('.').pop();
+
+                    // Create the new file name using the username and original file extension
+                    const fileName = `${username}.${fileExtension}`;
+
+                    const path = join(process.cwd(), 'public/images/license/', fileName);
+                    licensePath = `/api/public/images/license/${fileName}`;
 
                     // Write file and create user in a try-catch block
                     await writeFile(path, buffer);
@@ -104,7 +123,7 @@ export async function POST(req: Request) {
                         lastname: lastname,
                         tel: tel,
                         image: imagePath,
-                        license: "",
+                        license: licensePath,
                         role: { connect: { id: parseInt(role_id) } },
                         emp_id: parseInt(emp_id),
                         company: { connect: { id: parseInt(company_id) } },
@@ -142,23 +161,50 @@ export async function PATCH(req: Request) {
                 'id', 'email', 'username', 'password', 'firstname', 'lastname', 'tel', 'role_id', 'emp_id', 'company_id', 'department_id', 'position_id', 'user_status_id'
             ].map(field => data.get(field) as string);
 
-            const file = data.get("image") as any;
+            const image = data.get("image") as any;
+            const license = data.get("license") as any;
 
             let imagePath = "";
+            let licensePath = "";
 
-            if (file && file.size > 0) {
-                const bytes = await file.arrayBuffer();
+            if (image && image.size > 0) {
+                const bytes = await image.arrayBuffer();
                 const buffer = Buffer.from(bytes);
 
                 // Get the file extension
-                const fileExtension = file.name.split('.').pop();
+                const fileExtension = image.name.split('.').pop();
 
                 // Create the new file name using the username and original file extension
                 const fileName = `${username}.${fileExtension}`;
 
                 const path = join(process.cwd(), 'public/images/userProfile/', fileName);
                 imagePath = `/api/public/images/userProfile/${fileName}`;
+                // Write file and create user in a try-catch block
+                await writeFile(path, buffer);
+            } else {
+                const userImage = await prisma.user.findUnique({
+                    where: {
+                        id: parseInt(id)
+                    },
+                    select: {
+                        license: true
+                    }
+                })
+                licensePath = userImage?.license as string;
+            }
 
+            if (license && license.size > 0) {
+                const bytes = await license.arrayBuffer();
+                const buffer = Buffer.from(bytes);
+
+                // Get the file extension
+                const fileExtension = license.name.split('.').pop();
+
+                // Create the new file name using the username and original file extension
+                const fileName = `${username}.${fileExtension}`;
+
+                const path = join(process.cwd(), 'public/images/license/', fileName);
+                licensePath = `/api/public/images/license/${fileName}`;
                 // Write file and create user in a try-catch block
                 await writeFile(path, buffer);
             } else {
@@ -185,7 +231,7 @@ export async function PATCH(req: Request) {
                     lastname: lastname,
                     tel: tel,
                     image: imagePath,
-                    license: "",
+                    license: licensePath,
                     role: { connect: { id: parseInt(role_id) } },
                     emp_id: parseInt(emp_id),
                     company: { connect: { id: parseInt(company_id) } },
@@ -224,7 +270,8 @@ export async function DELETE(req: Request) {
                     id: id
                 },
                 select: {
-                    image: true
+                    image: true,
+                    license: true
                 }
             });
 
@@ -233,8 +280,20 @@ export async function DELETE(req: Request) {
                 return Response.json({ status: "fail", message: "User not found" });
             }
 
-            if (user.image) {
-                const imagePath = join(process.cwd(), user.image.replace('/api', ''));
+            if (user?.image) {
+                const imagePath = join(process.cwd(), user?.image.replace('/api', ''));
+
+                try {
+                    // Delete the image file
+                    await unlink(imagePath);
+                } catch (error) {
+                    console.error('Failed to delete image:', error);
+                    return Response.json({ status: "fail", message: "Delete image fail" });
+                }
+            }
+
+            if (user?.license) {
+                const imagePath = join(process.cwd(), user?.license.replace('/api', ''));
 
                 try {
                     // Delete the image file

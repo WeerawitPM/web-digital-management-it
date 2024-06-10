@@ -35,7 +35,8 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
     const [isVisible2, setIsVisible2] = useState(false);
     const toggleVisibility2 = () => setIsVisible2(!isVisible2);
 
-    const [file, setFile] = useState<any>();
+    const [file, setFile] = useState<any>(null);
+    const [license, setLicense] = useState<any>(null);
 
     useEffect(() => {
         fetchFormData();
@@ -77,7 +78,7 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
             data.append('lastname', formData.lastname);
             data.append('tel', formData.tel);
             data.append('image', file);
-            // data.append('license', "");
+            data.append('license', license);
             data.append('role_id', formData.role_id);
             data.append('emp_id', formData.emp_id);
             data.append('company_id', formData.company_id);
@@ -334,6 +335,20 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
                                         if (target.files) {
                                             const file = target.files[0];
                                             setFile(file);
+                                        }
+                                    }}
+                                />
+                            </FormControl>
+                            <FormControl mt={4}>
+                                <FormLabel>License</FormLabel>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="file-input file-input-bordered file-input-sm w-full max-w-xs"
+                                    onChange={({ target }) => {
+                                        if (target.files) {
+                                            const file = target.files[0];
+                                            setLicense(file);
                                         }
                                     }}
                                 />
