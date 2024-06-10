@@ -11,9 +11,9 @@ export default function HeaderMain({ title }: { title: any }) {
             <NavbarContent justify="start" className="font-bold">
                 3. QF-ITC-0003 แบบคำร้องขอเพิ่มระบบและแก้ไขปรับปรุงระบบ {title}
             </NavbarContent>
-            {session?.user?.role === "user" ?
+            {session?.user?.role === "user" || session?.user?.role === "manager" ?
                 <NavbarContent justify="end">
-                    <Link href="/user/documents/QF-ITC-0003/add">
+                    <Link href={`/${session?.user?.role}/documents/QF-ITC-0003/add`}>
                         <Button colorScheme="purple" leftIcon={<AddIcon />} size='sm'>
                             เพิ่มรายการร้องขอ
                         </Button>

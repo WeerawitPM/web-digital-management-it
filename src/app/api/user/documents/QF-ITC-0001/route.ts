@@ -13,6 +13,11 @@ export async function GET() {
             where: {
                 document: {
                     name: "QF-ITC-0001"
+                },
+                Table_ITC_0001: {
+                    some: {
+                        request_by_id: parseInt(session?.user?.id)
+                    }
                 }
             }
         });
