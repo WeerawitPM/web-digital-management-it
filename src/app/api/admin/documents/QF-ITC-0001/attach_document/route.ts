@@ -40,7 +40,7 @@ export async function GET() {
                 }
             }
         });
-        prisma.$disconnect();
+        await prisma.$disconnect();
         return Response.json(data);
     }
 };

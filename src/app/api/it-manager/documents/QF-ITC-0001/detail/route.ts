@@ -18,6 +18,7 @@ export async function GET(req: Request) {
             const data = await prisma.document_Head.findMany({
                 where: {
                     status: status,
+                    step: step,
                     document: {
                         name: "QF-ITC-0001"
                     },
@@ -41,12 +42,15 @@ export async function GET(req: Request) {
                     Track_Doc: true
                 }
             });
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return Response.json(data);
         }
 
         const data = await prisma.document_Head.findMany({
             where: {
+                document: {
+                    name: "QF-ITC-0001"
+                },
                 Track_Doc: {
                     some: {
                         step: step,
@@ -67,7 +71,7 @@ export async function GET(req: Request) {
                 Track_Doc: true
             }
         });
-        prisma.$disconnect();
+        await prisma.$disconnect();
         return Response.json(data);
     }
 };

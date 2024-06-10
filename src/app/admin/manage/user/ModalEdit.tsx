@@ -157,6 +157,7 @@ export default function ModalEdit(data: any) {
                 </NextButton>
             </Tooltip>
             <Modal
+                closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
                 isCentered

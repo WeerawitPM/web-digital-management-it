@@ -6,7 +6,7 @@ import Component from "./Component";
 
 export default function Home({ params }: { params: any }) {
     const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
-    const status = params.id;
+    const status = parseInt(params.id);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

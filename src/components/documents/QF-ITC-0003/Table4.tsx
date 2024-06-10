@@ -1,7 +1,8 @@
 import Image from "next/image";
 import uncheck from "@/images/uncheck.png";
+import checked from "@/images/check-mark.png";
 
-export default function Table4() {
+export default function Table4({ ITStaff3, ITManager }: { ITStaff3: any, ITManager: any }) {
     return (
         <>
             <table className="table-auto border-collapse border border-black w-full text-sm text-black">
@@ -17,7 +18,7 @@ export default function Table4() {
                             <div className="flex flex-col gap-2 ms-3 my-3">
                                 <div className="flex flex-row gap-2">
                                     <Image
-                                        src={uncheck}
+                                        src={ITStaff3?.status === 1 ? checked : uncheck}
                                         alt='checkbox'
                                         height={20}
                                         width={20}
@@ -27,7 +28,7 @@ export default function Table4() {
                                 </div>
                                 <div className="flex flex-row gap-2">
                                     <Image
-                                        src={uncheck}
+                                        src={ITStaff3?.status === 2 ? checked : uncheck}
                                         alt='checkbox'
                                         height={20}
                                         width={20}
@@ -35,14 +36,14 @@ export default function Table4() {
                                     />
                                     <div>ไม่สามารถดำเนินการได้</div>
                                 </div>
-                                <div>เนื่องจาก</div>
+                                <div>เนื่องจาก {ITStaff3?.remark === "null" ? "" : ITStaff3?.remark}</div>
                             </div>
                         </td>
                         <td className="border-s-1 border-black">
                             <div className="flex flex-col gap-2 ms-3 my-3">
                                 <div className="flex flex-row gap-2">
                                     <Image
-                                        src={uncheck}
+                                        src={ITManager?.status === 1 ? checked : uncheck}
                                         alt='checkbox'
                                         height={20}
                                         width={20}
@@ -52,7 +53,7 @@ export default function Table4() {
                                 </div>
                                 <div className="flex flex-row gap-2">
                                     <Image
-                                        src={uncheck}
+                                        src={ITManager?.status === 2 ? checked : uncheck}
                                         alt='checkbox'
                                         height={20}
                                         width={20}
@@ -60,32 +61,32 @@ export default function Table4() {
                                     />
                                     <div>ไม่สามารถดำเนินการได้</div>
                                 </div>
-                                <div>เนื่องจาก</div>
+                                <div>เนื่องจาก {ITManager?.remark === "null" ? "" : ITManager?.remark}</div>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td className="text-center">
                             <Image
-                                src={""}
+                                src={ITStaff3?.user?.license === null ? "" : ITStaff3?.user?.license}
                                 alt='license'
                                 height={50}
                                 width={50}
                                 className='mx-auto my-2'
                             />
                             <div>ลงชื่อ เจ้าหน้าที่ไอที</div>
-                            <div>วันที่</div>
+                            <div>วันที่ {ITStaff3?.end_date && new Date(ITStaff3?.end_date).toLocaleDateString('th-TH')}</div>
                         </td>
                         <td className="border-s-1 border-black text-center">
                             <Image
-                                src={""}
+                                src={ITManager?.user?.license === null ? "" : ITManager?.user?.license}
                                 alt='license'
                                 height={50}
                                 width={50}
                                 className='mx-auto my-2'
                             />
                             <div>ลงชื่อ ผู้จัดการส่วนไอที</div>
-                            <div>วันที่</div>
+                            <div>วันที่ {ITManager?.end_date && new Date(ITManager?.end_date).toLocaleDateString('th-TH')}</div>
                         </td>
                     </tr>
                 </tbody>

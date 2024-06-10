@@ -18,6 +18,7 @@ export async function GET(req: Request) {
             const data = await prisma.document_Head.findMany({
                 where: {
                     status: status,
+                    step: step,
                     Track_Doc: {
                         some: {
                             step: step,
@@ -47,6 +48,9 @@ export async function GET(req: Request) {
 
         const data = await prisma.document_Head.findMany({
             where: {
+                document: {
+                    name: "QF-ITC-0001"
+                },
                 Track_Doc: {
                     some: {
                         step: step,

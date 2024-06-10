@@ -48,7 +48,7 @@ export default function Home() {
 
     return (
         <>
-            <HeaderMain title="| รอการอนุมัติ" />
+            <HeaderMain title="| รอรับคำร้อง" />
             <main className="min-h-screen py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <Table aria-label="Example table with dynamic content">
                     <TableHeader columns={columns}>

@@ -86,6 +86,7 @@ export default function ModalDelete({ id, onDataDelete }: { id: number, onDataDe
                 </NextButton>
             </Tooltip>
             <Modal
+                closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
                 isCentered

@@ -30,6 +30,7 @@ export default function ModalView({ id, name }: { id: number, name: string }) {
                 </NextButton>
             </Tooltip>
             <Modal
+                closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
                 isCentered

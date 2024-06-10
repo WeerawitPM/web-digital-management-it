@@ -1,7 +1,8 @@
 import Image from "next/image";
 import uncheck from "@/images/uncheck.png";
+import checked from "@/images/check-mark.png";
 
-export default function Table1() {
+export default function Table1({ requirement }: { requirement: string }) {
     return (
         <table className="table-auto border-collapse border border-black w-full text-sm text-black">
             <thead>
@@ -26,7 +27,7 @@ export default function Table1() {
                         <div className="flex flex-row gap-3">
                             <div className="flex flex-row gap-1">
                                 <Image
-                                    src={uncheck}
+                                    src={requirement === "Add" ? checked : uncheck}
                                     alt='checkbox'
                                     height={20}
                                     width={20}
@@ -36,7 +37,7 @@ export default function Table1() {
                             </div>
                             <div className="flex flex-row gap-1">
                                 <Image
-                                    src={uncheck}
+                                    src={requirement === "Edit" ? checked : uncheck}
                                     alt='checkbox'
                                     height={20}
                                     width={20}

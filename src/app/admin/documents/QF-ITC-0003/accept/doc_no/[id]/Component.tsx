@@ -88,17 +88,17 @@ export default function Component(
                         {data?.step === 1 && trackStatus === 0 ?
                             <Card className="p-4 sm:p-8 sm:rounded-lg w-75">
                                 <CardBody>
+                                    <div className="mx-auto text-center mt-2">
+                                        <Button colorScheme="green" className="mr-1" onClick={() => handleConfirmSave(1)}>รับคำร้อง</Button>
+                                        <Button colorScheme="red" onClick={() => handleConfirmSave(2)}>ปฏิเสธคำร้อง</Button>
+                                    </div>
                                     <div className=" font-medium">Remark</div>
                                     <Textarea
-                                        placeholder="Remark"
+                                        placeholder="หากปฏิเสธให้ใส่ Remark ด้วย"
                                         variant="bordered"
                                         size="lg"
                                         onChange={(e) => setRemark(e.target.value)}
                                     />
-                                    <div className="mx-auto text-center mt-2">
-                                        <Button colorScheme="green" className="mr-1" onClick={() => handleConfirmSave(1)}>Approve</Button>
-                                        <Button colorScheme="red" onClick={() => handleConfirmSave(2)}>Reject</Button>
-                                    </div>
                                 </CardBody>
                             </Card>
                             : ""}

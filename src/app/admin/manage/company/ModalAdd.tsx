@@ -107,6 +107,7 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
                 <AddIcon />
             </NextButton>
             <Modal
+                closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
                 isCentered

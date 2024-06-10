@@ -69,7 +69,7 @@ export default function Component({ data }: { data: any }) {
                                     </div>
                                 </div>
                                 <Link
-                                    href="/admin/documents/QF-ITC-0003/approve"
+                                    href="/admin/documents/QF-ITC-0003/deliver"
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="success" variant="flat">Detail</Button>
@@ -98,7 +98,7 @@ export default function Component({ data }: { data: any }) {
                                     </div>
                                 </div>
                                 <Link
-                                    href="/admin/documents/QF-ITC-0003/reject"
+                                    href="/admin/documents/QF-ITC-0003/summary"
                                     className="font-medium ms-40"
                                 >
                                     <Button radius="full" color="secondary" variant="flat">Detail</Button>

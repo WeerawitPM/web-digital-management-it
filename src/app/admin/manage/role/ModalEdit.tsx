@@ -93,6 +93,7 @@ export default function ModalEdit({ id, name, onDataUpdate }: { id: number, name
                 </NextButton>
             </Tooltip>
             <Modal
+                closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
                 isCentered

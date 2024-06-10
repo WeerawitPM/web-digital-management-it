@@ -37,7 +37,7 @@ export async function GET() {
             }
         });
 
-        prisma.$disconnect();
+        await prisma.$disconnect();
 
         // สร้างอ็อบเจ็กต์ status ภายในอ็อบเจ็กต์
         const status = {
