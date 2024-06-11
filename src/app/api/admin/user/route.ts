@@ -181,32 +181,33 @@ export async function PATCH(req: Request) {
                 imagePath = `/api/public/images/userProfile/${fileName}`;
                 // Write file and create user in a try-catch block
                 await writeFile(path, buffer);
-            } else {
-                const userImage = await prisma.user.findUnique({
-                    where: {
-                        id: parseInt(id)
-                    },
-                    select: {
-                        license: true
-                    }
-                })
-                licensePath = userImage?.license as string;
-            }
 
-            if (license && license.size > 0) {
-                const bytes = await license.arrayBuffer();
-                const buffer = Buffer.from(bytes);
+                if (license && license.size > 0) {
+                    const bytes = await license.arrayBuffer();
+                    const buffer = Buffer.from(bytes);
 
-                // Get the file extension
-                const fileExtension = license.name.split('.').pop();
+                    // Get the file extension
+                    const fileExtension = license.name.split('.').pop();
 
-                // Create the new file name using the username and original file extension
-                const fileName = `${username}.${fileExtension}`;
+                    // Create the new file name using the username and original file extension
+                    const fileName = `${username}.${fileExtension}`;
 
-                const path = join(process.cwd(), 'public/images/license/', fileName);
-                licensePath = `/api/public/images/license/${fileName}`;
-                // Write file and create user in a try-catch block
-                await writeFile(path, buffer);
+                    const path = join(process.cwd(), 'public/images/license/', fileName);
+                    licensePath = `/api/public/images/license/${fileName}`;
+                    // Write file and create user in a try-catch block
+                    await writeFile(path, buffer);
+                } else {
+                    const userImage = await prisma.user.findUnique({
+                        where: {
+                            id: parseInt(id)
+                        },
+                        select: {
+                            license: true
+                        }
+                    })
+                    licensePath = userImage?.license as string;
+                }
+
             } else {
                 const userImage = await prisma.user.findUnique({
                     where: {
@@ -217,6 +218,32 @@ export async function PATCH(req: Request) {
                     }
                 })
                 imagePath = userImage?.image as string;
+
+                if (license && license.size > 0) {
+                    const bytes = await license.arrayBuffer();
+                    const buffer = Buffer.from(bytes);
+
+                    // Get the file extension
+                    const fileExtension = license.name.split('.').pop();
+
+                    // Create the new file name using the username and original file extension
+                    const fileName = `${username}.${fileExtension}`;
+
+                    const path = join(process.cwd(), 'public/images/license/', fileName);
+                    licensePath = `/api/public/images/license/${fileName}`;
+                    // Write file and create user in a try-catch block
+                    await writeFile(path, buffer);
+                } else {
+                    const userImage = await prisma.user.findUnique({
+                        where: {
+                            id: parseInt(id)
+                        },
+                        select: {
+                            license: true
+                        }
+                    })
+                    licensePath = userImage?.license as string;
+                }
             }
 
             const updateUser = await prisma.user.update({
