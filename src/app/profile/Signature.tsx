@@ -57,7 +57,7 @@ export default function Signature({ oldLicense }: { oldLicense: any }) {
     }
 
     return (
-        <Card className="p-4 sm:p-8 sm:rounded-lg w-75">
+        <Card className="p-4 sm:p-8 sm:rounded-lg">
             <CardBody className="gap-5">
                 <h2 className="text-lg font-medium text-foreground">
                     Signature

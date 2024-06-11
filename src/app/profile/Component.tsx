@@ -1,4 +1,5 @@
 import Header from "./Header";
+import Password from "./Password";
 import Picture from "./Picture";
 import Profile from "./Profile";
 import Signature from "./Signature";
@@ -11,6 +12,7 @@ export default function Component({ data }: { data: any }) {
                 <Picture image={data?.image} />
                 <Profile data={data} />
                 <Signature oldLicense={data?.license} />
+                <Password />
             </main>
         </>
     )

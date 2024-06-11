@@ -100,7 +100,7 @@ export default function ManagerNavbar({ role }: { role: string }) {
                             color="secondary"
                             name="Jason Hughes"
                             size="sm"
-                            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                            src={session?.user?.image === null || session?.user?.image === "" ? "/images/userProfile/user.png" : session?.user?.image}
                         />
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -108,7 +108,12 @@ export default function ManagerNavbar({ role }: { role: string }) {
                             <p className="font-semibold">Signed in as</p>
                             <p className="font-semibold">{session?.user?.email}</p>
                         </DropdownItem>
-                        <DropdownItem key="settings">Profile</DropdownItem>
+                        <DropdownItem key="home">
+                            <Link href="/" className="text-foreground">Home</Link>
+                        </DropdownItem>
+                        <DropdownItem key="settings">
+                            <Link href="/profile" className="text-foreground">Profile</Link>
+                        </DropdownItem>
                         <DropdownItem key="logout" color="danger" className="text-danger" onClick={() => signOut({ callbackUrl: '/' })} onPress={() => signOut({ callbackUrl: '/' })}>
                             Sign out
                         </DropdownItem>
