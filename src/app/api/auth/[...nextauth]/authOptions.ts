@@ -2,6 +2,7 @@ import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from '@prisma/client';
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -25,7 +26,7 @@ export const authOptions: AuthOptions = ({
                     }
                 })
                 await prisma.$disconnect();
-                if (user && user.password === credentials.password) {
+                if (user && await bcrypt.compare(credentials.password, user.password)) {
                     return {
                         id: user.id.toString(),
                         name: user.username,
@@ -56,6 +57,7 @@ export const authOptions: AuthOptions = ({
                 token.id = user.id
                 token.role = user.role
                 token.status = user.status
+                token.image = user.image
             }
             return token
         },
@@ -64,6 +66,7 @@ export const authOptions: AuthOptions = ({
                 session.user.id = token.id
                 session.user.role = token.role
                 session.user.status = token.status
+                session.user.image = token.image
             }
             return session
         }

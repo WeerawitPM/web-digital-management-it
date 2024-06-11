@@ -1,6 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 const { writeFile, unlink } = require('fs').promises;
 import { join } from 'path';
 const prisma = new PrismaClient();
@@ -114,11 +115,15 @@ export async function POST(req: Request) {
                     await writeFile(path, buffer);
                 }
 
+                // Hash the password
+                const saltRounds = 10;
+                const hashedPassword = await bcrypt.hash(password, saltRounds);
+
                 const addUser = await prisma.user.create({
                     data: {
                         email: email,
                         username: username,
-                        password: password,
+                        password: hashedPassword,
                         firstname: firstname,
                         lastname: lastname,
                         tel: tel,
@@ -246,6 +251,10 @@ export async function PATCH(req: Request) {
                 }
             }
 
+            // Hash the password
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+
             const updateUser = await prisma.user.update({
                 where: {
                     id: parseInt(id)
@@ -253,7 +262,7 @@ export async function PATCH(req: Request) {
                 data: {
                     email: email,
                     username: username,
-                    password: password,
+                    password: hashedPassword,
                     firstname: firstname,
                     lastname: lastname,
                     tel: tel,
