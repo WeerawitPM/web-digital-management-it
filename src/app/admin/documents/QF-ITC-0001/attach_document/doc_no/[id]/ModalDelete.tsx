@@ -66,17 +66,6 @@ export default function ModalDelete(data: any) {
             });
     }
 
-    // Global error handling
-    axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        (error) => {
-            console.error('Error fetching data:', error);
-            return Promise.reject(error);
-        }
-    );
-
     return (
         <div className="ms-auto">
             <Tooltip content="Delete Attach Document" color="danger">

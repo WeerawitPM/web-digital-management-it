@@ -30,11 +30,6 @@ export default function Component() {
     useEffect(() => {
         // เรียกใช้งาน API เพื่อดึงข้อมูล
         fetchData();
-        // ตั้ง interval ให้เรียก fetchData ทุกๆ 10 วินาที
-        const intervalId = setInterval(fetchData, 10000);
-
-        // เคลียร์ interval เมื่อ component จะ unmount
-        return () => clearInterval(intervalId);
     }, []);
 
     const fetchData = async () => {
@@ -48,17 +43,6 @@ export default function Component() {
             console.error('Error fetching data:', error);
         }
     };
-
-    // Global error handling
-    axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        (error) => {
-            console.error('Error fetching data:', error);
-            return Promise.reject(error);
-        }
-    );
 
     useEffect(() => {
         // เมื่อมีการเปลี่ยนแปลงในคำค้นหา กรองข้อมูลและปรับปรุงข้อมูลที่แสดงในตาราง

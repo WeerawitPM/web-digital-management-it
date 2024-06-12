@@ -67,17 +67,6 @@ export default function ModalDelete({ id, onDataDelete }: { id: number, onDataDe
             });
     }
 
-    // Global error handling
-    axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        (error) => {
-            console.error('Error fetching data:', error);
-            return Promise.reject(error);
-        }
-    );
-
     return (
         <>
             <Tooltip content="Delete" color="danger">

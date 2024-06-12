@@ -84,17 +84,6 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
         }
     }
 
-    // Global error handling
-    axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        (error) => {
-            console.error('Error fetching data:', error);
-            return Promise.reject(error);
-        }
-    );
-
     return (
         <>
             <NextButton

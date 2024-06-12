@@ -74,17 +74,6 @@ export default function ModalEdit({ id, name, onDataUpdate }: { id: number, name
             });
     }
 
-    // Global error handling
-    axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        (error) => {
-            console.error('Error fetching data:', error);
-            return Promise.reject(error);
-        }
-    );
-
     return (
         <>
             <Tooltip content="Edit" color="warning">
