@@ -15,6 +15,10 @@ export async function middleware(request: any) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
+  if (pathname.startsWith('/profile') && (!user)) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
   if (pathname.startsWith('/user') && (!user || user.status == "Not Active")) {
     return NextResponse.redirect(new URL('/', request.url))
   }

@@ -56,55 +56,51 @@ export default function Signin() {
 
     return (
         <main className="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 min-h-screen">
-            <div className="flex flex-row flex-wrap justify-center items-center">
-                <Card className="flex flex-1 md:mb-0">
-                    <CardBody>
-                        <div className="flex flewx-row flex-wrap justify-center items-center">
-                            <div className="flex flex-1">
-                                <Player
-                                    autoplay
-                                    loop
-                                    src="https://lottie.host/1f3d7bfb-77db-4164-b021-7cb9bed825d7/9M6VhCNhlC.json"
-                                    className="flex flex-1"
-                                    style={{ width: "auto" }}
-                                >
-                                </Player>
-                            </div>
-                            <form onSubmit={handleSubmit} className="flex flex-1 flex-col space-y-3">
-                                <h1 className="text-center font-bold text-3xl">Sign in</h1>
-                                <Input
-                                    type="email"
-                                    variant='bordered'
-                                    placeholder='Enter your Email'
-                                    size="lg"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                                <Input
-                                    variant="bordered"
-                                    placeholder="Enter your password"
-                                    size="lg"
-                                    endContent={
-                                        <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                                            {isVisible ? (
-                                                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                            ) : (
-                                                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                            )}
-                                        </button>
-                                    }
-                                    type={isVisible ? "text" : "password"}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                <Button className="bg-vcs-blue" color="primary" type="submit">Sign in</Button>
-                            </form>
+            <Card>
+                <CardBody>
+                    <div className="flex flex-row flex-wrap justify-center items-center">
+                        <div className="flex-1 min-w-[300px]">
+                            <Player
+                                autoplay
+                                loop
+                                src="https://lottie.host/1f3d7bfb-77db-4164-b021-7cb9bed825d7/9M6VhCNhlC.json"
+                            >
+                            </Player>
                         </div>
-                    </CardBody>
-                    <Divider />
-                    <CardFooter>
-                        Not a member?<Link href="" className="ms-2 text-blue-500 font-semibold">Sign up</Link>
-                    </CardFooter>
-                </Card>
-            </div>
+                        <form onSubmit={handleSubmit} className="flex flex-1 flex-col space-y-3 min-w-[300px]">
+                            <h1 className="text-center font-bold text-3xl">Sign in</h1>
+                            <Input
+                                type="email"
+                                variant='bordered'
+                                placeholder='Enter your Email'
+                                size="lg"
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <Input
+                                variant="bordered"
+                                placeholder="Enter your password"
+                                size="lg"
+                                endContent={
+                                    <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                                        {isVisible ? (
+                                            <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                        ) : (
+                                            <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                        )}
+                                    </button>
+                                }
+                                type={isVisible ? "text" : "password"}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <Button className="bg-vcs-blue" color="primary" type="submit">Sign in</Button>
+                        </form>
+                    </div>
+                </CardBody>
+                <Divider />
+                <CardFooter>
+                    Not a member?<Link href="/signup" className="ms-2 text-blue-500 font-semibold">Sign up</Link>
+                </CardFooter>
+            </Card>
         </main>
     )
 }

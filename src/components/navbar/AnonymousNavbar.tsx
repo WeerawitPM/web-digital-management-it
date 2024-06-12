@@ -50,7 +50,7 @@ export default function AnonymousNavbar() {
                 </Switch>
                 <Link href="/signin">
                     <Button size="md" variant="bordered" color="default">
-                        Signin
+                        Sign in
                     </Button>
                 </Link>
             </NavbarContent>

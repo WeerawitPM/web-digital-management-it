@@ -86,11 +86,7 @@ export default function ModalAdd({ fetchData }: { fetchData: any }) {
             data.append('position_id', formData.position_id);
             data.append('user_status_id', "1");
 
-            axios.post('/api/admin/user', data, {
-                // headers: {
-                //     'Content-Type': 'application/json',
-                // }
-            })
+            axios.post('/api/admin/user', data)
                 .then(response => {
                     if (response.data.status === "success") {
                         onClose();
