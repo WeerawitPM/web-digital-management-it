@@ -9,7 +9,7 @@ export default function HeaderMain({ title }: { title: any }) {
     return (
         <Navbar position="static" isBordered maxWidth="xl">
             <NavbarContent justify="start" className="font-bold">
-                5. QF-ITC-0005 แบบคำร้องขอใช้งานอีเมล์ {title}
+                QF-ITC-0005 แบบคำร้องขอใช้งานอีเมล์ {title}
             </NavbarContent>
             {session?.user?.role === "user" || session?.user?.role === "manager" ?
                 <NavbarContent justify="end">

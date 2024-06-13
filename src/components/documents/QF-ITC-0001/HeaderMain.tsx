@@ -9,7 +9,7 @@ export default function HeaderMain({ title }: { title: any }) {
     return (
         <Navbar position="static" isBordered maxWidth="xl">
             <NavbarContent justify="start" className="font-bold">
-                1. QF-ITC-0001 ใบร้องขออุปกรณ์สารสนเทศ {title}
+                QF-ITC-0001 ใบร้องขออุปกรณ์สารสนเทศ {title}
             </NavbarContent>
             {session?.user?.role === "user" ?
                 <NavbarContent justify="end">
