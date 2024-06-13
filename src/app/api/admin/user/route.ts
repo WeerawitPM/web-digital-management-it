@@ -72,7 +72,6 @@ export async function POST(req: Request) {
             });
 
             if (existingUser) {
-                await prisma.$disconnect();
                 return Response.json({
                     status: "fail",
                     message: "User already exists",
@@ -137,18 +136,17 @@ export async function POST(req: Request) {
                         user_status: { connect: { id: parseInt(user_status_id) } },
                     }
                 });
-
-                await prisma.$disconnect();
                 return Response.json({ status: "success", message: "Create user success!!!" });
             }
         } catch (error) {
             console.error('Error:', error);
-            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to save user",
                 error: error, // Include error message for debugging
             });
+        } finally {
+            await prisma.$disconnect();
         }
     }
 }
@@ -277,16 +275,16 @@ export async function PATCH(req: Request) {
                 }
             });
 
-            await prisma.$disconnect();
             return Response.json({ status: "success", message: "Update user success!!!" });
         } catch (error) {
             console.error('Error:', error);
-            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to update user",
                 error: error, // Include error message for debugging
             });
+        } finally {
+            await prisma.$disconnect();
         }
     }
 }
@@ -346,17 +344,17 @@ export async function DELETE(req: Request) {
                     id: id
                 }
             });
-
-            await prisma.$disconnect();
             return Response.json({ status: "success", message: deleteUser });
+
         } catch (error) {
             console.error('Error:', error);
-            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to delete user",
                 error: error, // Include error message for debugging
             });
+        } finally {
+            await prisma.$disconnect();
         }
     }
 }

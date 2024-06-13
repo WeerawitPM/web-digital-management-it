@@ -28,7 +28,6 @@ export async function POST(req: Request) {
                 take: 1
             });
 
-
             let requestId;
             if (lastRequest) {
                 const lastNumber = parseInt(lastRequest.ref_no.slice(-4)); // Extract the last 4 digits
@@ -39,81 +38,81 @@ export async function POST(req: Request) {
                 requestId = `${docId}-${year}${month}0001`;
             }
 
-            const findDoc = await prisma.document.findFirst({
-                where: {
-                    name: docId
-                }
-            })
-            // Create requestEquipment
-            const requestEquipment = await prisma.document_Head.create({
-                data: {
-                    ref_no: requestId,
-                    step: 1,
-                    document: { connect: { id: findDoc?.id } },
-                    end_date: null
-                },
-            });
-
-            // Create equipment and link to requestEquipment
-            const createdEquipment = [];
-            for (const eq of equipment) {
-                const newEquipment = await prisma.table_ITC_0001.create({
-                    data: {
-                        asset_id: parseInt(eq.assetId),
-                        purpose: eq.purpose,
-                        spec_detail: eq.detail,
-                        qty: parseInt(eq.qty),
-                        request_by_id: parseInt(request_by_id),
-                        document_head_id: requestId
-                    },
-                });
-                createdEquipment.push(newEquipment);
-            }
-
-
-            const tableRouting = await prisma.routing.findMany({
-                where: {
-                    document: {
+            await prisma.$transaction(async (prisma) => {
+                const findDoc = await prisma.document.findFirst({
+                    where: {
                         name: docId
                     }
-                }
-            })
+                })
 
-            // Create equipment and link to requestEquipment
-            const createTrackDoc = [];
-            for (const item of tableRouting) {
-                const newStep = await prisma.track_Doc.create({
+                // Create requestEquipment
+                const requestEquipment = await prisma.document_Head.create({
                     data: {
-                        step: item.step,
-                        name: item.name,
-                        document_head: { connect: { ref_no: requestId } }
+                        ref_no: requestId,
+                        step: 1,
+                        document: { connect: { id: findDoc?.id } },
+                        end_date: null
                     },
                 });
-                createTrackDoc.push(newStep);
-            }
 
-            // Find track_Doc with step 0
-            const findTrackDoc = await prisma.track_Doc.findFirst({
-                where: {
-                    step: 0,
-                    document_head_id: requestId
+                // Create equipment and link to requestEquipment
+                const createdEquipment = [];
+                for (const eq of equipment) {
+                    const newEquipment = await prisma.table_ITC_0001.create({
+                        data: {
+                            asset_id: parseInt(eq.assetId),
+                            purpose: eq.purpose,
+                            spec_detail: eq.detail,
+                            qty: parseInt(eq.qty),
+                            request_by_id: parseInt(request_by_id),
+                            document_head_id: requestId // Use requestEquipment.id
+                        },
+                    });
+                    createdEquipment.push(newEquipment);
                 }
-            });
 
-            if (findTrackDoc) {
-                // Update the track_Doc if step is 0
-                const updatedTrackDoc = await prisma.track_Doc.update({
+                const tableRouting = await prisma.routing.findMany({
                     where: {
-                        id: findTrackDoc.id, // Use the unique id here
-                    },
-                    data: {
-                        status: 1,
-                        user_id: parseInt(session.user.id)
+                        document: {
+                            name: docId
+                        }
                     }
                 });
-            }
 
-            await prisma.$disconnect();
+                // Create and link to requestEquipment
+                const createTrackDoc = [];
+                for (const item of tableRouting) {
+                    const newStep = await prisma.track_Doc.create({
+                        data: {
+                            step: item.step,
+                            name: item.name,
+                            document_head_id: requestId // Use requestEquipment.id
+                        },
+                    });
+                    createTrackDoc.push(newStep);
+                }
+
+                // Find track_Doc with step 0
+                const findTrackDoc = await prisma.track_Doc.findFirst({
+                    where: {
+                        step: 0,
+                        document_head_id: requestId // Use requestEquipment.id
+                    }
+                });
+
+                if (findTrackDoc) {
+                    // Update the track_Doc if step is 0
+                    const updatedTrackDoc = await prisma.track_Doc.update({
+                        where: {
+                            id: findTrackDoc.id, // Use the unique id here
+                        },
+                        data: {
+                            status: 1,
+                            user_id: parseInt(session.user.id)
+                        }
+                    });
+                }
+            });
 
             return Response.json({
                 status: "success",
@@ -122,12 +121,13 @@ export async function POST(req: Request) {
             });
         } catch (error) {
             console.error('Error:', error);
-            prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to create equipment",
                 error: error, // Include error message for debugging
             });
+        } finally {
+            await prisma.$disconnect();
         }
     }
 }

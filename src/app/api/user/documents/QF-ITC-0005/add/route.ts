@@ -1,7 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
@@ -9,6 +8,7 @@ export async function POST(req: Request) {
     if (!session) {
         return Response.json({ status: "fail", message: "You are not logged in" });
     } else {
+        const prisma = new PrismaClient();
         try {
             const request_by_id = session?.user?.id;
             const data = await req.formData() as any;
@@ -44,13 +44,12 @@ export async function POST(req: Request) {
                 requestId = `${docId}-${year}${month}0001`;
             }
 
-            const findDoc = await prisma.document.findFirst({
-                where: {
-                    name: docId
-                }
-            });
-
             await prisma.$transaction(async (prisma) => {
+                const findDoc = await prisma.document.findFirst({
+                    where: {
+                        name: docId
+                    }
+                });
                 // Create documentHead
                 const documentHead = await prisma.document_Head.create({
                     data: {
@@ -116,7 +115,6 @@ export async function POST(req: Request) {
                 }
             });
 
-            await prisma.$disconnect();
             return Response.json({
                 status: "success",
                 message: "Request created successfully",
@@ -124,12 +122,13 @@ export async function POST(req: Request) {
             })
         } catch (error) {
             console.error('Error:', error);
-            await prisma.$disconnect();
             return Response.json({
                 status: "fail",
                 message: "Failed to create request",
                 error: error, // Include error message for debugging
             });
+        } finally {
+            await prisma.$disconnect();
         }
     }
 }
