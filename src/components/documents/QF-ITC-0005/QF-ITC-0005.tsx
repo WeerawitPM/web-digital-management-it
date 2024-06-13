@@ -10,8 +10,8 @@ import Table3 from './Table3';
 import Table4 from './Table4';
 
 export default function Component({ data, doc_no }: { data: any, doc_no: string }) {
-    const requestFor = data?.Table_ITC_0003[0];
-    const requirement = data?.Table_ITC_0003[0]?.requirement;
+    const requestFor = data?.Table_ITC_0005[0];
+    const requirement = data?.Table_ITC_0005[0]?.requirement;
     const user1 = data?.Track_Doc[0];
     const ITStaff1 = data?.Track_Doc[1];
     const ITStaff2 = data?.Track_Doc[2];
@@ -49,7 +49,7 @@ export default function Component({ data, doc_no }: { data: any, doc_no: string 
         <>
             <Navbar position="static" isBordered maxWidth="xl">
                 <NavbarContent justify="start">
-                    แบบคำร้องขอเพิ่มระบบและแก้ไขปรับปรุงระบบ {doc_no}
+                    แบบคำร้องขอใช้งานอีเมล์ {doc_no}
                 </NavbarContent>
                 <NavbarContent justify="end">
                     <Button size="md" onClick={exportToPDF}>Export to PDF.</Button>

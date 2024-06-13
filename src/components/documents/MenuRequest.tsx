@@ -39,7 +39,7 @@ export const menuRequest = [
             <Email className="text-warning" fill="currentColor" size={30} height={undefined} width={undefined} />
         ),
         title: "QF-ITC-0005",
-        href: "/documents/QF-ITC-0001",
+        href: "/documents/QF-ITC-0005",
     },
     {
         description: "แบบคำร้องขอใช้งานระบบ Domain",

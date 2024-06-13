@@ -68,9 +68,10 @@ model User {
   updated_at     DateTime         @updatedAt
   status_flag    Int              @default(0)
   Session        Session[]
-  Table_ITC_0001 Table_ITC_0001[]
   Track_Doc      Track_Doc[]
+  Table_ITC_0001 Table_ITC_0001[]
   Table_ITC_0003 Table_ITC_0003[]
+  Table_ITC_0005 Table_ITC_0005[]
 }
 
 model Company {
@@ -160,6 +161,22 @@ model Table_ITC_0003 {
   Attached_Proposal  Attached_Proposal[]
 }
 
+model Table_ITC_0005 {
+  id               Int            @id @default(autoincrement())
+  username         String
+  password         String
+  email            String
+  type_email       String
+  start_date       DateTime
+  end_date         DateTime?
+  created_at       DateTime       @default(now())
+  request_by_id    Int
+  request_by       User?          @relation(fields: [request_by_id], references: [id])
+  document_head_id String
+  document_head    Document_Head? @relation(fields: [document_head_id], references: [ref_no])
+  status_flag      Int            @default(0)
+}
+
 model Document {
   id            Int             @id @default(autoincrement())
   name          String          @unique
@@ -188,9 +205,10 @@ model Document_Head {
   step           Int              @default(0)
   status         Int              @default(0)
   status_flag    Int              @default(0)
-  Table_ITC_0001 Table_ITC_0001[]
   Track_Doc      Track_Doc[]
+  Table_ITC_0001 Table_ITC_0001[]
   Table_ITC_0003 Table_ITC_0003[]
+  Table_ITC_0005 Table_ITC_0005[]
 }
 
 model Track_Doc {

@@ -13,11 +13,6 @@ export async function GET() {
             where: {
                 id: parseInt(session.user.id)
             },
-            // include: {
-            //     company: true,
-            //     department: true,
-            //     position: true
-            // }
             select: {
                 id: true,
                 username: true,
@@ -34,7 +29,7 @@ export async function GET() {
                 position: true
             }
         });
-        prisma.$disconnect();
+        await prisma.$disconnect();
         return Response.json(data);
     }
 };
