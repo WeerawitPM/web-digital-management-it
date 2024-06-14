@@ -1,0 +1,63 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
+import { PrismaClient } from '@prisma/client';
+
+export async function PATCH(req: Request) {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return Response.json({ status: "fail", message: "You are not logged in" });
+    } else {
+        const prisma = new PrismaClient();
+        try {
+            const data = await req.formData() as any;
+            const document_head_id = data.get("document_head_id") as string;
+            let step = parseInt(data.get("step") as string);
+            const status = parseInt(data.get("status") as string);
+            const remark = data.get("remark") as string;
+
+            await prisma.$transaction(async (prisma) => {
+                const findTrack = await prisma.track_Doc.findFirst({
+                    where: {
+                        document_head_id: document_head_id,
+                        step: step
+                    }
+                });
+
+                await prisma.track_Doc.update({
+                    where: {
+                        id: findTrack?.id
+                    },
+                    data: {
+                        status: status,
+                        remark: remark,
+                        user_id: parseInt(session?.user?.id),
+                        end_date: new Date(Date.now())
+                    }
+                })
+
+                await prisma.document_Head.update({
+                    where: {
+                        ref_no: document_head_id
+                    },
+                    data: {
+                        status: status,
+                    }
+                })
+            })
+            return Response.json({
+                status: "success",
+                message: "Approved",
+            })
+        } catch (error) {
+            console.error('Error:', error);
+            return Response.json({
+                status: "fail",
+                message: "Fail to approve",
+                error: error, // Include error message for debugging
+            });
+        } finally {
+            await prisma.$disconnect();
+        }
+    }
+}

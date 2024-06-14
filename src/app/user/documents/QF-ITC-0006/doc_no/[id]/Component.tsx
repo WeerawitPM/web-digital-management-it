@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
-import ProfileInformation from "@/components/documents/QF-ITC-0005/ProfileInformation";
-import HeaderDoc from "@/components/documents/QF-ITC-0005/HeaderDoc";
+import ProfileInformation from "@/components/documents/QF-ITC-0006/ProfileInformation";
+import HeaderDoc from "@/components/documents/QF-ITC-0006/HeaderDoc";
 import StepsComponent from "@/components/documents/Steps";
 import { Card, Input, Radio, RadioGroup } from "@nextui-org/react";
 
@@ -21,7 +21,7 @@ export default function Component(
                             <div>
                                 <div className="mb-3">ขอเข้าใช้งานอีเมลของ</div>
                                 <RadioGroup
-                                    defaultValue={data?.Table_ITC_0005[0]?.email}
+                                    defaultValue={data?.Table_ITC_0006[0]?.email}
                                     orientation="horizontal"
                                     isReadOnly
                                 >
@@ -40,20 +40,20 @@ export default function Component(
                                     variant="bordered"
                                     size="lg"
                                     className="flex-1"
-                                    defaultValue={data?.Table_ITC_0005[0]?.username}
+                                    defaultValue={data?.Table_ITC_0006[0]?.username}
                                 />
                             </div>
                             <div>
                                 <RadioGroup
-                                    defaultValue={data?.Table_ITC_0005[0]?.type_email}
+                                    defaultValue={data?.Table_ITC_0006[0]?.type_email}
                                     orientation="horizontal"
                                     isReadOnly
                                 >
-                                    <Radio value="@vcsthai.com">@vcsthai.com</Radio>
-                                    <Radio value="@vcsthailand.co.th">@vcsthailand.co.th</Radio>
-                                    <Radio value="@bvs.co.th">@bvs.co.th</Radio>
-                                    <Radio value="@aaa.co.th">@aaa.co.th</Radio>
-                                    <Radio value="@tkm-thaikin.com">@tkm-thaikin.com</Radio>
+                                    <Radio value=".vcs.co.th">.vcs.co.th</Radio>
+                                    <Radio value=".vcst.co.th">.vcst.co.th</Radio>
+                                    <Radio value=".bvs.co.th">.bvs.co.th</Radio>
+                                    <Radio value=".aaa.co.th">.aaa.co.th</Radio>
+                                    <Radio value=".tkm.co.th">.tkm.co.th</Radio>
                                 </RadioGroup>
                             </div>
                             <div className="flex flex-col gap-2">
@@ -64,11 +64,11 @@ export default function Component(
                                     variant="bordered"
                                     size="lg"
                                     className="flex-1"
-                                    defaultValue={data?.Table_ITC_0005[0]?.password}
+                                    defaultValue={data?.Table_ITC_0006[0]?.password}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <div>วันที่เริ่มใช้: {data?.Table_ITC_0005[0]?.start_date && new Date(data?.Table_ITC_0005[0]?.start_date).toLocaleDateString('th-TH')}</div>
+                                <div>วันที่เริ่มใช้: {data?.Table_ITC_0006[0]?.start_date && new Date(data?.Table_ITC_0006[0]?.start_date).toLocaleDateString('th-TH')}</div>
                             </div>
                         </Card>
                     </>

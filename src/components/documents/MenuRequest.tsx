@@ -47,7 +47,7 @@ export const menuRequest = [
             <DomainName className="text-secondary" fill="currentColor" size={30} height={undefined} width={undefined} />
         ),
         title: "QF-ITC-0006",
-        href: "/documents/QF-ITC-0001",
+        href: "/documents/QF-ITC-0006",
     },
     {
         description: "แบบคำร้องขอยกเลิกโดเมน อีเมล",
