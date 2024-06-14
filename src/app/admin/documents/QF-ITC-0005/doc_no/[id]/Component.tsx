@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import ProfileInformation from "@/components/documents/QF-ITC-0005/ProfileInformation";
 import HeaderDoc from "@/components/documents/QF-ITC-0005/HeaderDoc";
 import StepsComponent from "@/components/documents/Steps";
-import { Card, CardBody, Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
+import { Card, CardBody, DatePicker, Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
 import { Button, useToast } from "@chakra-ui/react";
 import axios from "axios";
+import { parseAbsoluteToLocal } from "@internationalized/date";
 
 export default function Component(
     { data, steps, statusStep, doc_no, trackStatus, fetchData }:
@@ -13,6 +14,7 @@ export default function Component(
 ) {
     const [remark, setRemark] = useState<any>(null);
     const toast = useToast();
+    const [date, setDate] = useState<any>(parseAbsoluteToLocal(new Date().toISOString()));
 
     const saveData = (status: number) => {
         const formData = new FormData();
@@ -72,6 +74,46 @@ export default function Component(
                 saveData(2);
             }
         }
+    }
+
+    const handleUpdateDate = () => {
+        const newDate = new Date(date.year, date.month - 1, date.day, date.hour, date.minute, date.second, date.millisecond).toISOString();
+
+        const formData = new FormData();
+        formData.append("document_head_id", data?.ref_no);
+        formData.append("end_date", newDate);
+
+        axios.patch('/api/admin/documents/QF-ITC-0005/close', formData)
+            .then(response => {
+                if (response.data.status === "success") {
+                    toast({
+                        title: 'Success',
+                        description: "Document has been saved.",
+                        status: 'success',
+                        duration: 3000,
+                        isClosable: true,
+                    })
+                    fetchData();
+                } else {
+                    toast({
+                        title: 'Error',
+                        description: response.data.message,
+                        status: 'error',
+                        duration: 3000,
+                        isClosable: true,
+                    })
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                toast({
+                    title: 'Error',
+                    description: "Something went wrong",
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                })
+            })
     }
 
     return (
@@ -134,7 +176,24 @@ export default function Component(
                             </div>
                             <div className="flex flex-col gap-2">
                                 <div>วันที่เริ่มใช้: {data?.Table_ITC_0005[0]?.start_date && new Date(data?.Table_ITC_0005[0]?.start_date).toLocaleDateString('th-TH')}</div>
-                                <div>วันที่เลิกใช้งาน: {data?.Table_ITC_0005[0]?.end_date && new Date(data?.Table_ITC_0005[0]?.end_date).toLocaleDateString('th-TH')}</div>
+                                {data?.step === 1 && trackStatus === 1 && data?.Table_ITC_0005[0]?.end_date === null
+                                    ?
+                                    <div className="flex flex-col gap-2">
+                                        <div>วันที่เลิกใช้งาน:</div>
+                                        <DatePicker
+                                            isRequired
+                                            label="Date Picker"
+                                            variant="bordered"
+                                            hideTimeZone
+                                            defaultValue={parseAbsoluteToLocal(new Date().toISOString())}
+                                            value={date}
+                                            onChange={setDate}
+                                        />
+                                        <Button colorScheme="green" className="w-40 mx-auto" onClick={() => handleUpdateDate()}>อัปเดตวันที่เลิกใช้งาน</Button>
+                                    </div>
+                                    :
+                                    <div>วันที่เลิกใช้งาน: {data?.Table_ITC_0005[0]?.end_date && new Date(data?.Table_ITC_0005[0]?.end_date).toLocaleDateString('th-TH')}</div>
+                                }
                             </div>
                         </Card>
                         {data?.step === 1 && trackStatus === 0 ?
