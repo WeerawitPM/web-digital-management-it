@@ -32,7 +32,17 @@ export async function GET(req: Request) {
                         }
                     }
                 },
-                Track_Doc: true
+                Track_Doc: {
+                    include: {
+                        user: {
+                            select: {
+                                firstname: true,
+                                lastname: true,
+                                license: true
+                            }
+                        }
+                    }
+                }
             }
         });
         await prisma.$disconnect();

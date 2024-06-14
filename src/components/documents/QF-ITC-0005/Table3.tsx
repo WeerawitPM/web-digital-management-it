@@ -1,37 +1,34 @@
 import Image from "next/image";
+import uncheck from "@/images/uncheck.png";
+import checked from "@/images/check-mark.png";
 
-export default function Table3({ ITStaff2, user2 }: { ITStaff2: any, user2: any }) {
+export default function Table3({ user1, ITStaff1 }: { user1: any, ITStaff1: any }) {
     return (
         <>
-            <table className="table-auto border-collapse border-t-1 border-x-1 border-black w-full text-sm text-black">
-                <thead>
-                    <tr>
-                        <td className='border border-black' colSpan={2}>ส่วนที่ 2: การส่งมอบระบบ</td>
-                    </tr>
-                </thead>
+            <table className="table-auto w-full text-sm text-black mt-5">
                 <tbody>
                     <tr>
                         <td className="text-center">
                             <Image
-                                src={ITStaff2?.user?.license === null ? "" : ITStaff2?.user?.license}
+                                src={user1?.user?.license === null ? "" : user1?.user?.license}
+                                alt='license'
+                                height={50}
+                                width={50}
+                                className='mx-auto my-2'
+                            />
+                            <div>ลงชื่อ ผู้ยื่นคำร้อง</div>
+                            <div>({user1?.user?.firstname} {user1?.user?.lastname})</div>
+                        </td>
+                        <td className="text-center">
+                            <Image
+                                src={ITStaff1?.user?.license === null ? "" : ITStaff1?.user?.license}
                                 alt='license'
                                 height={50}
                                 width={50}
                                 className='mx-auto my-2'
                             />
                             <div>ลงชื่อ เจ้าหน้าที่ไอที</div>
-                            <div>วันที่ {ITStaff2?.end_date && new Date(ITStaff2?.end_date).toLocaleDateString('th-TH')}</div>
-                        </td>
-                        <td className="text-center">
-                            <Image
-                                src={user2?.user?.license === null ? "" : user2?.user?.license}
-                                alt='license'
-                                height={50}
-                                width={50}
-                                className='mx-auto my-2'
-                            />
-                            <div>ลงชื่อ ผู้รับคำร้อง</div>
-                            <div>วันที่ {user2?.end_date && new Date(user2?.end_date).toLocaleDateString('th-TH')}</div>
+                            <div>({ITStaff1?.user?.firstname} {ITStaff1?.user?.lastname})</div>
                         </td>
                     </tr>
                 </tbody>

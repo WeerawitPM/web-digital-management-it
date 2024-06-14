@@ -22,7 +22,7 @@ export default function Component(
                         <ProfileInformation data={data} />
                         <Card className="p-4 sm:p-8 sm:rounded-lg flex flex-col gap-5">
                             <div>
-                                <div className="mb-3">ขอเข้าใช้งานอีเมลล์ของ</div>
+                                <div className="mb-3">ขอเข้าใช้งานอีเมลของ</div>
                                 <RadioGroup
                                     defaultValue={data?.Table_ITC_0005[0]?.email}
                                     orientation="horizontal"

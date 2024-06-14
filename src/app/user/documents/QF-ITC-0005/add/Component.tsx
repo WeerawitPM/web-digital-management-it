@@ -118,7 +118,7 @@ export default function Component({ data }: { data: any }) {
                 <Card className="p-4 sm:p-8 sm:rounded-lg">
                     <form onSubmit={(e: any) => handleSave(e)} className="flex flex-col gap-5">
                         <div>
-                            <div className="mb-3">ขอเข้าใช้งานอีเมลล์ของ</div>
+                            <div className="mb-3">ขอเข้าใช้งานอีเมลของ</div>
                             <RadioGroup
                                 value={email}
                                 onValueChange={setEmail}

@@ -9,7 +9,7 @@ export default function HeaderDoc({ doc_no }: { doc_no: string }) {
     return (
         <Navbar position="static" isBordered maxWidth="xl">
             <NavbarContent justify="start" className="font-bold">
-                แบบคำร้องขอใช้งานอีเมล์ {doc_no}
+                แบบคำร้องขอใช้งานอีเมล {doc_no}
             </NavbarContent>
             <NavbarContent justify="end">
                 <Link href={`/${session?.user?.role}/documents/QF-ITC-0005/pdf/${doc_no}`}>

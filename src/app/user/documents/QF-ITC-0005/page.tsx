@@ -23,7 +23,7 @@ export default function Home() {
 
         // เคลียร์ interval เมื่อ component จะ unmount
         return () => clearInterval(intervalId);
-    }, [data]);
+    }, []);
 
     return (
         <Component data={data} />
