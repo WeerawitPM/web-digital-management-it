@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Component from "./Component";
+import Component from "@/components/documents/QF-ITC-0003/detail/Component";
+import { useSession } from "next-auth/react";
 
 export default function Home({ params }: { params: any }) {
+    const { data: session } = useSession()
     const [data, setData] = useState<any>(); // เก็บข้อมูลที่ได้จาก API
     const [step, setStep] = useState([]);
     const status = parseInt(params.id); // Get the 'status' query parameter
@@ -34,6 +36,6 @@ export default function Home({ params }: { params: any }) {
     }, []);
 
     return (
-        <Component data={data} step={step} status={status} isLoading={isLoading} />
+        <Component data={data} step={step} status={status} isLoading={isLoading} role={session?.user?.role}/>
     )
 }

@@ -249,9 +249,24 @@ export async function PATCH(req: Request) {
                 }
             }
 
+            const oldPassword = await prisma.user.findUnique({
+                where: {
+                    id: parseInt(id)
+                },
+                select: {
+                    password: true
+                }
+            })
+
             // Hash the password
             const saltRounds = 10;
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            let hashedPassword: string;
+
+            if (oldPassword && oldPassword.password === password) {
+                hashedPassword = oldPassword?.password;
+            } else {
+                hashedPassword = await bcrypt.hash(password, saltRounds);
+            }
 
             const updateUser = await prisma.user.update({
                 where: {

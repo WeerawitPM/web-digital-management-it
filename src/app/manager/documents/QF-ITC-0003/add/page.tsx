@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import Component from "./Component";
+import Component from "@/components/documents/QF-ITC-0003/add/Component";
 
 export default function Home() {
     const [data, setData] = useState(); // เก็บข้อมูลที่ได้จาก API

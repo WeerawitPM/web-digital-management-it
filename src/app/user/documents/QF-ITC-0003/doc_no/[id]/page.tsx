@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Component from "./Component";
+import Component from "@/components/documents/QF-ITC-0003/doc_no/Component";
 
 export default function Home({ params }: { params: any }) {
     const doc_no = params.id;
