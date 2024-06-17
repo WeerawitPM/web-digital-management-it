@@ -15,7 +15,7 @@ export async function POST(req: Request) {
             const username = data.get("username") as string;
             const password = data.get("password") as string;
             const email = data.get("email") as string;
-            const type_email = data.get("type_email") as string;
+            const email_type = data.get("email_type") as string;
             const start_date = new Date(data.get("start_date") as string); // Ensure start_date is a Date object
 
             // Generate requestID
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
                         username: username,
                         password: password,
                         email: email,
-                        type_email: type_email,
+                        email_type: email_type,
                         start_date: start_date,
                         request_by_id: parseInt(request_by_id),
                         document_head_id: requestId

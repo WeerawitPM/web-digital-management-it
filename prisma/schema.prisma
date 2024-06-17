@@ -73,6 +73,7 @@ model User {
   Table_ITC_0003 Table_ITC_0003[]
   Table_ITC_0005 Table_ITC_0005[]
   Table_ITC_0006 Table_ITC_0006[]
+  Table_ITC_0007 Table_ITC_0007[]
 }
 
 model Company {
@@ -167,7 +168,7 @@ model Table_ITC_0005 {
   username         String
   password         String
   email            String
-  type_email       String
+  email_type       String
   start_date       DateTime
   end_date         DateTime?
   created_at       DateTime       @default(now())
@@ -183,7 +184,7 @@ model Table_ITC_0006 {
   username         String
   password         String
   email            String
-  type_email       String
+  email_type       String
   start_date       DateTime
   end_date         DateTime?
   created_at       DateTime       @default(now())
@@ -192,6 +193,24 @@ model Table_ITC_0006 {
   document_head_id String
   document_head    Document_Head? @relation(fields: [document_head_id], references: [ref_no])
   status_flag      Int            @default(0)
+}
+
+model Table_ITC_0007 {
+  id                  Int            @id @default(autoincrement())
+  domain_company      String
+  domain_username     String
+  domain_company_type String
+  domain_end_date     DateTime
+  email_company       String
+  email_username      String
+  email_company_type  String
+  email_end_date      DateTime
+  created_at          DateTime       @default(now())
+  request_by_id       Int
+  request_by          User?          @relation(fields: [request_by_id], references: [id])
+  document_head_id    String
+  document_head       Document_Head? @relation(fields: [document_head_id], references: [ref_no])
+  status_flag         Int            @default(0)
 }
 
 model Document {
@@ -227,6 +246,7 @@ model Document_Head {
   Table_ITC_0003 Table_ITC_0003[]
   Table_ITC_0005 Table_ITC_0005[]
   Table_ITC_0006 Table_ITC_0006[]
+  Table_ITC_0007 Table_ITC_0007[]
 }
 
 model Track_Doc {

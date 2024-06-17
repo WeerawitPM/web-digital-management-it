@@ -12,17 +12,20 @@ export async function POST(req: Request) {
         try {
             const request_by_id = session?.user?.id;
             const data = await req.formData() as any;
-            const username = data.get("username") as string;
-            const password = data.get("password") as string;
-            const email = data.get("email") as string;
-            const email_type = data.get("email_type") as string;
-            const start_date = new Date(data.get("start_date") as string); // Ensure start_date is a Date object
+            const domain_company = data.get("domain_company") as string;
+            const domain_username = data.get("domain_username") as string;
+            const domain_company_type = data.get("domain_company_type") as string;
+            const domain_end_date = new Date(data.get("domain_end_date") as string);
+            const email_company = data.get("email_company") as string;
+            const email_username = data.get("email_username") as string;
+            const email_company_type = data.get("email_company_type") as string;
+            const email_end_date = new Date(data.get("email_end_date") as string);
 
             // Generate requestID
             const now = new Date();
             const year = now.getFullYear().toString().slice(-2); // ใช้แค่สองตัวท้ายของปี
             const month = (now.getMonth() + 1).toString().padStart(2, '0');
-            const docId = "QF-ITC-0005";
+            const docId = "QF-ITC-0007";
             // Retrieve the last used request number for the current year and month
             const lastRequest = await prisma.document_Head.findFirst({
                 where: {
@@ -60,13 +63,16 @@ export async function POST(req: Request) {
                     },
                 });
 
-                const tableITC0005 = await prisma.table_ITC_0005.create({
+                const tableITC0007 = await prisma.table_ITC_0007.create({
                     data: {
-                        username: username,
-                        password: password,
-                        email: email,
-                        email_type: email_type,
-                        start_date: start_date,
+                        domain_company: domain_company,
+                        domain_username: domain_username,
+                        domain_company_type: domain_company_type,
+                        domain_end_date: domain_end_date,
+                        email_company: email_company,
+                        email_username: email_username,
+                        email_company_type: email_company_type,
+                        email_end_date: email_end_date,
                         request_by_id: parseInt(request_by_id),
                         document_head_id: requestId
                     },

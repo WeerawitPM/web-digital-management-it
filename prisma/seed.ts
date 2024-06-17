@@ -88,6 +88,9 @@ async function main() {
 
             { document_id: 6, name: "User Request", step: 0 },
             { document_id: 6, name: "IT Approve", step: 1 },
+
+            { document_id: 7, name: "User Request", step: 0 },
+            { document_id: 7, name: "IT Approve", step: 1 },
         ],
     });
 }

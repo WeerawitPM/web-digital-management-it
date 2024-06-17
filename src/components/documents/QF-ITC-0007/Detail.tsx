@@ -1,4 +1,4 @@
-import { Card, Link, Radio, RadioGroup, Textarea } from "@nextui-org/react";
+import { Card, Radio, RadioGroup, Textarea } from "@nextui-org/react";
 
 export default function Detail({ data }: { data: any }) {
     return (

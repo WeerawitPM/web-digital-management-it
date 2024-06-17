@@ -26,7 +26,7 @@ export default function Component({ data }: { data: any }) {
     const toast = useToast();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
-    const [typeEmail, setTypeEmail] = useState("");
+    const [emailType, setEmailType] = useState("");
     const [password, setPassword] = useState("");
     const [date, setDate] = useState<any>(parseAbsoluteToLocal(new Date().toISOString()));
 
@@ -52,7 +52,7 @@ export default function Component({ data }: { data: any }) {
         const formData = new FormData();
         formData.append("email", email);
         formData.append("username", username);
-        formData.append("type_email", typeEmail);
+        formData.append("email_type", emailType);
         formData.append("password", password);
         formData.append("start_date", newDate);
 
@@ -148,8 +148,8 @@ export default function Component({ data }: { data: any }) {
                         </div>
                         <div>
                             <RadioGroup
-                                value={typeEmail}
-                                onValueChange={setTypeEmail}
+                                value={emailType}
+                                onValueChange={setEmailType}
                                 orientation="horizontal"
                                 isRequired
                             >

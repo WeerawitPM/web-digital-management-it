@@ -55,7 +55,7 @@ export const menuRequest = [
             <DomainName className="text-danger" fill="currentColor" size={30} height={undefined} width={undefined} />
         ),
         title: "QF-ITC-0007",
-        href: "/documents/QF-ITC-0001",
+        href: "/documents/QF-ITC-0007",
     },
     {
         description: "ใบขอยืมใช้อุปกรณ์สารสนเทศของส่วนกลาง",

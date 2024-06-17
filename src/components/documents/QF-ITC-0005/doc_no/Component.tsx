@@ -45,7 +45,7 @@ export default function Component(
                             </div>
                             <div>
                                 <RadioGroup
-                                    defaultValue={data?.Table_ITC_0005[0]?.type_email}
+                                    defaultValue={data?.Table_ITC_0005[0]?.email_type}
                                     orientation="horizontal"
                                     isReadOnly
                                 >

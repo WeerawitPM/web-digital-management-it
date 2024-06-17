@@ -95,7 +95,7 @@ export default function Table1({requestFor}: {requestFor: any}) {
                     <td className="flex flex-row gap-3">
                         <div className="flex flex-row gap-1">
                             <Image
-                                src={requestFor?.type_email === "@vcsthai.com" ? checked : uncheck}
+                                src={requestFor?.email_type === "@vcsthai.com" ? checked : uncheck}
                                 alt='checkbox'
                                 height={20}
                                 width={20}
@@ -105,7 +105,7 @@ export default function Table1({requestFor}: {requestFor: any}) {
                         </div>
                         <div className="flex flex-row gap-1">
                             <Image
-                                src={requestFor?.type_email === "@vcsthailand.co.th" ? checked : uncheck}
+                                src={requestFor?.email_type === "@vcsthailand.co.th" ? checked : uncheck}
                                 alt='checkbox'
                                 height={20}
                                 width={20}
@@ -115,7 +115,7 @@ export default function Table1({requestFor}: {requestFor: any}) {
                         </div>
                         <div className="flex flex-row gap-1">
                             <Image
-                                src={requestFor?.type_email === "@bvs.co.th" ? checked : uncheck}
+                                src={requestFor?.email_type === "@bvs.co.th" ? checked : uncheck}
                                 alt='checkbox'
                                 height={20}
                                 width={20}
@@ -125,7 +125,7 @@ export default function Table1({requestFor}: {requestFor: any}) {
                         </div>
                         <div className="flex flex-row gap-1">
                             <Image
-                                src={requestFor?.type_email === "@aaa.co.th" ? checked : uncheck}
+                                src={requestFor?.email_type === "@aaa.co.th" ? checked : uncheck}
                                 alt='checkbox'
                                 height={20}
                                 width={20}
@@ -135,7 +135,7 @@ export default function Table1({requestFor}: {requestFor: any}) {
                         </div>
                         <div className="flex flex-row gap-1">
                             <Image
-                                src={requestFor?.type_email === "@tkm-thaikin.com" ? checked : uncheck}
+                                src={requestFor?.email_type === "@tkm-thaikin.com" ? checked : uncheck}
                                 alt='checkbox'
                                 height={20}
                                 width={20}

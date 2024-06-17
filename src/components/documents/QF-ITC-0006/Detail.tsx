@@ -48,24 +48,6 @@ export default function Detail({ data }: { data: any }) {
                     <Radio value="Flowchart">Flowchart</Radio>
                     <Radio value="Other">อื่น ๆ</Radio>
                 </RadioGroup>
-                {data?.Attached_Proposal.length === 0 ? "" :
-                    (
-                        data?.Attached_Proposal?.map((item: any, index: number) => (
-                            <div key={index}>
-                                <Link
-                                    isExternal
-                                    showAnchorIcon
-                                    href={item.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    color="primary"
-                                >
-                                    {item.name}
-                                </Link>
-                            </div>
-                        ))
-                    )
-                }
             </div>
         </Card>
     );
