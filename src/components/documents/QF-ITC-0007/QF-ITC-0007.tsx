@@ -52,7 +52,7 @@ export default function Component({ data, doc_no }: { data: any, doc_no: string 
             <div className={`${theme === "dark" ? "" : "bg-gray-100"} flex justify-center items-center min-h-screen overflow-x-auto`}>
                 <div className="a4 bg-white shadow-lg p-8 my-5" ref={componentRef}>
                     <Table1 requestFor={requestFor} />
-                    <Table2 />
+                    <Table2 requestFor={requestFor} />
                     <Table3 user1={user1} ITStaff1={ITStaff1} />
                 </div>
             </div>
