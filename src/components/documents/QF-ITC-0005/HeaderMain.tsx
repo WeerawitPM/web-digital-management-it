@@ -11,7 +11,7 @@ export default function HeaderMain({ title }: { title: any }) {
             <NavbarContent justify="start" className="font-bold">
                 QF-ITC-0005 แบบคำร้องขอใช้งานอีเมล {title}
             </NavbarContent>
-            {session?.user?.role === "user" || session?.user?.role === "manager" ?
+            {session?.user?.role !== "admin" ?
                 <NavbarContent justify="end">
                     <Link href={`/${session?.user?.role}/documents/QF-ITC-0005/add`}>
                         <Button colorScheme="purple" leftIcon={<AddIcon />} size='sm'>

@@ -63,7 +63,7 @@ export const menuRequest = [
             <Server className="text-success" fill="currentColor" size={30} height={undefined} width={undefined} />
         ),
         title: "QF-ITC-0009",
-        href: "/documents/QF-ITC-0001",
+        href: "/documents/QF-ITC-0009",
     },
     {
         description: "ใบคำร้องขออุปกรณ์",

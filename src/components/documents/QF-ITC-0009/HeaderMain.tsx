@@ -9,11 +9,11 @@ export default function HeaderMain({ title }: { title: any }) {
     return (
         <Navbar position="static" isBordered maxWidth="xl">
             <NavbarContent justify="start" className="font-bold">
-                QF-ITC-0007 แบบคำร้องขอยกเลิกโดเมน/อีเมล {title}
+                QF-ITC-0009 ใบขอยืมใช้อุปกรณ์สารสนเทศของส่วนกลาง {title}
             </NavbarContent>
-            {session?.user?.role !== "admin" ?
+            {session?.user?.role === "user" || session?.user?.role === "manager" ?
                 <NavbarContent justify="end">
-                    <Link href={`/${session?.user?.role}/documents/QF-ITC-0007/add`}>
+                    <Link href={`/${session?.user?.role}/documents/QF-ITC-0009/add`}>
                         <Button colorScheme="purple" leftIcon={<AddIcon />} size='sm'>
                             เพิ่มรายการร้องขอ
                         </Button>

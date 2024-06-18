@@ -74,6 +74,7 @@ model User {
   Table_ITC_0005 Table_ITC_0005[]
   Table_ITC_0006 Table_ITC_0006[]
   Table_ITC_0007 Table_ITC_0007[]
+  Table_ITC_0009 Table_ITC_0009[]
 }
 
 model Company {
@@ -213,6 +214,48 @@ model Table_ITC_0007 {
   status_flag         Int            @default(0)
 }
 
+model Table_ITC_0009 {
+  id                        Int            @id @default(autoincrement())
+  computer_type             String?
+  computer_brand            String?
+  computer_name             String?
+  computer_ram              String?
+  computer_vga              String?
+  computer_dvd              String?
+  computer_equipment_number String?
+  computer_serial_number    String?
+  computer_mb               String?
+  computer_hdd              String?
+  computer_case             String?
+  computer_purpose          String?
+  monitor_type              String?
+  monitor_brand             String?
+  monitor_size              String?
+  monitor_equipment_number  String?
+  monitor_serial_number     String?
+  monitor_purpose           String?
+  printer_type              String?
+  printer_brand             String?
+  printer_equipment_number  String?
+  printer_serial_number     String?
+  printer_purpose           String?
+  ups_type                  String?
+  ups_brand                 String?
+  ups_equipment_number      String?
+  ups_serial_number         String?
+  ups_purpose               String?
+  etc                       String?
+  etc_purpose               String?
+  start_date                DateTime?
+  end_date                  DateTime?
+  created_at                DateTime       @default(now())
+  request_by_id             Int
+  request_by                User?          @relation(fields: [request_by_id], references: [id])
+  document_head_id          String
+  document_head             Document_Head? @relation(fields: [document_head_id], references: [ref_no])
+  status_flag               Int            @default(0)
+}
+
 model Document {
   id            Int             @id @default(autoincrement())
   name          String          @unique
@@ -247,6 +290,7 @@ model Document_Head {
   Table_ITC_0005 Table_ITC_0005[]
   Table_ITC_0006 Table_ITC_0006[]
   Table_ITC_0007 Table_ITC_0007[]
+  Table_ITC_0009 Table_ITC_0009[]
 }
 
 model Track_Doc {

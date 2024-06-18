@@ -120,7 +120,7 @@ export default function Component({ data }: { data: any }) {
     const isInvalidEmailUsername = useMemo(() => {
         if (emailUsername === "") return false;
 
-        return validateDomainUsername(emailUsername) ? false : true;
+        return validateEmailUsername(emailUsername) ? false : true;
     }, [emailUsername]);
 
     return (

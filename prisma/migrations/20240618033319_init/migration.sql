@@ -203,10 +203,52 @@ CREATE TABLE `Table_ITC_0007` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `domain_company` VARCHAR(191) NOT NULL,
     `domain_username` VARCHAR(191) NOT NULL,
+    `domain_company_type` VARCHAR(191) NOT NULL,
     `domain_end_date` DATETIME(3) NOT NULL,
     `email_company` VARCHAR(191) NOT NULL,
     `email_username` VARCHAR(191) NOT NULL,
+    `email_company_type` VARCHAR(191) NOT NULL,
     `email_end_date` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `request_by_id` INTEGER NOT NULL,
+    `document_head_id` VARCHAR(191) NOT NULL,
+    `status_flag` INTEGER NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Table_ITC_0009` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `computer_type` VARCHAR(191) NULL,
+    `computer_brand` VARCHAR(191) NULL,
+    `computer_name` VARCHAR(191) NULL,
+    `computer_ram` VARCHAR(191) NULL,
+    `computer_vga` VARCHAR(191) NULL,
+    `computer_dvd` VARCHAR(191) NULL,
+    `computer_equipment_number` VARCHAR(191) NULL,
+    `computer_serial_number` VARCHAR(191) NULL,
+    `computer_mb` VARCHAR(191) NULL,
+    `computer_hdd` VARCHAR(191) NULL,
+    `computer_case` VARCHAR(191) NULL,
+    `computer_purpose` VARCHAR(191) NULL,
+    `monitor_brand` VARCHAR(191) NULL,
+    `monitor_size` VARCHAR(191) NULL,
+    `monitor_equipment_number` VARCHAR(191) NULL,
+    `monitor_serial_number` VARCHAR(191) NULL,
+    `monitor_purpose` VARCHAR(191) NULL,
+    `printer_brand` VARCHAR(191) NULL,
+    `printer_equipment_number` VARCHAR(191) NULL,
+    `printer_serial_number` VARCHAR(191) NULL,
+    `printer_purpose` VARCHAR(191) NULL,
+    `ups_brand` VARCHAR(191) NULL,
+    `ups_equipment_number` VARCHAR(191) NULL,
+    `ups_serial_number` VARCHAR(191) NULL,
+    `ups_purpose` VARCHAR(191) NULL,
+    `etc` VARCHAR(191) NULL,
+    `etc_purpose` VARCHAR(191) NULL,
+    `start_date` DATETIME(3) NULL,
+    `end_date` DATETIME(3) NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `request_by_id` INTEGER NOT NULL,
     `document_head_id` VARCHAR(191) NOT NULL,
@@ -327,6 +369,12 @@ ALTER TABLE `Table_ITC_0007` ADD CONSTRAINT `Table_ITC_0007_request_by_id_fkey` 
 
 -- AddForeignKey
 ALTER TABLE `Table_ITC_0007` ADD CONSTRAINT `Table_ITC_0007_document_head_id_fkey` FOREIGN KEY (`document_head_id`) REFERENCES `Document_Head`(`ref_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Table_ITC_0009` ADD CONSTRAINT `Table_ITC_0009_request_by_id_fkey` FOREIGN KEY (`request_by_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Table_ITC_0009` ADD CONSTRAINT `Table_ITC_0009_document_head_id_fkey` FOREIGN KEY (`document_head_id`) REFERENCES `Document_Head`(`ref_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Routing` ADD CONSTRAINT `Routing_document_id_fkey` FOREIGN KEY (`document_id`) REFERENCES `Document`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
