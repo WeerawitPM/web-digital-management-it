@@ -56,7 +56,7 @@ export default function Component({ data }: { data: any }) {
         } else {
             const start = new Date(startDate.year, startDate.month - 1, startDate.day);
             const end = new Date(endDate.year, endDate.month - 1, endDate.day);
-            
+
             // Calculate the date 3 months after the start date
             const threeMonthsLater = new Date(start);
             threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
@@ -168,7 +168,12 @@ export default function Component({ data }: { data: any }) {
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex">
-                                <Checkbox value={"Monitor"} isSelected={monitorSelected} onValueChange={setMonitorSelected} {...register("monitor")}>จอภาพ (Monitor)</Checkbox>
+                                <Checkbox
+                                    isSelected={monitorSelected}
+                                    onValueChange={setMonitorSelected}
+                                    {...register("monitor")}>
+                                    จอภาพ (Monitor)
+                                </Checkbox>
                             </div>
                             {monitorSelected ?
                                 <Textarea
@@ -182,7 +187,12 @@ export default function Component({ data }: { data: any }) {
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex">
-                                <Checkbox value={"Printer"} isSelected={printerSelected} onValueChange={setPrinterSelected} {...register("printer")}>เครื่องพิมพ์ (Printer)</Checkbox>
+                                <Checkbox
+                                    isSelected={printerSelected}
+                                    onValueChange={setPrinterSelected}
+                                    {...register("printer")}>
+                                    เครื่องพิมพ์ (Printer)
+                                </Checkbox>
                             </div>
                             {printerSelected ?
                                 <Textarea
@@ -196,7 +206,12 @@ export default function Component({ data }: { data: any }) {
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex">
-                                <Checkbox value={"UPS"} isSelected={upsSelected} onValueChange={setUPSSelected} {...register("ups")}>เครื่องสำรองไฟ (UPS)</Checkbox>
+                                <Checkbox
+                                    isSelected={upsSelected}
+                                    onValueChange={setUPSSelected}
+                                    {...register("ups")}>
+                                    เครื่องสำรองไฟ (UPS)
+                                </Checkbox>
                             </div>
                             {upsSelected ?
                                 <Textarea
@@ -210,7 +225,12 @@ export default function Component({ data }: { data: any }) {
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex">
-                                <Checkbox value={"Other"} isSelected={otherSelected} onValueChange={setOtherSelected} {...register("other")}>อื่น ๆ (Other)</Checkbox>
+                                <Checkbox
+                                    isSelected={otherSelected}
+                                    onValueChange={setOtherSelected}
+                                >
+                                    อื่น ๆ (Other)
+                                </Checkbox>
                             </div>
                             {otherSelected ?
                                 <div className="flex flex-col gap-2">
@@ -219,14 +239,14 @@ export default function Component({ data }: { data: any }) {
                                         placeholder="*โปรดระบุอุปกรณ์*"
                                         variant="bordered"
                                         size="lg"
-                                        {...register("other")}
+                                        {...register("etc")}
                                     />
                                     <Textarea
                                         isRequired
                                         placeholder="*โปรดระบุว่านำไปใช้ทำอะไร*"
                                         variant="bordered"
                                         size="lg"
-                                        {...register("other_purpose")}
+                                        {...register("etc_purpose")}
                                     />
                                 </div>
                                 : ""}
