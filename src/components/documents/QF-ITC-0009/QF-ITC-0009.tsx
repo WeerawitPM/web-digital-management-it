@@ -6,12 +6,18 @@ import { Navbar, NavbarContent } from '@nextui-org/react';
 import { ThemeContext } from "@/context/ThemeContext";  // Import ThemeContext
 import Table1 from './Table1';
 import Table2 from './Table2';
+import Table4 from './Table4';
 import Table3 from './Table3';
 
 export default function Component({ data, doc_no }: { data: any, doc_no: string }) {
     const requestFor = data?.Table_ITC_0009[0];
-    const user1 = data?.Track_Doc[0];
-    const ITStaff1 = data?.Track_Doc[1];
+    const user = data?.Track_Doc[0];
+    const department = data?.Track_Doc[0].user?.department?.name;
+    const created_at = data?.Table_ITC_0009[0].created_at;
+    const start_date = data?.Table_ITC_0009[0].start_date;
+    const end_date = data?.Table_ITC_0009[0].end_date;
+    const ITStaff = data?.Track_Doc[1];
+    const AccountingStaff = data?.Track_Doc[2];
 
     const componentRef = useRef(null);
     const { theme } = useContext<any>(ThemeContext);
@@ -51,9 +57,10 @@ export default function Component({ data, doc_no }: { data: any, doc_no: string 
             </Navbar>
             <div className={`${theme === "dark" ? "" : "bg-gray-100"} flex justify-center items-center min-h-screen overflow-x-auto`}>
                 <div className="a4 bg-white shadow-lg p-8 my-5" ref={componentRef}>
-                    <Table1 requestFor={requestFor} />
+                    <Table1 department={department} created_at={created_at} />
                     <Table2 requestFor={requestFor} />
-                    <Table3 user1={user1} ITStaff1={ITStaff1} />
+                    <Table3 user={user} start_date={start_date} end_date={end_date} />
+                    <Table4 ITStaff={ITStaff} AccountingStaff={AccountingStaff} />
                 </div>
             </div>
         </>

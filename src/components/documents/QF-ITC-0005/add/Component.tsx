@@ -68,7 +68,7 @@ export default function Component({ data }: { data: any }) {
                     });
                     // Reload the page after 3 seconds
                     setTimeout(() => {
-                        location.reload();
+                        window.location.href = `/${data?.role?.name}/documents/QF-ITC-0005/detail/0`;
                     }, 3000);
                 } else {
                     toast({

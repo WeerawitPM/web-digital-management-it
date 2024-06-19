@@ -80,6 +80,7 @@ export default function Component({ data }: { data: any }) {
                         duration: 3000,
                         isClosable: true,
                     })
+                    window.location.href = `/${data?.role?.name}/documents/QF-ITC-0001/detail/0`;
                 } else {
                     toast({
                         title: 'Error',
