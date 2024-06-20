@@ -10,7 +10,6 @@ export default function Component(
         { data: any, steps: any, statusStep: string, doc_no: string }
 ) {
     const Table_ITC_0009 = data?.Table_ITC_0009[0];
-    console.log(Table_ITC_0009);
     return (
         <>
             <HeaderDoc doc_no={doc_no} />
@@ -49,24 +48,34 @@ export default function Component(
                                                 labelPlacement="outside"
                                             />
                                             <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                                <Input type="text" label="หมายเลขครุภัณฑ์" labelPlacement="outside" variant="bordered" isReadOnly />
-                                                <Input type="text" label="ยี่ห้อ/รุ่น" labelPlacement="outside" variant="bordered" isReadOnly />
+                                                <Input type="text" label="หมายเลขครุภัณฑ์" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_equipment_number} />
+                                                <Input type="text" label="ยี่ห้อ/รุ่น" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_brand} />
                                             </div>
                                             <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                                <Input type="text" label="S/N" labelPlacement="outside" variant="bordered" isReadOnly />
-                                                <Input type="text" label="ชื่อเครื่อง" labelPlacement="outside" variant="bordered" isReadOnly />
+                                                <Input type="text" label="S/N" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_serial_number} />
+                                                <Input type="text" label="ชื่อเครื่อง" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_name} />
                                             </div>
                                             <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                                <Input type="text" label="RAM" labelPlacement="outside" variant="bordered" isReadOnly />
-                                                <Input type="text" label="M/B" labelPlacement="outside" variant="bordered" isReadOnly />
+                                                <Input type="text" label="RAM" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_ram} />
+                                                <Input type="text" label="M/B" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_mb} />
                                             </div>
                                             <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                                <Input type="text" label="VGA" labelPlacement="outside" variant="bordered" isReadOnly />
-                                                <Input type="text" label="HDD" labelPlacement="outside" variant="bordered" isReadOnly />
+                                                <Input type="text" label="VGA" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_vga} />
+                                                <Input type="text" label="HDD" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_hdd} />
                                             </div>
                                             <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                                <Input type="text" label="DVD R/W" labelPlacement="outside" variant="bordered" isReadOnly />
-                                                <Input type="text" label="Case" labelPlacement="outside" variant="bordered" isReadOnly />
+                                                <Input type="text" label="DVD R/W" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_dvd} />
+                                                <Input type="text" label="Case" labelPlacement="outside" variant="bordered" isReadOnly
+                                                    value={Table_ITC_0009.computer_case} />
                                             </div>
                                         </div>
                                     }
@@ -93,12 +102,16 @@ export default function Component(
                                             labelPlacement="outside"
                                         />
                                         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                            <Input type="text" label="หมายเลขครุภัณฑ์" labelPlacement="outside" variant="bordered" isReadOnly />
-                                            <Input type="text" label="ยี่ห้อ/รุ่น" labelPlacement="outside" variant="bordered" isReadOnly />
+                                            <Input type="text" label="หมายเลขครุภัณฑ์" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.monitor_equipment_number} />
+                                            <Input type="text" label="ยี่ห้อ/รุ่น" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.monitor_brand} />
                                         </div>
                                         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                            <Input type="text" label="S/N" labelPlacement="outside" variant="bordered" isReadOnly />
-                                            <Input type="text" label="ขนาด" labelPlacement="outside" variant="bordered" isReadOnly />
+                                            <Input type="text" label="S/N" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.monitor_serial_number} />
+                                            <Input type="text" label="ขนาด" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.monitor_size} />
                                         </div>
                                     </div>
                                 }
@@ -124,12 +137,14 @@ export default function Component(
                                             labelPlacement="outside"
                                         />
                                         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                            <Input type="text" label="หมายเลขครุภัณฑ์" labelPlacement="outside" variant="bordered" isReadOnly />
-                                            <Input type="text" label="ยี่ห้อ/รุ่น" labelPlacement="outside" variant="bordered" isReadOnly />
+                                            <Input type="text" label="หมายเลขครุภัณฑ์" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.printer_equipment_number} />
+                                            <Input type="text" label="ยี่ห้อ/รุ่น" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.printer_brand} />
                                         </div>
                                         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                            <Input type="text" label="S/N" labelPlacement="outside" variant="bordered" isReadOnly />
-                                            <Input type="text" label="ขนาด" labelPlacement="outside" variant="bordered" isReadOnly />
+                                            <Input type="text" label="S/N" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.printer_serial_number} />
                                         </div>
                                     </div>
                                 }
@@ -155,12 +170,14 @@ export default function Component(
                                             labelPlacement="outside"
                                         />
                                         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                            <Input type="text" label="หมายเลขครุภัณฑ์" labelPlacement="outside" variant="bordered" isReadOnly />
-                                            <Input type="text" label="ยี่ห้อ/รุ่น" labelPlacement="outside" variant="bordered" isReadOnly />
+                                            <Input type="text" label="หมายเลขครุภัณฑ์" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.ups_equipment_number} />
+                                            <Input type="text" label="ยี่ห้อ/รุ่น" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.ups_brand} />
                                         </div>
                                         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                            <Input type="text" label="S/N" labelPlacement="outside" variant="bordered" isReadOnly />
-                                            <Input type="text" label="ขนาด" labelPlacement="outside" variant="bordered" isReadOnly />
+                                            <Input type="text" label="S/N" labelPlacement="outside" variant="bordered" isReadOnly
+                                                value={Table_ITC_0009.ups_serial_number} />
                                         </div>
                                     </div>
                                 }

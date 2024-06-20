@@ -44,7 +44,6 @@ export default function Table2({ requestFor }: { requestFor: any }) {
                             <div className="flex flex-col flex-1">
                                 <div className="font-bold">3. เครื่องพิมพ์ (Printer)</div>
                                 <div className="ms-3">ยี่ห้อ/รุ่น : {requestFor?.printer_brand}</div>
-                                <div className="ms-3">ขนาด : {requestFor?.printer_size}</div>
                             </div>
                             <div className="flex flex-col flex-1">
                                 <div>หมายเลขครุภัณฑ์ : {requestFor?.printer_equipment_number}</div>
@@ -59,7 +58,6 @@ export default function Table2({ requestFor }: { requestFor: any }) {
                             <div className="flex flex-col flex-1">
                                 <div className="font-bold">4. เครื่องสำรองไฟ (UPS)</div>
                                 <div className="ms-3">ยี่ห้อ/รุ่น : {requestFor?.ups_brand}</div>
-                                <div className="ms-3">ขนาด : {requestFor?.ups_size}</div>
                             </div>
                             <div className="flex flex-col flex-1">
                                 <div>หมายเลขครุภัณฑ์ : {requestFor?.ups_equipment_number}</div>
