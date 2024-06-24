@@ -27,7 +27,7 @@ async function main() {
     await prisma.department.createMany({
         data: [
             { name: 'IT' },
-            { name: 'Accouting' },
+            { name: 'Accounting' },
         ],
     });
     await prisma.position.createMany({

@@ -22,7 +22,8 @@ export const authOptions: AuthOptions = ({
                     },
                     include: {
                         user_status: true,
-                        role: true
+                        role: true,
+                        department: true
                     }
                 })
                 await prisma.$disconnect();
@@ -33,6 +34,7 @@ export const authOptions: AuthOptions = ({
                         email: user.email,
                         image: user.image,
                         role: user.role?.name,
+                        department: user.department?.name,
                         status: user.user_status?.name
                     }
                 } else {
@@ -58,6 +60,7 @@ export const authOptions: AuthOptions = ({
                 token.role = user.role
                 token.status = user.status
                 token.image = user.image
+                token.department = user.department
             }
             return token
         },
@@ -67,6 +70,7 @@ export const authOptions: AuthOptions = ({
                 session.user.role = token.role
                 session.user.status = token.status
                 session.user.image = token.image
+                session.user.department = token.department
             }
             return session
         }

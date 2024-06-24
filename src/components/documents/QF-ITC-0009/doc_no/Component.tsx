@@ -1,15 +1,81 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import ProfileInformation from "@/components/documents/QF-ITC-0009/ProfileInformation";
 import HeaderDoc from "@/components/documents/QF-ITC-0009/HeaderDoc";
 import StepsComponent from "@/components/documents/Steps";
-import { Card, Checkbox, Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
+import { Button, Card, Checkbox, Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
+import axios from "axios";
+import { useToast } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
 
 export default function Component(
-    { data, steps, statusStep, doc_no }:
-        { data: any, steps: any, statusStep: string, doc_no: string }
+    { data, steps, statusStep, doc_no, trackStatus }:
+        { data: any, steps: any, statusStep: string, doc_no: string, trackStatus: number }
 ) {
     const Table_ITC_0009 = data?.Table_ITC_0009[0];
+    const toast = useToast();
+    const [remark, setRemark] = useState("");
+    const { data: session } = useSession();
+    const department = session?.user?.department;
+
+    const handleSubmit = (status: string) => {
+        if (status === "1") {
+            addData();
+        } else {
+            if (remark === "") {
+                toast({
+                    title: 'Error',
+                    description: "Remark is required",
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                })
+            } else {
+                addData();
+            }
+        }
+
+        function addData() {
+            const formData = new FormData();
+            formData.append("document_head_id", data?.ref_no);
+            formData.append("remark", remark);
+            formData.append("status", status);
+            formData.append("step", data?.step);
+
+            axios.patch('/api/user/documents/QF-ITC-0009/approve', formData)
+                .then(response => {
+                    if (response.data.status === "success") {
+                        toast({
+                            title: 'Success',
+                            description: "Document has been saved.",
+                            status: 'success',
+                            duration: 3000,
+                            isClosable: true,
+                        })
+                        window.location.reload();
+                    } else {
+                        toast({
+                            title: 'Error',
+                            description: response.data.message,
+                            status: 'error',
+                            duration: 3000,
+                            isClosable: true,
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    toast({
+                        title: 'Error',
+                        description: "Something went wrong",
+                        status: 'error',
+                        duration: 3000,
+                        isClosable: true,
+                    })
+                })
+        }
+    }
+
     return (
         <>
             <HeaderDoc doc_no={doc_no} />
@@ -225,6 +291,27 @@ export default function Component(
                                     <div>ถึงวันที่: {Table_ITC_0009?.end_date && new Date(Table_ITC_0009.end_date).toLocaleDateString('th-TH')}</div>
                                 </div>
                             </div>
+                            {data?.step === 2 && trackStatus === 0 && department === "Accounting" ?
+                                <div>
+                                    <div className="flex justify-center gap-2">
+                                        <Button className="text-white bg-[#38A169]" size="lg" type="submit" onClick={() => handleSubmit("1")}>
+                                            อนุมัติคำร้องขอ
+                                        </Button>
+                                        <Button className="text-white bg-[#E53E3E]" size="lg" type="submit" onClick={() => handleSubmit("2")}>
+                                            ปฏิเสธคำร้องขอ
+                                        </Button>
+                                    </div>
+                                    <Textarea
+                                        defaultValue={data.Track_Doc[1].remark}
+                                        placeholder="*หากปฏิเสธให้ระบุ Remark ด้วย*"
+                                        variant="bordered"
+                                        size="lg"
+                                        label="Remark"
+                                        labelPlacement="outside"
+                                        onChange={(e) => setRemark(e.target.value)}
+                                    />
+                                </div>
+                                : ""}
                         </Card>
                     </>
                 }
