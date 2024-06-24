@@ -1,0 +1,37 @@
+"use client"
+import Component from "@/components/documents/QF-ITC-0009/Component";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import React, { useState, useEffect } from "react";
+
+export default function Home() {
+    const { data: session } = useSession()
+    const [data, setData] = useState(null); // เก็บข้อมูลที่ได้จาก API
+    const [accounting, setAccounting] = useState(null);
+
+    useEffect(() => {
+        // เรียกใช้งาน API เพื่อดึงข้อมูล
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/user/documents/QF-ITC-0009'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+                const data = response.data;
+                setData(data);
+
+                const response2 = await axios.get('/api/user/documents/QF-ITC-0009/accounting'); // เรียกใช้งาน API ที่เส้นทาง '/api'
+                const data2 = response2.data;
+                setAccounting(data2);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        // ตั้ง interval ให้เรียก fetchData ทุกๆ 10 วินาที
+        const intervalId = setInterval(fetchData, 10000);
+
+        // เคลียร์ interval เมื่อ component จะ unmount
+        return () => clearInterval(intervalId);
+    }, []);
+
+    return (
+        <Component data={data} role={session?.user?.role} department={session?.user?.department} accounting={accounting} />
+    );
+}
