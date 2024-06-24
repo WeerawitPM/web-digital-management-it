@@ -88,7 +88,7 @@ export default function Table1({requestFor}: {requestFor: any}) {
                 <tr>
                     <td className="flex">
                         <div className="mr-5">Username: {requestFor?.username}</div>
-                        <div className="text-xs my-auto">(ประกอบด้วยชื่อเต็มภาษาอังกฤษตามด้วย "." และนามสกุลภาษาอังกฤษตัวแรก)</div>
+                        <div className="text-xs my-auto">(ประกอบด้วยชื่อเต็มภาษาอังกฤษตามด้วย &quot;.&ldquo; และนามสกุลภาษาอังกฤษตัวแรก)</div>
                     </td>
                 </tr>
                 <tr>
